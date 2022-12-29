@@ -1,0 +1,15 @@
+{
+    "name": "joao_bittencourt/cooper_leite",
+    "type": "library",
+
+    "require": {
+        "php": ">=7.4",
+        "clancats/hydrahon": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "core\\": "src/core/",
+            "src\\": "src/"
+        }
+    }
+}
