@@ -34,13 +34,23 @@ class Controller {
         require './src/views/' . $folder . '/' . $viewName . '.php';
     }
 
+    private function folderName($folder = 'pages'): string {
+        
+        $controllerName = str_replace('Controller', '', (new \ReflectionClass($this))->getShortName());
+        if (is_dir('./src/views/' . $controllerName)) {
+            return $controllerName;
+        }
+        
+         return $folder;
+    }
     private function renderPartial($viewName, $viewData = []) {
         $this->_render('partials', $viewName, $viewData);
     }
 
     public function render($viewName, $viewData = []) {
-
-        $this->_render('pages', $viewName, $viewData);
+        
+        $folderName = $this->folderName();
+        $this->_render($folderName, $viewName, $viewData);
     }
 
 }
