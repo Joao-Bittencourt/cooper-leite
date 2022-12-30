@@ -2,7 +2,7 @@
 
 namespace core;
 
-use \src\Config;
+use \CooperLeite\Config;
 
 class RouterBase {
 
@@ -49,7 +49,7 @@ class RouterBase {
             }
         }
 
-        $controller = "\src\controllers\\$controller";
+        $controller = "\CooperLeite\controllers\\$controller";
         $definedController = new $controller();
 
         $definedController->$action($args);

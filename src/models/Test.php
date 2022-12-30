@@ -1,6 +1,6 @@
 <?php
 
-namespace src\models;
+namespace CooperLeite\models;
 
 use \core\Model;
 

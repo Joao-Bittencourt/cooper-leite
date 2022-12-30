@@ -1,6 +1,6 @@
 <?php
 
-namespace src\controllers;
+namespace CooperLeite\controllers;
 
 use \core\Controller;
 

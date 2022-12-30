@@ -2,7 +2,7 @@
 
 namespace core;
 
-use \src\Config;
+use \CooperLeite\Config;
 
 class Controller {
 
@@ -23,12 +23,15 @@ class Controller {
     }
 
     private function _render($folder, $viewName, $viewData = []) {
-        if (file_exists('./src/views/' . $folder . '/' . $viewName . '.php')) {
-            extract($viewData);
-            $render = fn($vN, $vD = []) => $this->renderPartial($vN, $vD);
-            $base = $this->getBaseUrl();
-            require './src/views/' . $folder . '/' . $viewName . '.php';
+
+        if (!file_exists('./src/views/' . $folder . '/' . $viewName . '.php')) {
+            throw new \Exception("{$viewName} not found in {$folder}");
         }
+
+        extract($viewData);
+        $render = fn($vN, $vD = []) => $this->renderPartial($vN, $vD);
+        $base = $this->getBaseUrl();
+        require './src/views/' . $folder . '/' . $viewName . '.php';
     }
 
     private function renderPartial($viewName, $viewData = []) {

@@ -1,3 +1,6 @@
+[![Pipeline](https://github.com/Joao-Bittencourt/cooper-leite/actions/workflows/ci.yml/badge.svg)](https://github.com/Joao-Bittencourt/cooper-leite/actions/workflows/ci.yml)
+
+
 ## Sistema de controle de leite de uma cooperativa. (CooperLeite)
 
 #### Requisitos:

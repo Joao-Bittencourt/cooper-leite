@@ -2,7 +2,7 @@
 
 namespace core;
 
-use src\Config;
+use CooperLeite\Config;
 
 class Request {
 

@@ -12,12 +12,12 @@
     "autoload": {
         "psr-4": {
             "core\\": "src/core/",
-            "src\\": "src/"
+            "CooperLeite\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "src\\Tests\\": "tests/"
+            "CooperLeite\\Tests\\": "tests/"
         }
     },
     "scripts": {
