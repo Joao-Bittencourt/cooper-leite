@@ -52,6 +52,11 @@ class RouterBase {
         $controller = "\CooperLeite\controllers\\$controller";
         $definedController = new $controller();
 
+        if (!method_exists($definedController, $action)) {
+            $controllerName = (new \ReflectionClass($controller))->getShortName();
+            throw new \Exception("{$action} not exists in {$controllerName}");
+        }
+
         $definedController->$action($args);
     }
 

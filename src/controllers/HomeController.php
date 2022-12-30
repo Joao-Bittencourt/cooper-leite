@@ -7,7 +7,7 @@ use \core\Controller;
 class HomeController extends Controller {
 
     public function index() {
-        $this->render('home');
+        $this->layout('home');
     }
 
     public function sobre() {

@@ -34,23 +34,35 @@ class Controller {
         require './src/views/' . $folder . '/' . $viewName . '.php';
     }
 
-    private function folderName($folder = 'pages'): string {
+    private function folderName($folder = ''): string {
+
+        if (!empty($folder)) {
+            return $folder;
+        }
         
         $controllerName = str_replace('Controller', '', (new \ReflectionClass($this))->getShortName());
         if (is_dir('./src/views/' . $controllerName)) {
             return $controllerName;
         }
+
+        return 'pages';
         
-         return $folder;
     }
+
     private function renderPartial($viewName, $viewData = []) {
         $this->_render('partials', $viewName, $viewData);
     }
 
-    public function render($viewName, $viewData = []) {
-        
-        $folderName = $this->folderName();
+    public function render($viewName, $viewData = [], $folder = '') {
+
+        $folderName = $this->folderName($folder);
         $this->_render($folderName, $viewName, $viewData);
+    }
+
+    public function layout($content, $data = []) {
+        $this->_render('layout', 'header');
+        $this->render($content, $data);
+        $this->_render('layout', 'footer');
     }
 
 }

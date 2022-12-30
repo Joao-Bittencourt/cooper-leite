@@ -1,6 +1,8 @@
 <?php
 
-require './vendor/autoload.php';
-require './src/routes.php';
+define('DS', DIRECTORY_SEPARATOR);
+define('ROOT', dirname(__FILE__));
+define('DIR_IMG', ROOT . DS . 'public' . DS . 'img' . DS);
 
-$router->run($router->routes);
+
+require ROOT . DS . 'public' . DS . 'index.php';
