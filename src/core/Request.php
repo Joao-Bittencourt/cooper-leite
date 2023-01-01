@@ -7,6 +7,7 @@ use CooperLeite\Config;
 class Request {
 
     public static function getUrl() {
+        debug($_GET);
         $url = filter_input(INPUT_GET, 'request');
         $url = str_replace(Config::BASE_DIR, '', $url);
         return '/' . $url;

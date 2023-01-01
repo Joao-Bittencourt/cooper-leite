@@ -22,16 +22,16 @@ class Controller {
         return $base;
     }
 
-    private function _render($folder, $viewName, $viewData = []) {
+    private function _render($page, $viewData = []) {
 
-        if (!file_exists('./src/views/' . $folder . '/' . $viewName . '.php')) {
-            throw new \Exception("{$viewName} not found in {$folder}");
+        if (!file_exists('./src/views/' . $page . '.php')) {
+            throw new \Exception("{$page} not found.");
         }
 
         extract($viewData);
         $render = fn($vN, $vD = []) => $this->renderPartial($vN, $vD);
         $base = $this->getBaseUrl();
-        require './src/views/' . $folder . '/' . $viewName . '.php';
+        require './src/views/' . $page . '.php';
     }
 
     private function folderName($folder = ''): string {
@@ -53,16 +53,16 @@ class Controller {
         $this->_render('partials', $viewName, $viewData);
     }
 
-    public function render($viewName, $viewData = [], $folder = '') {
+    public function render($viewName, $viewData = []) {
 
-        $folderName = $this->folderName($folder);
-        $this->_render($folderName, $viewName, $viewData);
+        $folderName = $this->folderName();
+        $this->_render($folderName . '/' . $viewName, $viewData);
     }
 
     public function layout($content, $data = []) {
-        $this->_render('layout', 'header');
+        $this->_render('layout/header');
         $this->render($content, $data);
-        $this->_render('layout', 'footer');
+        $this->_render('layout/footer');
     }
 
 }

@@ -56,8 +56,9 @@ class RouterBase {
             $controllerName = (new \ReflectionClass($controller))->getShortName();
             throw new \Exception("{$action} not exists in {$controllerName}");
         }
-
+     
         $definedController->$action($args);
+        $definedController->layout($action);
     }
 
 }
