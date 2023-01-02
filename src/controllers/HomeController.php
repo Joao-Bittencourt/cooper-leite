@@ -6,12 +6,8 @@ use \core\Controller;
 
 class HomeController extends Controller {
 
-    public function index() {
+    public function index() {}
 
-    }
-
-    public function sobre() {
-      
-    }
+    public function sobre() {}
 
 }
