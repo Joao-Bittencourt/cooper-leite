@@ -6,6 +6,8 @@ use \CooperLeite\Config;
 
 class Controller {
 
+    public $data = [];
+    
     protected function redirect($url) {
         header("Location: " . $this->getBaseUrl() . $url);
         exit;
@@ -60,6 +62,9 @@ class Controller {
     }
 
     public function layout($content, $data = []) {
+        
+        $data = array_merge($data, $this->data);
+        
         $this->_render('layout/header');
         $this->render($content, $data);
         $this->_render('layout/footer');

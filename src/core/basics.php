@@ -30,13 +30,44 @@ if (!function_exists('h')) {
         return htmlspecialchars($text, ENT_QUOTES, ($charset) ? $charset : $defaultCharset, $double);
     }
 
-    if (!function_exists('debug')) {
+}
 
-        function debug($var) {
-            $template = PHP_SAPI !== 'cli' ? '<pre>%s</pre>' : "\n%s\n";
-            printf($template, print_r($var, true));
+if (!function_exists('debug')) {
+
+    function debug($var) {
+        $template = PHP_SAPI !== 'cli' ? '<pre>%s</pre>' : "\n%s\n";
+        printf($template, print_r($var, true));
+    }
+
+}
+
+if (!function_exists('array_get')) {
+
+    function array_get(array $data, $path, $default = null) {
+        if (empty($data) || $path === null) {
+            return $default;
+        }
+        if (is_string($path) || is_numeric($path)) {
+            $parts = explode('.', $path);
+        } elseif (is_bool($path) || $path === null) {
+            $parts = array($path);
+        } else {
+            if (!is_array($path)) {
+                return 'error';
+            }
+            $parts = $path;
         }
 
+        foreach ($parts as $key) {
+            if (is_array($data) && isset($data[$key])) {
+                $data = & $data[$key];
+            } else {
+                return $default;
+            }
+        }
+
+        return $data;
     }
+
 }
 

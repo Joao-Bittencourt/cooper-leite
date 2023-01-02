@@ -58,7 +58,7 @@ class RouterBase {
         }
      
         $definedController->$action($args);
-        $definedController->layout($action);
+        $definedController->layout($action, $args);
     }
 
 }
