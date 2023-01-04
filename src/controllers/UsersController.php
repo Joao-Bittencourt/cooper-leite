@@ -14,13 +14,12 @@ class UsersController extends Controller {
             'id',
             'email'
         ])->get();
-        
-        
+          
     }
     
 
     public function cadastrar() {}
-    
+            
     public function store() {}
-
+        
 }

@@ -1,5 +1,13 @@
 <?php
 
+if (!function_exists('base_url')) {
+
+    function base_url($url) {
+        return dirname($_SERVER['SCRIPT_NAME']) . $url;
+    }
+
+}
+
 if (!function_exists('h')) {
 
     function h($text, $double = true, $charset = null) {
