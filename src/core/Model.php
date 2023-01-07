@@ -9,6 +9,8 @@ use \ClanCats\Hydrahon\Query\Sql\FetchableInterface;
 class Model {
 
     protected static $_h;
+    public $table;
+    public $erros;
 
     public function __construct() {
         self::_checkH();

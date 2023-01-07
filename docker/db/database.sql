@@ -12,7 +12,7 @@ USE `cooper_leite` ;
 -- -----------------------------------------------------
 -- Table `cooper_leite`.`status`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cooper_leite`.`status` (
+CREATE TABLE IF NOT EXISTS `status` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `tipo` VARCHAR(45) NULL,
   `created_at` DATETIME NULL DEFAULT now(),
@@ -24,7 +24,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cooper_leite`.`groups`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cooper_leite`.`groups` (
+CREATE TABLE IF NOT EXISTS `groups` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
   `created` DATETIME NULL DEFAULT NULL,
@@ -40,7 +40,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `cooper_leite`.`clientes`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cooper_leite`.`clientes` (
+CREATE TABLE IF NOT EXISTS `clientes` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(255) NOT NULL,
   `tipo_pessoa` VARCHAR(1) NOT NULL DEFAULT 'F',
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `cooper_leite`.`clientes` (
   INDEX `fk_clientes_status1_idx` (`status` ASC) ,
   CONSTRAINT `fk_clientes_status1`
     FOREIGN KEY (`status`)
-    REFERENCES `cooper_leite`.`status` (`id`)
+    REFERENCES `status` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -61,12 +61,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cooper_leite`.`users`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cooper_leite`.`users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(255) NOT NULL,
   `login` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
-  `group_id` INT NOT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
   `modified_at` DATETIME NULL DEFAULT NULL,
   `group_id` INT NOT NULL,
@@ -84,7 +83,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `cooper_leite`.`status_pedidos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cooper_leite`.`status_pedidos` (
+CREATE TABLE IF NOT EXISTS `status_pedidos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `tipo` VARCHAR(45) NULL,
   `created_at` DATETIME NULL DEFAULT now(),
@@ -93,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `cooper_leite`.`status_pedidos` (
   INDEX `fk_status_pedidos_status1_idx` (`status` ASC),
   CONSTRAINT `fk_status_pedidos_status1`
     FOREIGN KEY (`status`)
-    REFERENCES `cooper_leite`.`status` (`id`)
+    REFERENCES `status` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -102,7 +101,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cooper_leite`.`pedidos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cooper_leite`.`pedidos` (
+CREATE TABLE IF NOT EXISTS `pedidos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `dt_entrega` DATETIME NOT NULL,
   `dt_pedido` DATETIME NOT NULL,
@@ -119,17 +118,17 @@ CREATE TABLE IF NOT EXISTS `cooper_leite`.`pedidos` (
   INDEX `fk_pedidos_status_pedidos1_idx` (`status_pedido_id` ASC) ,
   CONSTRAINT `fk_pedidos_clientes1`
     FOREIGN KEY (`cliente_id`)
-    REFERENCES `cooper_leite`.`clientes` (`id`)
+    REFERENCES `clientes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_pedidos_status1`
     FOREIGN KEY (`status`)
-    REFERENCES `cooper_leite`.`status` (`id`)
+    REFERENCES `status` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_pedidos_status_pedidos1`
     FOREIGN KEY (`status_pedido_id`)
-    REFERENCES `cooper_leite`.`status_pedidos` (`id`)
+    REFERENCES `status_pedidos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -138,7 +137,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cooper_leite`.`pessoa_fisicas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cooper_leite`.`pessoa_fisicas` (
+CREATE TABLE IF NOT EXISTS `pessoa_fisicas` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome_social` VARCHAR(255) NULL,
   `dt_nascimento` DATETIME NULL,
@@ -153,12 +152,12 @@ CREATE TABLE IF NOT EXISTS `cooper_leite`.`pessoa_fisicas` (
   INDEX `fk_pessoa_fisicas_status1_idx` (`status` ASC) ,
   CONSTRAINT `fk_pessoa_fisicas_clientes1`
     FOREIGN KEY (`cliente_id`)
-    REFERENCES `cooper_leite`.`clientes` (`id`)
+    REFERENCES `clientes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_pessoa_fisicas_status1`
     FOREIGN KEY (`status`)
-    REFERENCES `cooper_leite`.`status` (`id`)
+    REFERENCES `status` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -167,7 +166,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cooper_leite`.`pessoa_juridicas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cooper_leite`.`pessoa_juridicas` (
+CREATE TABLE IF NOT EXISTS `pessoa_juridicas` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `cnpj` VARCHAR(18) NOT NULL,
   `razao_social` VARCHAR(255) NULL,
@@ -180,12 +179,12 @@ CREATE TABLE IF NOT EXISTS `cooper_leite`.`pessoa_juridicas` (
   INDEX `fk_pessoa_juridicas_status1_idx` (`status` ASC) ,
   CONSTRAINT `fk_pessoa_juridicas_clientes1`
     FOREIGN KEY (`cliente_id`)
-    REFERENCES `cooper_leite`.`clientes` (`id`)
+    REFERENCES `clientes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_pessoa_juridicas_status1`
     FOREIGN KEY (`status`)
-    REFERENCES `cooper_leite`.`status` (`id`)
+    REFERENCES `status` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -194,7 +193,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cooper_leite`.`funcionarios`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cooper_leite`.`funcionarios` (
+CREATE TABLE IF NOT EXISTS `funcionarios` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `cargo` VARCHAR(45) NULL,
   `users_id` INT NOT NULL,
@@ -206,17 +205,17 @@ CREATE TABLE IF NOT EXISTS `cooper_leite`.`funcionarios` (
   INDEX `fk_funcionarios_status1_idx` (`status` ASC) ,
   CONSTRAINT `fk_funcionarios_users1`
     FOREIGN KEY (`users_id`)
-    REFERENCES `cooper_leite`.`users` (`id`)
+    REFERENCES `users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_funcionarios_clientes1`
     FOREIGN KEY (`cliente_id`)
-    REFERENCES `cooper_leite`.`clientes` (`id`)
+    REFERENCES `clientes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_funcionarios_status1`
     FOREIGN KEY (`status`)
-    REFERENCES `cooper_leite`.`status` (`id`)
+    REFERENCES `status` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -225,7 +224,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cooper_leite`.`produtos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cooper_leite`.`produtos` (
+CREATE TABLE IF NOT EXISTS `produtos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   `descricao` VARCHAR(255) NULL,
@@ -239,7 +238,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cooper_leite`.`pedido_itens`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cooper_leite`.`pedido_itens` (
+CREATE TABLE IF NOT EXISTS `pedido_itens` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `qtd` DECIMAL(10,6) NOT NULL,
   `valor_unitario` DECIMAL(10,6) NOT NULL,
@@ -253,12 +252,12 @@ CREATE TABLE IF NOT EXISTS `cooper_leite`.`pedido_itens` (
   INDEX `fk_pedido_itens_produtos1_idx` (`produto_id` ASC) ,
   CONSTRAINT `fk_pedido_itens_pedidos1`
     FOREIGN KEY (`pedido_id`)
-    REFERENCES `cooper_leite`.`pedidos` (`id`)
+    REFERENCES `pedidos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_pedido_itens_produtos1`
     FOREIGN KEY (`produto_id`)
-    REFERENCES `cooper_leite`.`produtos` (`id`)
+    REFERENCES `produtos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

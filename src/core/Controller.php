@@ -9,7 +9,7 @@ class Controller {
     public $data = [];
     
     protected function redirect($url) {
-        header("Location: " . $this->getBaseUrl() . $url);
+        header("Location: " . base_url($url));
         exit;
     }
 
@@ -27,7 +27,7 @@ class Controller {
     private function _render($page, $viewData = []) {
 
         if (!file_exists('./src/views/' . $page . '.php')) {
-            throw new \Exception("{$page} not found.");
+            throw new \Exception("Page {$page} not found.");
         }
 
         extract($viewData);

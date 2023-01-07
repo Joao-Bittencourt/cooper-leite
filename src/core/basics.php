@@ -3,9 +3,14 @@
 if (!function_exists('base_url')) {
 
     function base_url($url) {
-        return dirname($_SERVER['SCRIPT_NAME']) . $url;
+        
+        $base_url = '';
+        if ($_SERVER['HTTP_HOST'] == 'localhost' ) {
+            $base_url .= dirname($_SERVER['SCRIPT_NAME']);
+        }
+        
+        return $base_url . $url;
     }
-
 }
 
 if (!function_exists('h')) {

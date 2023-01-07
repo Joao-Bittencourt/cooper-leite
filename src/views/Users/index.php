@@ -1,7 +1,7 @@
 <?php
 
 $trs = '<tr>';
-foreach ($users as $user) {    
+foreach ($users as $user) {  
       $trs .= '<th scope="row">'. array_get($user, 'id'). '</th>';
       $trs .= '<td>'. array_get($user, 'email'). '</td>';
       $trs .= '</tr>';

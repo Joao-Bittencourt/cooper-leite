@@ -9,12 +9,13 @@ class RouterBase {
     public function run($routes) {
         $method = Request::getMethod();
         $url = Request::getUrl();
+        $requestData = Request::getData();
 
         // Define os itens padrão
         $controller = Config::ERROR_CONTROLLER;
         $action = Config::DEFAULT_ACTION;
         $args = [];
-
+        
         if (isset($routes[$method])) {
             foreach ($routes[$method] as $route => $callback) {
                 // Identifica os argumentos e substitui por regex
@@ -56,7 +57,9 @@ class RouterBase {
             $controllerName = (new \ReflectionClass($controller))->getShortName();
             throw new \Exception("{$action} not exists in {$controllerName}");
         }
-     
+    
+        $definedController->data['Request']['args'] = $args;
+        $definedController->data['Request']['data'] = $requestData;
         $definedController->$action($args);
         $definedController->layout($action, $args);
     }
