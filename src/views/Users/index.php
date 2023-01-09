@@ -1,21 +1,27 @@
 <?php
 
 $trs = '<tr>';
-foreach ($users as $user) {  
-      $trs .= '<th scope="row">'. array_get($user, 'id'). '</th>';
-      $trs .= '<td>'. array_get($user, 'email'). '</td>';
-      $trs .= '</tr>';
+foreach ($users as $user) {
+
+    $dataCadastro = !empty($user->created_at) ? date('d/m/y H:i:s', strtotime($user->created_at)) : '-';
+    
+    $trs .= '<th scope="row">' . $user->id . '</th>';
+    $trs .= '<td>' . $user->login . '</td>';
+    $trs .= '<td>' . $user->email . '</td>';
+    $trs .= '<td>' . $dataCadastro . '</td>';
+    $trs .= '</tr>';
 }
 
 echo '<table class="table">
   <thead>
     <tr>
       <th scope="col">#</th>
+      <th scope="col">Login</th>
       <th scope="col">Email</th>
-     
+      <th scope="col">Cadastro</th>
     </tr>
   </thead>
   <tbody>
-    '. $trs.'
+    ' . $trs . '
   </tbody>
 </table>';

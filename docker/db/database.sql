@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `status` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `tipo` VARCHAR(45) NULL,
   `created_at` DATETIME NULL DEFAULT now(),
-  `modified_at` DATETIME NULL DEFAULT now(),
+  `updated_at` DATETIME NULL DEFAULT now(),
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -27,14 +27,12 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `groups` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
-  `created` DATETIME NULL DEFAULT NULL,
-  `modified` DATETIME NULL DEFAULT NULL,
+  `created_at` DATETIME NULL DEFAULT NULL,
+  `updated_at` DATETIME NULL DEFAULT NULL,
   `status` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_groups_status1_idx` (`status` ASC))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------
@@ -46,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `tipo_pessoa` VARCHAR(1) NOT NULL DEFAULT 'F',
   `papel` VARCHAR(1) NOT NULL DEFAULT 'C',
   `created_at` DATETIME NULL DEFAULT now(),
-  `modified_at` DATETIME NULL DEFAULT now(),
+  `updated_at` DATETIME NULL DEFAULT now(),
   `status` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_clientes_status1_idx` (`status` ASC) ,
@@ -67,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `login` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
-  `modified_at` DATETIME NULL DEFAULT NULL,
+  `updated_at` DATETIME NULL DEFAULT NULL,
   `group_id` INT NOT NULL,
   `cliente_id` INT NOT NULL,
   `status` INT NOT NULL,
@@ -75,9 +73,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   INDEX `fk_users_groups_idx` (`group_id` ASC) ,
   INDEX `fk_users_clientes1_idx` (`cliente_id` ASC) ,
   INDEX `fk_users_status1_idx` (`status` ASC) )
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------
@@ -108,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
   `qtd_produtos` INT NOT NULL,
   `vl_total` DECIMAL(10,6) NOT NULL,
   `created_at` DATETIME NULL DEFAULT now(),
-  `modified_at` DATETIME NULL DEFAULT now(),
+  `updated_at` DATETIME NULL DEFAULT now(),
   `cliente_id` INT NOT NULL,
   `status` INT NOT NULL,
   `status_pedido_id` INT NOT NULL,
@@ -144,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `pessoa_fisicas` (
   `cpf` VARCHAR(14) NULL,
   `rg` VARCHAR(10) NULL,
   `created_at` DATETIME NULL DEFAULT now(),
-  `modified_at` DATETIME NULL DEFAULT now(),
+  `updated_at` DATETIME NULL DEFAULT now(),
   `cliente_id` INT NOT NULL,
   `status` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -171,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `pessoa_juridicas` (
   `cnpj` VARCHAR(18) NOT NULL,
   `razao_social` VARCHAR(255) NULL,
   `created_at` DATETIME NULL DEFAULT now(),
-  `modified_at` DATETIME NULL DEFAULT now(),
+  `updated_at` DATETIME NULL DEFAULT now(),
   `cliente_id` INT NOT NULL,
   `status` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -202,22 +198,7 @@ CREATE TABLE IF NOT EXISTS `funcionarios` (
   PRIMARY KEY (`id`),
   INDEX `fk_funcionarios_users1_idx` (`users_id` ASC) ,
   INDEX `fk_funcionarios_clientes1_idx` (`cliente_id` ASC) ,
-  INDEX `fk_funcionarios_status1_idx` (`status` ASC) ,
-  CONSTRAINT `fk_funcionarios_users1`
-    FOREIGN KEY (`users_id`)
-    REFERENCES `users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_funcionarios_clientes1`
-    FOREIGN KEY (`cliente_id`)
-    REFERENCES `clientes` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_funcionarios_status1`
-    FOREIGN KEY (`status`)
-    REFERENCES `status` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `fk_funcionarios_status1_idx` (`status` ASC))
 ENGINE = InnoDB;
 
 

@@ -1,16 +1,20 @@
 <?php
 
+// @ToDo: revisar, verificar um local melhor para inicializar a sessão 
+session_start();
+
 if (!function_exists('base_url')) {
 
     function base_url($url) {
-        
+
         $base_url = '';
-        if ($_SERVER['HTTP_HOST'] == 'localhost' ) {
+        if ($_SERVER['HTTP_HOST'] == 'localhost') {
             $base_url .= dirname($_SERVER['SCRIPT_NAME']);
         }
-        
+
         return $base_url . $url;
     }
+
 }
 
 if (!function_exists('h')) {
@@ -84,3 +88,24 @@ if (!function_exists('array_get')) {
 
 }
 
+function create_flash_message(string $message, string $type): void {
+    $_SESSION['FLASH_MESSAGES'][] = ['message' => $message, 'type' => $type];
+}
+
+function format_flash_message(array $flash_message): string {
+    return sprintf('<div class="alert alert-%s">%s</div>',
+            array_get($flash_message, 'type', 'info'),
+            array_get($flash_message, 'message', '-'),
+    );
+}
+
+function display_flash_message(): void {
+    if (!isset($_SESSION['FLASH_MESSAGES'])) {
+        return;
+    }
+
+    foreach ($_SESSION['FLASH_MESSAGES'] as $messageKey => $message) {
+        echo format_flash_message($message);
+        unset($_SESSION['FLASH_MESSAGES'][$messageKey]);
+    }
+}

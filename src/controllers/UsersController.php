@@ -9,10 +9,7 @@ class UsersController extends Controller {
 
     public function index() {
         $User = new User();
-
-        $this->data['users'] = $User->select()
-                ->join('groups', 'users.group_id', '=', 'groups.id')
-                ->get();
+        $this->data['users'] = $User::all();
     }
 
     public function cadastrar() {
@@ -28,7 +25,7 @@ class UsersController extends Controller {
             debug($User->erros);
             die();
         }
-        
+        create_flash_message('Usuario cadastrado com sucesso!', 'success');
         $this->redirect('/users');
     }
 
