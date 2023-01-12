@@ -7,7 +7,7 @@ use CooperLeite\models\User;
 
 class UsersController extends Controller {
 
-    public function index() {
+    public function list() {
         $User = new User();
         $this->data['users'] = $User::all();
     }

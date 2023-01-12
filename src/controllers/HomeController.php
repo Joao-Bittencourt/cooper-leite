@@ -6,7 +6,7 @@ use \core\Controller;
 
 class HomeController extends Controller {
 
-    public function index() {}
+    public function list() {}
 
     public function sobre() {}
 

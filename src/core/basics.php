@@ -1,6 +1,9 @@
 <?php
 
-// @ToDo: revisar, verificar um local melhor para inicializar a sessão 
+// @ToDo: revisar, verificar um local melhor para inicializar a sessão
+//ini_set('session.save_handler','redis');
+//ini_set('session.save_path','tcp://127.0.0.1:6379?prefix=cooper_leite_dev_');
+
 session_start();
 
 if (!function_exists('base_url')) {

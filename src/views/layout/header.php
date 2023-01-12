@@ -23,7 +23,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        User
+                        Usuarios
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li>
@@ -31,6 +31,19 @@
                         </li>
                         <li>
                             <a class="dropdown-item"  href="<?php echo base_url('/users/cadastrar');?>">Cadastrar</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Grupos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li>
+                            <a class="dropdown-item" href="<?php echo base_url('/groups');?>">Listar</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"  href="<?php echo base_url('/groups/adastrar');?>">Cadastrar</a>
                         </li>
                     </ul>
                 </li>

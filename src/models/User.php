@@ -16,9 +16,9 @@ class User extends Model {
         'updated_at'
     ];
 
-//    public function group() {
-//        return $this->hasMany('Group');
-//    }
+    public function group() {
+        return $this->belongsTo('Group');
+    }
 
     public function salvar($userData = []) {
 
