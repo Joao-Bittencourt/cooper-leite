@@ -4,7 +4,7 @@ use core\Router;
 
 $router = new Router();
 
-$router->get('/', 'HomeController@list');
+$router->get('/', 'HomeController@home');
 $router->get('/sobre', 'HomeController@sobre');
 
 $router->get('/users', 'UsersController@list');
