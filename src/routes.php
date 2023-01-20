@@ -14,3 +14,7 @@ $router->post('/users/store', 'UsersController@store');
 $router->get('/groups', 'GroupsController@list');
 $router->get('/groups/cadastrar', 'GroupsController@cadastrar');
 $router->post('/groups/store', 'GroupsController@store');
+
+$router->get('/clientes', 'ClientesController@list');
+$router->get('/clientes/cadastrar', 'ClientesController@cadastrar');
+$router->post('/clientes/store', 'ClientesController@store');

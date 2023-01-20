@@ -65,7 +65,20 @@
                                     <a class="dropdown-item" href="<?php echo base_url('/groups'); ?>">Listar</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item"  href="<?php echo base_url('/groups/adastrar'); ?>">Cadastrar</a>
+                                    <a class="dropdown-item"  href="<?php echo base_url('/groups/cadastrar'); ?>">Cadastrar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle">
+                                Clientes
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="<?php echo base_url('/clientes'); ?>">Listar</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"  href="<?php echo base_url('/clientes/cadastrar'); ?>">Cadastrar</a>
                                 </li>
                             </ul>
                         </li>
