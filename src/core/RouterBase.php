@@ -9,14 +9,19 @@ class RouterBase {
     public function run($routes) {
         $method = Request::getMethod();
         $url = Request::getUrl();
-        $requestData = Request::getData();
-
+        
         // Define os itens padrão
-        $controller = Config::ERROR_CONTROLLER;
+        $controllerName = null;
         $action = Config::DEFAULT_ACTION;
         $args = [];
-        
+
         if (isset($routes[$method])) {
+
+            if (!isset($routes[$method][$url])) {
+                throw new CoreException("{$url} not found.", 500);
+                
+            }
+
             foreach ($routes[$method] as $route => $callback) {
                 // Identifica os argumentos e substitui por regex
                 $pattern = preg_replace('(\{[a-z0-9]{1,}\})', '([a-z0-9-]{1,})', $route);
@@ -40,26 +45,40 @@ class RouterBase {
 
                     // Seta o controller/action
                     $callbackSplit = explode('@', $callback);
-                    $controller = $callbackSplit[0];
+                    $controllerName = $callbackSplit[0];
                     if (isset($callbackSplit[1])) {
                         $action = $callbackSplit[1];
                     }
 
+                    $this->execute($controllerName, $action, $args);
                     break;
                 }
             }
         }
+    }
 
-        $controller = "\CooperLeite\controllers\\$controller";
+    public function execute($controllerName, $action, $args) {
+        
+        if (empty($controllerName)) {
+            throw new CoreException("Controller not exists.");
+        }
+
+        if (!class_exists("\CooperLeite\controllers\\$controllerName")) {
+            throw new CoreException("{$controllerName} not exists.");
+        }
+        
+        $controller = "\CooperLeite\controllers\\$controllerName";
         $definedController = new $controller();
 
         if (!method_exists($definedController, $action)) {
-            $controllerName = (new \ReflectionClass($controller))->getShortName();
-            throw new \Exception("{$action} not exists in {$controllerName}");
+            throw new CoreException("{$action} not exists in {$controllerName}");
         }
-    
+
+        //@ToDo: separar a view para classe expecifica
+        // criar estrutura de helpers para view
+
         $definedController->data['Request']['args'] = $args;
-        $definedController->data['Request']['data'] = $requestData;
+        $definedController->data['Request']['data'] = Request::getData();
         $definedController->$action($args);
         $definedController->layout($action, $args);
     }

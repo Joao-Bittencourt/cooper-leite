@@ -3,7 +3,7 @@
 
 $trs = '<tr>';
 foreach ($clientes as $cliente) {
-
+    
     $dataCadastro = !empty($cliente->created_at) ? date('d/m/y H:i:s', strtotime($cliente->created_at)) : '-';
     
     $trs .= '<th scope="row">' . $cliente->id . '</th>';
@@ -11,6 +11,7 @@ foreach ($clientes as $cliente) {
     $trs .= '<td>' . $cliente->tipo_pessoa . '</td>';
     $trs .= '<td>' . $cliente->papel . '</td>';
     $trs .= '<td>' . $dataCadastro . '</td>';
+    $trs .= '<td>' .  $cliente->getActions(). '</td>';
     $trs .= '</tr>';
 }
 
@@ -22,6 +23,7 @@ echo '<table class="table">
       <th scope="col">Pessoa</th>
       <th scope="col">Tipo</th>
       <th scope="col">Cadastro</th>
+      <th scope="col">Ações</th>
     </tr>
   </thead>
   <tbody>

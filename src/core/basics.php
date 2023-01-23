@@ -61,6 +61,25 @@ if (!function_exists('debug')) {
 
 }
 
+if (!function_exists('write_log')) {
+
+    function write_log($msg) {
+
+        $filepath = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'log-' . date('Y-m-d') . '.txt';
+        $message = '';
+
+        $date = date('Y-m-d H:i:s ');
+
+        $message .= $date;
+        $message .= $msg;
+
+        $fp = @fopen($filepath, 'a+');
+        fwrite($fp, $message . PHP_EOL);
+        fclose($fp);
+    }
+
+}
+
 if (!function_exists('array_get')) {
 
     function array_get(array $data, $path, $default = null) {
@@ -111,4 +130,12 @@ function display_flash_message(): void {
         echo format_flash_message($message);
         unset($_SESSION['FLASH_MESSAGES'][$messageKey]);
     }
+}
+
+function checkPermission(int $userId, string $permission) {
+    
+}
+
+function validatePermission(int $userId, string $permission) {
+    
 }

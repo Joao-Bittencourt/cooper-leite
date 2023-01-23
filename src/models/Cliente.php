@@ -16,7 +16,7 @@ class Cliente extends Model {
         'updated_at',
         'status'
     ];
-
+    
 //    public function group() {
 //        return $this->hasMany('User');
 //    }
@@ -34,5 +34,12 @@ class Cliente extends Model {
         $this->status = array_get($data, 'status', 1);
   
         return $this->save();
+    }
+    
+    public function getActions(Cliente $cliente): array {
+          
+        if (isset($cliente->id)) {
+           return [];
+        }
     }
 }

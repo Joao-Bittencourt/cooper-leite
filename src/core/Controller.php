@@ -7,7 +7,8 @@ use \CooperLeite\Config;
 class Controller {
 
     public $data = [];
-    
+    public $layout = 'default';
+
     protected function redirect($url) {
         header("Location: " . base_url($url));
         exit;
@@ -29,7 +30,7 @@ class Controller {
         if (!file_exists('./src/views/' . $page . '.php')) {
             throw new \Exception("Page {$page} not found.");
         }
-
+        
         extract($viewData);
         $render = fn($vN, $vD = []) => $this->renderPartial($vN, $vD);
         $base = $this->getBaseUrl();
@@ -60,14 +61,24 @@ class Controller {
         $folderName = $this->folderName();
         $this->_render($folderName . '/' . $viewName, $viewData);
     }
+    
+    public function renderLayout($viewName, $viewData = []) {
+
+        ob_start();
+            $this->render($viewName, $viewData);
+         
+        $content = ob_get_clean();
+        
+        $this->_render('layout/' . $this->layout,
+                ['content' => $content]
+        );
+    }
 
     public function layout($content, $data = []) {
         
         $data = array_merge($data, $this->data);
         
-        $this->_render('layout/header');
-        $this->render($content, $data);
-        $this->_render('layout/footer');
+        $this->renderLayout($content, $data);
     }
 
 }
