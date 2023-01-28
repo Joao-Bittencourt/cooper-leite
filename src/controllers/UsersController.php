@@ -16,15 +16,16 @@ class UsersController extends Controller {
         
     }
 
-    public function store($args) {
+    public function store($args = []) {
 
         $User = new User();
         $User->salvar(array_get($this->data, 'Request.data'));
 
         if (!empty($User->erros)) {
-            debug($User->erros);
-            die();
+            process_error_message($User->erros);
+            $this->redirect('/users/cadastrar');
         }
+
         create_flash_message('Usuario cadastrado com sucesso!', 'success');
         $this->redirect('/users');
     }

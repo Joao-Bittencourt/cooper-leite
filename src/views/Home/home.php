@@ -9,10 +9,7 @@
         </header>
 
         <main>
-            <img src="https://images.pexels.com/photos/458991/pexels-photo-458991.jpeg?auto=compress&cs=tinysrgb&w=900&h=750&dpr=1"/>
-        </main>
-
+            <img src="<?php echo DIR_IMG . 'cow.png' ?>"/>
+         </main>
     </div>
-
-
 </body>

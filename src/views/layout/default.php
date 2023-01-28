@@ -8,10 +8,11 @@
     <body>
         <?php include 'header.php'; ?>
         <div class="container">
-            <?php 
-                display_flash_message(); 
-                echo ($content);
+            <?php
+            display_flash_message();
+            echo ($content);
             ?>
         </div>
-        <?php include 'footer.php';
-        
+        <?php include 'footer.php'; ?>
+    </body>
+</html>

@@ -41,5 +41,7 @@ class Cliente extends Model {
         if (isset($cliente->id)) {
            return [];
         }
+        
+        return [];
     }
 }

@@ -9,17 +9,16 @@ class RouterBase {
     public function run($routes) {
         $method = Request::getMethod();
         $url = Request::getUrl();
-        
+
         // Define os itens padrão
         $controllerName = null;
         $action = Config::DEFAULT_ACTION;
         $args = [];
 
         if (isset($routes[$method])) {
-
+            
             if (!isset($routes[$method][$url])) {
                 throw new CoreException("{$url} not found.", 500);
-                
             }
 
             foreach ($routes[$method] as $route => $callback) {
@@ -58,7 +57,7 @@ class RouterBase {
     }
 
     public function execute($controllerName, $action, $args) {
-        
+
         if (empty($controllerName)) {
             throw new CoreException("Controller not exists.");
         }
@@ -66,7 +65,7 @@ class RouterBase {
         if (!class_exists("\CooperLeite\controllers\\$controllerName")) {
             throw new CoreException("{$controllerName} not exists.");
         }
-        
+
         $controller = "\CooperLeite\controllers\\$controllerName";
         $definedController = new $controller();
 

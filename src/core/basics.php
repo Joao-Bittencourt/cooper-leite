@@ -3,6 +3,12 @@
 // @ToDo: revisar, verificar um local melhor para inicializar a sessão
 //ini_set('session.save_handler','redis');
 //ini_set('session.save_path','tcp://127.0.0.1:6379?prefix=cooper_leite_dev_');
+//set_exception_handler(function (\Throwable $t) {
+//  write_log(
+//            "message :{$t->getMessage()} code: {$t->getCode()} url:" .  filter_input(INPUT_GET, 'request') . "\n Trace: " . $t->getTraceAsString()
+//    );
+// 
+//});
 
 session_start();
 
@@ -110,12 +116,23 @@ if (!function_exists('array_get')) {
 
 }
 
+function process_error_message($errors = []) {
+    $errorMessage = ''; 
+    foreach ($errors as $error => $messages) {
+        foreach ($messages as $message) {
+            $errorMessage .= ' - '. $message . '<br>';
+        }
+    }
+        
+    create_flash_message($errorMessage, 'danger');   
+}
+
 function create_flash_message(string $message, string $type): void {
     $_SESSION['FLASH_MESSAGES'][] = ['message' => $message, 'type' => $type];
 }
 
 function format_flash_message(array $flash_message): string {
-    return sprintf('<div class="alert alert-%s">%s</div>',
+    return sprintf("<div class='alert alert-%s'>%s</div>",
             array_get($flash_message, 'type', 'info'),
             array_get($flash_message, 'message', '-'),
     );
