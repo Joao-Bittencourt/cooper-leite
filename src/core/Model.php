@@ -17,7 +17,7 @@ class Model extends Eloquent {
         self::$capsule = Database::$capsule;
     }
 
-    public function_save(Model $model) {
+    public function _save(Model $model) {
 
         $this->erros = Validate::execute($this->validate, $this->modelData);
 
