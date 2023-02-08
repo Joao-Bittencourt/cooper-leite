@@ -17,12 +17,12 @@ class Model extends Eloquent {
         self::$capsule = Database::$capsule;
     }
 
-    public function _save(Model $model) {
+    public function _save() {
 
         $this->erros = Validate::execute($this->validate, $this->modelData);
 
         if (empty($this->erros)) {
-            $model->save();
+            $this->save();
             return true;
         }
         

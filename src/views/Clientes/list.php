@@ -11,7 +11,7 @@ foreach ($clientes as $cliente) {
     $trs .= '<td>' . $cliente->tipo_pessoa . '</td>';
     $trs .= '<td>' . $cliente->papel . '</td>';
     $trs .= '<td>' . $dataCadastro . '</td>';
-    $trs .= '<td>' .  $cliente->getActions(). '</td>';
+    $trs .= '<td>' . implode(' ', $cliente->getActions($cliente)). '</td>';
     $trs .= '</tr>';
 }
 
