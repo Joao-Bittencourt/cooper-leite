@@ -22,6 +22,7 @@ class UsersController extends Controller {
         $User->salvar(array_get($this->data, 'Request.data'));
 
         if (!empty($User->erros)) {
+           
             process_error_message($User->erros);
             $this->redirect('/users/cadastrar');
         }

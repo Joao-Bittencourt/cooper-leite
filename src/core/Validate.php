@@ -4,7 +4,8 @@ namespace core;
 
 class Validate {
 
-    public static function execute($fields = [], $data) {
+    public static function execute($fields = [], $data = []) {
+        
         $erros = [];
         foreach ($fields as $field => $validates) {
 
@@ -18,7 +19,10 @@ class Validate {
                 }
             }
         }
-        return empty($erros) ? true : $erros;
+        
+        if (!empty($erros)) {
+            return $erros;
+        }
     }
 
     public static function notEmpty($check): bool {

@@ -47,6 +47,6 @@ class User extends Model {
         $this->group_id = array_get($userData, 'group_id', 0);
         $this->cliente_id = array_get($userData, 'cliente_id', 0);
         $this->status = array_get($userData, 'status', 1);
-        return $this->save($this);
+        return $this->_save();
     }
 }
