@@ -3,12 +3,15 @@
 namespace CooperLeite\models;
 
 use \core\Model;
+use CooperLeite\models\User;
+use CooperLeite\models\PessoaFisica;
+use CooperLeite\models\PessoaJuridica;
 
 class Cliente extends Model {
 
     protected $table = 'clientes';
     protected $fillable = [
-        'id', 
+        'id',
         'nome',
         'tipo_pessoa',
         'papel',
@@ -16,10 +19,17 @@ class Cliente extends Model {
         'updated_at',
         'status'
     ];
-    
-//    public function group() {
-//        return $this->hasMany('User');
-//    }
+   
+    public function user() {
+        return $this->hasOne(User::class);
+    }
+
+    public function pessoaFisica() {
+        return $this->hasOne(PessoaFisica::class);
+    }
+    public function pessoaJuridica() {
+        return $this->hasOne(PessoaJuridica::class);
+    }
 
     public function salvar($data = []) {
 
@@ -28,20 +38,38 @@ class Cliente extends Model {
             return false;
         }
 
+        $this->modelData = $data;
         $this->nome = array_get($data, 'nome');
         $this->tipo_pessoa = array_get($data, 'tipo_pessoa');
         $this->papel = array_get($data, 'papel');
         $this->status = array_get($data, 'status', 1);
-  
-        return $this->save();
-    }
-    
-    public function getActions(Cliente $cliente): array {
-          
-        if (isset($cliente->id)) {
-           return [];
+
+        $this->_save();
+
+        if ($this->id) {
+
+            if ($this->tipo_pessoa == 'F') {
+                $PessoaFisica = new PessoaFisica();
+                $PessoaFisica->cliente_id = $this->id;
+                $PessoaFisica->processarSalvar($data);
+            }
+
+            if ($this->tipo_pessoa == 'J') {
+                $PessoaJuridica = new PessoaJuridica();
+                $PessoaJuridica->cliente_id = $this->id;
+                $PessoaJuridica->processarSalvar($data);
+            }
         }
-        
+
+        return $this->id;
+    }
+
+    public function getActions(Cliente $cliente): array {
+
+        if (isset($cliente->id)) {
+            return [];
+        }
+
         return [];
     }
 }

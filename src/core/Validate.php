@@ -8,7 +8,7 @@ class Validate {
         
         $erros = [];
         foreach ($fields as $field => $validates) {
-
+           
             foreach ($validates as $validate => $propriedades) {
 
                 if (method_exists(Validate::class, $validate)) {

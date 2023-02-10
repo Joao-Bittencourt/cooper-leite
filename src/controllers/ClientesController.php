@@ -22,8 +22,8 @@ class ClientesController extends Controller {
         $Cliente->salvar(array_get($this->data, 'Request.data'));
 
         if (!empty($Cliente->erros)) {
-            debug($Cliente->erros);
-            die();
+            process_error_message($Cliente->erros);
+            $this->redirect('/clientes/cadastrar');
         }
         create_flash_message('Cliente cadastrado com sucesso!', 'success');
         $this->redirect('/clientes');

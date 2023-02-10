@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 class Model extends Eloquent {
 
     protected static $capsule;
-    public $validate;
-    public $modelData;
+    public $validate = [];
+    public $modelData = [];
     public $erros;
 
     public function __construct() {
@@ -22,8 +22,7 @@ class Model extends Eloquent {
         $this->erros = Validate::execute($this->validate, $this->modelData);
 
         if (empty($this->erros)) {
-            $this->save();
-            return true;
+            return $this->save();
         }
         
         return false;

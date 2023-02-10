@@ -9,7 +9,7 @@
         </header>
 
         <main>
-            <img src="<?php echo DIR_IMG . 'cow.png' ?>"/>
+            <img src="<?php echo DIR_IMG . 'cow2.png' ?>"/>
          </main>
     </div>
 </body>
