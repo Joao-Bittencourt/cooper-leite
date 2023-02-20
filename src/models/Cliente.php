@@ -10,7 +10,7 @@ use CooperLeite\models\PessoaJuridica;
 class Cliente extends Model {
 
     protected $table = 'clientes';
-    protected $fillable = [
+    public $fillable = [
         'id',
         'nome',
         'tipo_pessoa',
@@ -19,7 +19,38 @@ class Cliente extends Model {
         'updated_at',
         'status'
     ];
-   
+    public $validate = [
+        'nome' => [
+            'notEmpty' => [
+                'message' => 'Nome deve ser preenchido.'
+            ],
+        ],
+        'tipo_pessoa' => [
+            'notEmpty' => [
+                'message' => 'Selecione o tipo de pessoa.'
+            ],
+            'custom' => [
+                'args' => '/^(F|J)$/',
+                'message' => 'Informe um tipo de pessoa valido.'
+            ]
+        ],
+        'papel' => [
+            'notEmpty' => [
+                'message' => 'Selecione o tipo.'
+            ],
+            'custom' => [
+                'args' => '/^(C|F|I)$/',
+                'message' => 'Informe um tipo de pessoa valido.'
+            ]
+        ],
+    ];
+
+    public $clientePapel = [
+        'C' => 'Cliente',
+        'F' => 'Fornecedor',
+        'I' => 'Funcionario'
+    ];
+    
     public function user() {
         return $this->hasOne(User::class);
     }
@@ -27,6 +58,7 @@ class Cliente extends Model {
     public function pessoaFisica() {
         return $this->hasOne(PessoaFisica::class);
     }
+
     public function pessoaJuridica() {
         return $this->hasOne(PessoaJuridica::class);
     }
@@ -72,4 +104,14 @@ class Cliente extends Model {
 
         return [];
     }
+    
+    public function getPapelFullName() {
+        
+        if (isset($this->papel)) {
+           return isset($this->clientePapel[$this->papel]) ? $this->clientePapel[$this->papel] : '-';
+        }
+       
+        return '-';
+    }
+
 }

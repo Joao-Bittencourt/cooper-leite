@@ -10,7 +10,8 @@ class Controller {
     public $layout = 'default';
 
     protected function redirect($url) {
-        header("Location: " . base_url($url));
+        header("Location: " . base_url($url), TRUE, 302);
+//        header("Location: " . base_url($url));
         exit;
     }
 

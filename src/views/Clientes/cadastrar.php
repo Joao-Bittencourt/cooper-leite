@@ -30,8 +30,8 @@
             <div class="row mt-2 mb-3 " id="tipo-pessoa-fisica">
                 <label for="PessoaFisica-panel" class="fw-bold border-bottom">Pessoa fisica</label>
                 <div class="col-md-6">
-                    <label for="PessoaFisica-nome_social" class="form-label">Nome social</label>
-                    <input type="text" class="form-control" name="PessoaFisica-nome_social">
+                    <label for="PessoaFisica-nome_civil" class="form-label">Nome social</label>
+                    <input type="text" class="form-control" name="PessoaFisica-nome_civil">
                 </div>
                 <div class="col-md-6">
                     <label for="PessoaFisica-dt_nascimento" class="form-label">Data nascimento</label>

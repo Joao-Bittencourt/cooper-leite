@@ -11,7 +11,7 @@ class PessoaFisica extends Model {
     protected $fillable = [
         'id',
         'cliente_id',
-        'nome_social',
+        'nome_civil',
         'dt_nascimento',
         'cpf',
         'rg',
@@ -26,7 +26,7 @@ class PessoaFisica extends Model {
     public function processarSalvar($data = []) {
 
         // @ToDo: refatorar este formato está muito tosco
-        $this->nome_social = array_get($data, 'PessoaFisica-nome_social');
+        $this->nome_civil = array_get($data, 'PessoaFisica-nome_civil');
         $this->dt_nascimento = array_get($data, 'PessoaFisica-dt_nascimento') ? date('Y-m-d h:i:s',
                         strtotime(
                                 str_replace('/', '-', array_get($data, 'PessoaFisica-dt_nascimento'))

@@ -9,6 +9,7 @@
     <body>
         <div class="container">
             <?php
+            display_flash_message();
             echo ($content);
             ?>
         </div>

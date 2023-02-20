@@ -3,6 +3,7 @@
 namespace core;
 
 use \CooperLeite\Config;
+use core\CoreException;
 
 class RouterBase {
 
@@ -16,11 +17,10 @@ class RouterBase {
         $args = [];
 
         if (isset($routes[$method])) {
-            
-            if (!isset($routes[$method][$url])) {
-                throw new CoreException("{$url} not found.", 500);
-            }
-
+//            @ToDo: revisar 
+//            if (!isset($routes[$method][$url])) {
+//                throw new CoreException("{$url} not found.", 500);
+//            }
             foreach ($routes[$method] as $route => $callback) {
                 // Identifica os argumentos e substitui por regex
                 $pattern = preg_replace('(\{[a-z0-9]{1,}\})', '([a-z0-9-]{1,})', $route);
@@ -48,7 +48,7 @@ class RouterBase {
                     if (isset($callbackSplit[1])) {
                         $action = $callbackSplit[1];
                     }
-
+                    
                     $this->execute($controllerName, $action, $args);
                     break;
                 }
@@ -77,9 +77,10 @@ class RouterBase {
         // criar estrutura de helpers para view
 
         $definedController->data['Request']['args'] = $args;
-        $definedController->data['Request']['data'] = Request::getData();
+        $definedController->data['Request']['data'] = Request::getRequestData();
         $definedController->$action($args);
         $definedController->layout($action, $args);
+        
     }
 
 }

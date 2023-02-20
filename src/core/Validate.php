@@ -4,25 +4,39 @@ namespace core;
 
 class Validate {
 
+    public static $erros = [];
+
     public static function execute($fields = [], $data = []) {
-        
+
         $erros = [];
         foreach ($fields as $field => $validates) {
-           
+
             foreach ($validates as $validate => $propriedades) {
 
                 if (method_exists(Validate::class, $validate)) {
 
                     if (!self::$validate(array_get($data, $field), array_get($propriedades, 'args'))) {
-                        $erros[$field][] = $propriedades['message'];
+                        static::$erros[$field][] = $propriedades['message'];
                     }
                 }
             }
         }
-        
-        if (!empty($erros)) {
-            return $erros;
+
+        if (!empty(static::$erros)) {
+            return static::$erros;
         }
+    }
+
+    public static function custom($check, $regex = null) {
+        if (!is_scalar($check)) {
+            return false;
+        }
+        if ($regex === null) {
+            static::$erros[] = 'You must define a regular expression for Validation::custom()';
+            return false;
+        }
+
+        return static::_check($check, $regex);
     }
 
     public static function notEmpty($check): bool {

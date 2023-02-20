@@ -135,7 +135,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pessoa_fisicas` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nome_social` VARCHAR(255) NULL,
+  `nome_civil` VARCHAR(255) NULL,
   `dt_nascimento` DATETIME NULL,
   `cpf` VARCHAR(14) NULL,
   `rg` VARCHAR(10) NULL,
