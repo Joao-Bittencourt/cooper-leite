@@ -50,7 +50,7 @@ class Cliente extends Model {
         'F' => 'Fornecedor',
         'I' => 'Funcionario'
     ];
-    
+
     public function user() {
         return $this->hasOne(User::class);
     }
@@ -99,18 +99,26 @@ class Cliente extends Model {
     public function getActions(Cliente $cliente): array {
 
         if (isset($cliente->id)) {
-            return [];
+
+            return [
+                '<a href ="' . base_url("/clientes/show/{$cliente->id}") . '"  class="btn btn-sm btn-outline-info text-decorator-none">                    
+                    <i class="bi bi-card-text"></i>
+                </a>',
+                '<a href ="' . base_url("/clientes/edit/{$cliente->id}") . '"  class="btn btn-sm btn-outline-warning text-decorator-none">                    
+                    <i class="bi bi-pencil-square"></i> 
+                </a>',
+            ];
         }
 
         return [];
     }
-    
+
     public function getPapelFullName() {
-        
+
         if (isset($this->papel)) {
-           return isset($this->clientePapel[$this->papel]) ? $this->clientePapel[$this->papel] : '-';
+            return isset($this->clientePapel[$this->papel]) ? $this->clientePapel[$this->papel] : '-';
         }
-       
+
         return '-';
     }
 
