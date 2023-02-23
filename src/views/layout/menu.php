@@ -70,7 +70,7 @@
                             <a class="dropdown-item" href="<?php echo base_url('/clientes'); ?>">Listar</a>
                         </li>
                         <li>
-                            <a class="dropdown-item"  href="<?php echo base_url('/clientes/cadastrar'); ?>">Cadastrar</a>
+                            <a class="dropdown-item"  href="<?php echo base_url('/clientes/add'); ?>">Cadastrar</a>
                         </li>
                     </ul>
                 </li>

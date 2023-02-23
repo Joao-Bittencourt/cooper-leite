@@ -18,5 +18,6 @@ $router->post('/groups/store', 'GroupsController@store');
 $router->get('/clientes', 'ClientesController@list');
 $router->get('/clientes/show/{id}', 'ClientesController@show');
 $router->get('/clientes/edit/{id}', 'ClientesController@edit');
-$router->get('/clientes/cadastrar', 'ClientesController@cadastrar');
+$router->get('/clientes/add', 'ClientesController@add');
+$router->post('/clientes/update/{id}', 'ClientesController@update');
 $router->post('/clientes/store', 'ClientesController@store');

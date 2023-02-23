@@ -13,7 +13,7 @@ class ClientesController extends Controller {
         $this->data['clientes'] = $Cliente::all();
     }
 
-    public function cadastrar() {
+    public function add() {
         
     }
 
@@ -55,6 +55,28 @@ class ClientesController extends Controller {
         }
 
         $this->data['Cliente'] = $cliente;
+    }
+
+    public function update($params) {
+      
+        $id = array_get($params, 'id', 0);
+        $clienteId = !empty($id) && is_numeric($id) ? $id : 0;
+        $cliente = Cliente::where('id', $clienteId)->first();
+
+        if (empty($cliente)) {
+            create_flash_message("Cliente #{$clienteId} não encontrado!", 'info');
+            $this->redirect('/clientes');
+        }
+        
+        $cliente->atualizar($this->data);
+        
+        if (!empty($Cliente->erros)) {
+            process_error_message($Cliente->erros);
+            $this->redirect('/clientes/cadastrar');
+        }
+        
+        create_flash_message('Cliente editado com sucesso!', 'success');
+        $this->redirect('/clientes');
     }
 
 }

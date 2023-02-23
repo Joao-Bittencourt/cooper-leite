@@ -8,13 +8,17 @@ foreach ($clientes as $cliente) {
     
     $trs .= '<th scope="row">' . $cliente->id . '</th>';
     $trs .= '<td>' . $cliente->nome . '</td>';
-    $trs .= '<td>' . $cliente->tipo_pessoa . '</td>';
-    $trs .= '<td>' . $cliente->papel . '</td>';
+    $trs .= '<td>' . $cliente->getTipoPessoaFullName() . '</td>';
+    $trs .= '<td>' . $cliente->getPapelFullName() . '</td>';
     $trs .= '<td>' . $dataCadastro . '</td>';
     $trs .= '<td>' . implode(' ', $cliente->getActions($cliente)). '</td>';
     $trs .= '</tr>';
 }
-
+echo '<div class="col-lg-12" style="text-align: right;">
+    <a href ="'. base_url("/clientes/add") . '"  class="btn btn-sm btn-success text-decorator-none mb-2">                    
+        <i class="bi bi-pencil-square"> Cadastrar</i> 
+    </a>
+</div>';
 echo '<table class="table">
   <thead>
     <tr>

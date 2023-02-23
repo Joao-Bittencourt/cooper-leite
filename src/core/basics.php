@@ -1,14 +1,23 @@
 <?php
 
+define('DEBUG', true);
+
+error_reporting(E_ALL);
+
+if (DEBUG == true) {
+
+    ini_set('display_errors', 1);
+    ini_set('log_errors', 0);
+} else {
+    
+    ini_set('display_errors', 0);
+    ini_set('log_errors', 1);
+    ini_set('error_log',  dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'log-' . date('Y-m-d') . '.txt');
+}
+
 // @ToDo: revisar, verificar um local melhor para inicializar a sessão
 //ini_set('session.save_handler','redis');
 //ini_set('session.save_path','tcp://127.0.0.1:6379?prefix=cooper_leite_dev_');
-//set_exception_handler(function (\Throwable $t) {
-//  write_log(
-//            "message :{$t->getMessage()} code: {$t->getCode()} url:" .  filter_input(INPUT_GET, 'request') . "\n Trace: " . $t->getTraceAsString()
-//    );
-// 
-//});
 
 session_start();
 

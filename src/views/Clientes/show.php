@@ -6,13 +6,15 @@ if (!empty($cliente)) {
     $nome = $cliente->nome;
     $id = $cliente->id;
     $papel = $cliente->getPapelFullName();
-
-    if ($cliente->tipo_pessoa == 'F') {
+    $nomeRazaoSocial = '-';
+    $cpfCnpj = '-';
+    
+    if ($cliente->tipo_pessoa == 'F' && isset($cliente->pessoaFisica)) {
         $nomeRazaoSocial = $cliente->pessoaFisica->nome_civil;
         $cpfCnpj = $cliente->pessoaFisica->cpf;
     }
 
-    if ($cliente->tipo_pessoa == 'J') {
+    if ($cliente->tipo_pessoa == 'J'&& isset($cliente->pessoaJuridica) ) {
         $nomeRazaoSocial = $cliente->pessoaJuridica->razao_social;
         $cpfCnpj = $cliente->pessoaJuridica->cnpj;
     }
@@ -20,8 +22,9 @@ if (!empty($cliente)) {
 ?>    
 
 <div class="col-lg-12" style="text-align: right;">
-    <div class="btn btn-warning mb-2 mt-0 me-0">
-         <a class="text-decoration-none" href="<?php echo base_url("/clientes/edit/{$id}"); ?>">Editar</a></div>
+    <a href ="<?php echo base_url("/clientes/edit/{$cliente->id}");?>"  class="btn btn-sm btn-warning text-decorator-none mb-2">                    
+        <i class="bi bi-pencil-square"> Editar</i> 
+    </a>
 </div>
 <div class="card">
     <div class="card-header">Cliente #<?php echo $id; ?></div>

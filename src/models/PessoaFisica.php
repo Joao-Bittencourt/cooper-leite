@@ -23,9 +23,13 @@ class PessoaFisica extends Model {
         return $this->belongsTo(Cliente::class);
     }
 
+    // @ToDo: refatorar este formato está muito tosco
     public function processarSalvar($data = []) {
 
-        // @ToDo: refatorar este formato está muito tosco
+        if (is_numeric(array_get($data, 'PessoaFisica-id'))) {
+            $this->id = array_get($data, 'PessoaFisica-id');
+        }
+        
         $this->nome_civil = array_get($data, 'PessoaFisica-nome_civil');
         $this->dt_nascimento = array_get($data, 'PessoaFisica-dt_nascimento') ? date('Y-m-d h:i:s',
                         strtotime(
@@ -34,8 +38,8 @@ class PessoaFisica extends Model {
                 ) : null;
         $this->cpf = array_get($data, 'PessoaFisica-cpf');
         $this->rg = array_get($data, 'PessoaFisica-rg');
-
-        return $this->_save();
+       
+        return $this->id ? $this->_save(1) : $this->_save();
     }
 
 }

@@ -21,13 +21,17 @@ class PessoaJuridica extends Model {
         return $this->belongsTo(Cliente::class);
     }
 
+    // @ToDo: refatorar este formato está muito tosco
     public function processarSalvar($data = []) {
 
-        // @ToDo: refatorar este formato está muito tosco
+        if (is_numeric(array_get($data, 'PessoaJuridica-id'))) {
+            $this->id = array_get($data, 'PessoaJuridica-id');
+        }
+        
         $this->cnpj = array_get($data, 'PessoaJuridica-cnpj');
         $this->razao_social = array_get($data, 'PessoaJuridica-razao_social');
 
-        return $this->_save();
+        return $this->id ? $this->_save(1) : $this->_save();
     }
 
 }
