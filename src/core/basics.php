@@ -23,7 +23,7 @@ session_start();
 
 if (!function_exists('base_url')) {
 
-    function base_url($url) {
+    function base_url($url = '') {
 
         $base_url = '';
         if ($_SERVER['HTTP_HOST'] == 'localhost') {

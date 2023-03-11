@@ -1,80 +1,80 @@
-<style>
-    .nav-link {
-        color: white !important;
-    }
-    .dropdown-menu > li:hover > ul.dropdown-menu {
-        display: block;
-    }
-    .dropdown-submenu {
-        position:relative;
-    }
-    .dropdown-submenu > .dropdown-menu {
-        top: 0;
-        right: 100%;
-        margin-top:-6px;
-    }
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
 
-    /* rotate caret on hover */
-    .dropdown-menu > li > a:hover:after {
-        text-decoration: underline;
-        transform: rotate(90deg);
-    } 
-
-</style>
-
-<div class="card rounded-0 bg-primary mb-3" style="--bs-bg-opacity: .5;">
-
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            <a class="nav-link btn btn-secondary" href="<?php echo base_url('/'); ?>">Home</a>
-        </li>
-
-        <li class="nav-item d-flex ms-auto">
-            <a class="nav-link btn btn-secondary dropdown-toggle" type="button" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                Configs
-            </a>
-            <ul class="dropdown-menu dropstart" aria-labelledby="navbarDropdownMenuLink">
-
-                <li class="dropdown-submenu">
-                    <a class="dropdown-item dropdown-toggle">
-                        Usuarios
+    <div class="sidebar">
+        <nav class="mt-4">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item menu-open">
+                    <a href="<?php echo base_url('/dashboard');?>" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p> Dashboard </p>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item" href="<?php echo base_url('/users'); ?>">Listar</a>
+                    
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Clientes</p>
+                        <i class="right fas fa-angle-left"></i>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('/clientes');?>" class="nav-link">
+                                <i class="far nav-icon"></i>
+                                <p>Listar</p>
+                            </a>
                         </li>
-                        <li>
-                            <a class="dropdown-item"  href="<?php echo base_url('/users/cadastrar'); ?>">Cadastrar</a>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('/clientes/cadastrar');?>" class="nav-link">
+                                <i class="far nav-icon"></i>
+                                <p>Cadastrar</p>
+                            </a>
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown-submenu">
-                    <a class="dropdown-item dropdown-toggle">
-                        Grupos
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Grupos</p>
+                        <i class="right fas fa-angle-left"></i>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item" href="<?php echo base_url('/groups'); ?>">Listar</a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('/grupos');?>" class="nav-link">
+                                <i class="far nav-icon"></i>
+                                <p>Listar</p>
+                            </a>
                         </li>
-                        <li>
-                            <a class="dropdown-item"  href="<?php echo base_url('/groups/cadastrar'); ?>">Cadastrar</a>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('/grupos/cadastrar');?>" class="nav-link">
+                                <i class="far nav-icon"></i>
+                                <p>Cadastrar</p>
+                            </a>
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown-submenu">
-                    <a class="dropdown-item dropdown-toggle">
-                        Clientes
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Usuarios</p>
+                        <i class="right fas fa-angle-left"></i>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item" href="<?php echo base_url('/clientes'); ?>">Listar</a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('/usuarios');?>" class="nav-link">
+                                <i class="far nav-icon"></i>
+                                <p>Listar</p>
+                            </a>
                         </li>
-                        <li>
-                            <a class="dropdown-item"  href="<?php echo base_url('/clientes/add'); ?>">Cadastrar</a>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('/usuarios/cadastrar');?>" class="nav-link">
+                                <i class="far nav-icon"></i>
+                                <p>Cadastrar</p>
+                            </a>
                         </li>
                     </ul>
                 </li>
             </ul>
-        </li>
-    </ul>
-</div>
+        </nav>
+    </div>
+</aside>
+
