@@ -1,15 +1,18 @@
 <?php ?>
-<body>
-    <div class="col-lg-8 mx-auto p-4 py-md-5">
-        <h1 class="text-center mb-5">Cooper Leite</h1>
-        <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
-            <a href="#" class="text-center d-flex align-items-center text-dark text-decoration-none">
-                <span class="text-center fs-4">Em desenvolvimento</span>
-            </a>
-        </header>
+<style>
+    img.center {
+        display: block;
+        margin: 0 auto;
+    }
+</style>
+<div class="col-lg-12">
+    <h1 class="text-center mb-5">Cooper Leite</h1>
+    <div class="text-center pb-3 mb-5">
+        <span class="fs-4">Em desenvolvimento</span>
 
-        <main>
-            <img src="<?php echo DIR_IMG . 'cow2.png' ?>"/>
-         </main>
     </div>
-</body>
+
+    <img class="center" src ="<?php echo DIR_IMG . 'cow2.png' ?>">
+
+</div>
+

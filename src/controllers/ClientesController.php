@@ -2,10 +2,9 @@
 
 namespace CooperLeite\controllers;
 
-use \core\Controller;
 use CooperLeite\models\Cliente;
 
-class ClientesController extends Controller {
+class ClientesController extends AppController {
 
     public function list() {
 
@@ -13,9 +12,7 @@ class ClientesController extends Controller {
         $this->data['clientes'] = $Cliente::all();
     }
 
-    public function add() {
-        
-    }
+    public function add() {}
 
     public function store($args) {
 

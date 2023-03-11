@@ -5,16 +5,14 @@ namespace CooperLeite\controllers;
 use \core\Controller;
 use CooperLeite\models\User;
 
-class UsersController extends Controller {
+class UsersController extends AppController {
 
     public function list() {
         $User = new User();
         $this->data['users'] = $User::all();
     }
 
-    public function cadastrar() {
-        
-    }
+    public function cadastrar() {}
 
     public function store($args = []) {
 
@@ -29,5 +27,9 @@ class UsersController extends Controller {
         create_flash_message('Usuario cadastrado com sucesso!', 'success');
         $this->redirect('/users');
     }
-
+    
+    public function login() {
+        $this->layout = 'login';
+    } 
+            
 }

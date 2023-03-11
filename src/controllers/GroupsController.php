@@ -2,10 +2,11 @@
 
 namespace CooperLeite\controllers;
 
-use \core\Controller;
+
+use CooperLeite\controllers\AppController;
 use CooperLeite\models\Group;
 
-class GroupsController extends Controller {
+class GroupsController extends AppController {
 
     public function list() {
         $Group = new Group();

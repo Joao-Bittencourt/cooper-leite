@@ -13,7 +13,7 @@ if (!empty($cliente)) {
         $nomeRazaoSocial = $cliente->pessoaFisica->nome_civil;
         $cpfCnpj = $cliente->pessoaFisica->cpf;
     }
-
+  
     if ($cliente->tipo_pessoa == 'J'&& isset($cliente->pessoaJuridica) ) {
         $nomeRazaoSocial = $cliente->pessoaJuridica->razao_social;
         $cpfCnpj = $cliente->pessoaJuridica->cnpj;

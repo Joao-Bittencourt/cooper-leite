@@ -7,6 +7,9 @@ $router = new Router();
 $router->get('/', 'HomeController@home');
 $router->get('/sobre', 'HomeController@sobre');
 
+$router->get('/auth/user', 'UsersController@login');
+$router->post('/auth', 'UsersController@auth');
+
 $router->get('/users', 'UsersController@list');
 $router->get('/users/cadastrar', 'UsersController@cadastrar');
 $router->post('/users/store', 'UsersController@store');
