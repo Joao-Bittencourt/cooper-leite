@@ -15,7 +15,7 @@ foreach ($clientes as $cliente) {
     $trs .= '</tr>';
 }
 echo '<div class="col-lg-12" style="text-align: right;">
-    <a href ="'. base_url("/clientes/add") . '"  class="btn btn-sm btn-success text-decorator-none mb-2">                    
+    <a href ="'. base_url("/clientes/cadastrar") . '"  class="btn btn-sm btn-success text-decorator-none mb-2">                    
         <i class="bi bi-pencil-square"> Cadastrar</i> 
     </a>
 </div>';

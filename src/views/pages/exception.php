@@ -4,7 +4,7 @@ $message = $message ?? 'Erro inexperado.';
 
 switch (substr($code, 0, 1)) {
     case '4':
-        $type = 'warning';
+        $type = 'info';
         break;
     case '5':
     default :
@@ -12,7 +12,7 @@ switch (substr($code, 0, 1)) {
         $type = 'danger';
 }
 
-echo sprintf('<div class="alert alert-%s">%s</div>',
+echo sprintf('<div class="alert alert-%s mt-5">%s</div>',
         $type,
         $message,
 );
