@@ -13,7 +13,7 @@ class UsersController extends AppController {
     }
 
     public function cadastrar() {}
-
+        
     public function store($args = []) {
 
         $User = new User();
@@ -21,15 +21,31 @@ class UsersController extends AppController {
 
         if (!empty($User->erros)) {
             process_error_message($User->erros);
-            $this->redirect('/users/cadastrar');
+            $this->redirect('/usuarios/cadastrar');
         }
 
         create_flash_message('Usuario cadastrado com sucesso!', 'success');
-        $this->redirect('/users');
+        $this->redirect('/usuarios');
     }
-    
+
     public function login() {
         $this->layout = 'login';
-    } 
+    }
+
+    public function auth() {
+
+        try {
+            $jwt = \core\Auth::login($this->data['Request']['data']);
             
+            if (!empty($jwt)) {
+                    
+                $this->redirect('/usuarios');
+            }
+            
+        } catch (\Exception $ex) {
+            process_error_message([[$ex->getMessage()]]);
+            $this->redirect('/auth/user');
+        }
+    }
+
 }
