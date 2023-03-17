@@ -12,15 +12,13 @@ class RouterBase {
         $url = Request::getUrl();
 
         // Define os itens padrão
+        $resourceNotFound = true;
         $controllerName = null;
         $action = Config::DEFAULT_ACTION;
         $args = [];
 
         if (isset($routes[$method])) {
-//            @ToDo: revisar 
-//            if (!isset($routes[$method][$url])) {
-//                throw new CoreException("{$url} not found.", 500);
-//            }
+
             foreach ($routes[$method] as $route => $callback) {
                 // Identifica os argumentos e substitui por regex
                 $pattern = preg_replace('(\{[a-z0-9]{1,}\})', '([a-z0-9-]{1,})', $route);
@@ -48,11 +46,16 @@ class RouterBase {
                     if (isset($callbackSplit[1])) {
                         $action = $callbackSplit[1];
                     }
-                    
+
                     $this->execute($controllerName, $action, $args);
+                    $resourceNotFound = false;
                     break;
                 }
             }
+        }
+
+        if ($resourceNotFound) {
+            throw new CoreException("{$url} not found.", 404);
         }
     }
 
@@ -78,6 +81,11 @@ class RouterBase {
 
         $definedController->data['Request']['args'] = $args;
         $definedController->data['Request']['data'] = Request::getRequestData();
+        $definedController->controller = str_replace('Controller', '', $controllerName) ;
+        $definedController->action = $action;
+        
+        $definedController->_checkAuth();
+        
         $definedController->$action($args);
         $definedController->layout($action, $args);
         

@@ -38,8 +38,8 @@ class UsersController extends AppController {
             $jwt = \core\Auth::login($this->data['Request']['data']);
             
             if (!empty($jwt)) {
-                    
-                $this->redirect('/usuarios');
+                $_SESSION['Auth']['jwt'] = $jwt;
+                $this->redirect('/dashboard');
             }
             
         } catch (\Exception $ex) {

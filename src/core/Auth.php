@@ -18,7 +18,7 @@ class Auth {
                         'password', '=', $data['password']
                     ]
                 ])->first();
-       
+
 
         if (empty($user)) {
             throw new \Exception('Email ou senha inválidos');
@@ -31,7 +31,9 @@ class Auth {
         ];
 
         $payload = [
+            'id' => $user->id,
             'email' => $user->email,
+            'group_id' => $user->group_id,
         ];
 
         $header = json_encode($header);
@@ -57,25 +59,37 @@ class Auth {
         if (isset($http_header['Authorization']) && $http_header['Authorization'] != null) {
             $bearer = explode(' ', $http_header['Authorization']);
 
-            if (count($bearer) < 2)
-                throw new Exception('Erro ao ler o token.');
-
-            $token = explode('.', $bearer[1]);
-
-            if (count($token) < 3)
-                throw new Exception('Erro ao ler o token.');
-
-            $header = $token[0];
-            $payload = $token[1];
-            $sign = $token[2];
-
-            // Conferindo a assinatura
-            $valid = hash_hmac('sha256', $header . "." . $payload, self::$key, true);
-            $valid = self::base64UrlEncode($valid);
-
-            if ($sign === $valid) {
-                return true;
+            if (count($bearer) < 2) {
+//                throw new Exception('Erro ao ler o token.');
+                return false;
             }
+        }
+
+        if (isset($_SESSION['Auth']['jwt']) && $_SESSION['Auth']['jwt'] != null) {
+            $bearer[1] = $_SESSION['Auth']['jwt'];
+        }
+
+        if (empty($bearer[1])) {
+             return false;
+        }
+
+        $token = explode('.', $bearer[1]);
+
+        if (count($token) < 3) {
+             return false;
+//            throw new Exception('Erro ao ler o token.');
+        }
+
+        $header = $token[0];
+        $payload = $token[1];
+        $sign = $token[2];
+
+        // Conferindo a assinatura
+        $valid = hash_hmac('sha256', $header . "." . $payload, self::$key, true);
+        $valid = self::base64UrlEncode($valid);
+
+        if ($sign === $valid) {
+            return true;
         }
 
         return false;

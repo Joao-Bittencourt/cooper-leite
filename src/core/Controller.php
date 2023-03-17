@@ -8,10 +8,20 @@ class Controller {
 
     public $data = [];
     public $layout = 'default';
+    public $action;
+
+    public function _checkAuth() {
+
+        $isAuth = \core\Auth::checkAuth();
+        
+        if (!$isAuth && ($this->controller != 'Users' && $this->action != 'login')) {
+            create_flash_message('Usuario não autenticado!', 'warning');
+            $this->redirect('/auth/user');
+        }
+    }
 
     protected function redirect($url) {
         header("Location: " . base_url($url), TRUE, 302);
-//        header("Location: " . base_url($url));
         exit;
     }
 
@@ -31,7 +41,7 @@ class Controller {
         if (!file_exists('./src/views/' . $page . '.php')) {
             throw new \Exception("Page {$page} not found.");
         }
-        
+
         extract($viewData);
         $render = fn($vN, $vD = []) => $this->renderPartial($vN, $vD);
         $base = $this->getBaseUrl();
@@ -43,14 +53,13 @@ class Controller {
         if (!empty($folder)) {
             return $folder;
         }
-        
+
         $controllerName = str_replace('Controller', '', (new \ReflectionClass($this))->getShortName());
         if (is_dir('./src/views/' . $controllerName)) {
             return $controllerName;
         }
 
         return 'pages';
-        
     }
 
     private function renderPartial($viewName, $viewData = []) {
@@ -62,23 +71,23 @@ class Controller {
         $folderName = $this->folderName();
         $this->_render($folderName . '/' . $viewName, $viewData);
     }
-    
+
     public function renderLayout($viewName, $viewData = []) {
 
         ob_start();
-            $this->render($viewName, $viewData);
-         
+        $this->render($viewName, $viewData);
+
         $content = ob_get_clean();
-        
+
         $this->_render('layout/' . $this->layout,
                 ['content' => $content]
         );
     }
 
     public function layout($content, $data = []) {
-        
+
         $data = array_merge($data, $this->data);
-        
+
         $this->renderLayout($content, $data);
     }
 
