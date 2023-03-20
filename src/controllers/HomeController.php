@@ -11,8 +11,4 @@ class HomeController extends AppController {
     }
     public function home() {}
     
-    public function list() {}
-
-    public function sobre() {}
-
 }

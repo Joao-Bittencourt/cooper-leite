@@ -1,7 +1,7 @@
 <?php
 
-
 $trs = '<tr>';
+$groups = $groups ?? [];
 foreach ($groups as $group) {
 
     $dataCadastro = !empty($group->created_at) ? date('d/m/y H:i:s', strtotime($group->created_at)) : '-';

@@ -1,5 +1,5 @@
 <?php
-$cliente = array_get($this->data, 'Cliente');
+$cliente = array_get((array)$this->data, 'Cliente');
 
 if (!empty($cliente)) {
     ?>

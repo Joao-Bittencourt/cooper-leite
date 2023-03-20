@@ -17,11 +17,13 @@ class Config {
     public function __construct() {
 
         $this->DB_DRIVER = isset($_ENV['DB_DRIVER']) ? $_ENV['DB_DRIVER'] : 'mysql';
-        $this->DB_HOST = isset($_ENV['DB_HOST']) ? $_ENV['DB_HOST'] : 'localhost';
+        $this->DB_HOST = isset($_ENV['DB_HOST']) ? $_ENV['DB_HOST'] : 'mysql';
+//        $this->DB_HOST = isset($_ENV['DB_HOST']) ? $_ENV['DB_HOST'] : '127.0.0.1';
+        // $this->DB_HOST = isset($_ENV['DB_HOST']) ? $_ENV['DB_HOST'] : 'localhost';
         $this->DB_PORT = isset($_ENV['DB_PORT']) ? $_ENV['DB_PORT'] : '3306';
         $this->DB_DATABASE = isset($_ENV['DB_DATABASE']) ? $_ENV['DB_DATABASE'] : 'cooper_leite';
-        $this->DB_USER = isset($_ENV['DB_USER']) ? $_ENV['DB_USER'] : 'root';
-        $this->DB_PASS = isset($_ENV['DB_PASS']) ? $_ENV['DB_PASS'] : null;
+        $this->DB_USER = isset($_ENV['MYSQL_USER']) ? $_ENV['MYSQL_USER'] : 'root';
+        $this->DB_PASS = isset($_ENV['MYSQL_PASS']) ? $_ENV['MYSQL_PASS'] : '123.456';
 
     }
 

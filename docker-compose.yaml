@@ -10,6 +10,8 @@ services:
       - "85:85"
     depends_on:
       - php
+    networks:
+      - "networks-php-general"
 
   # Application service layer
   php:
@@ -24,7 +26,8 @@ services:
     environment:
       - MYSQL_USER=root
       - MYSQL_PASS=123.456
-
+    networks:
+      - "networks-php-general"
   # Data persistence service layer
   mysql:
     image: mysql:5.7.20
@@ -33,8 +36,13 @@ services:
       - "./docker/db:/docker-entrypoint-initdb.d"
     ports:
       - "3308:3306"
+    networks:
+      - "networks-php-general"
     environment:
       - MYSQL_ROOT_PASSWORD=123.456
-
+networks:
+  networks-php-general:
+    driver: "bridge"
+    
 volumes:
-  db_data3:
+  db_data3: 

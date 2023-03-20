@@ -39,7 +39,7 @@
                         <div class="row mt-2">
                             <?php
                             display_flash_message();
-                            echo ($content);
+                            echo $content ?? '';
                             ?>
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 <?php
 
-
 $trs = '<tr>';
+$clientes = $clientes ?? [];
 foreach ($clientes as $cliente) {
     
     $dataCadastro = !empty($cliente->created_at) ? date('d/m/y H:i:s', strtotime($cliente->created_at)) : '-';
@@ -14,12 +14,15 @@ foreach ($clientes as $cliente) {
     $trs .= '<td>' . implode(' ', $cliente->getActions($cliente)). '</td>';
     $trs .= '</tr>';
 }
-echo '<div class="col-lg-12" style="text-align: right;">
-    <a href ="'. base_url("/clientes/cadastrar") . '"  class="btn btn-sm btn-success text-decorator-none mb-2">                    
+
+?>
+
+<div class="col-lg-12" style="text-align: right;">
+    <a href ="<?php echo base_url("/clientes/cadastrar"); ?>"  class="btn btn-sm btn-success text-decorator-none mb-2">                    
         <i class="bi bi-pencil-square"> Cadastrar</i> 
     </a>
-</div>';
-echo '<table class="table">
+</div>
+<table class="table">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -31,7 +34,7 @@ echo '<table class="table">
     </tr>
   </thead>
   <tbody>
-    ' . $trs . '
+    <?php echo $trs; ?>
   </tbody>
-</table>';
+</table>
 

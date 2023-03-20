@@ -1,6 +1,6 @@
 <?php
 
-if ($this->layout == 'home') {
+if (isset($this->layout) && $this->layout == 'home') {
     echo
     '<div class="container">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
@@ -17,7 +17,7 @@ if ($this->layout == 'home') {
 </div>';
 }
 
-if ($this->layout == 'default') {
+if (isset($this->layout) &&  $this->layout == 'default') {
     echo "
     <nav class='main-header navbar navbar-expand navbar-white navbar-light'>
                 <ul class='navbar-nav'>

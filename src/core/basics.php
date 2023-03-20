@@ -9,24 +9,24 @@ if (DEBUG == true) {
     ini_set('display_errors', 1);
     ini_set('log_errors', 0);
 } else {
-    
+
     ini_set('display_errors', 0);
     ini_set('log_errors', 1);
-    ini_set('error_log',  dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'log-' . date('Y-m-d') . '.txt');
+    ini_set('error_log', dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'log-' . date('Y-m-d') . '.txt');
 }
 
 // @ToDo: revisar, verificar um local melhor para inicializar a sessão
 //ini_set('session.save_handler','redis');
 //ini_set('session.save_path','tcp://127.0.0.1:6379?prefix=cooper_leite_dev_');
 
-session_start();
 
 if (!function_exists('base_url')) {
 
     function base_url($url = '') {
 
         $base_url = '';
-        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+       
+        if ((isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') || (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'localhost') !== false)) {
             $base_url .= dirname($_SERVER['SCRIPT_NAME']);
         }
 
@@ -126,14 +126,14 @@ if (!function_exists('array_get')) {
 }
 
 function process_error_message($errors = []) {
-    $errorMessage = ''; 
+    $errorMessage = '';
     foreach ($errors as $error => $messages) {
         foreach ($messages as $message) {
-            $errorMessage .= ' - '. $message . '<br>';
+            $errorMessage .= ' - ' . $message . '<br>';
         }
     }
-        
-    create_flash_message($errorMessage, 'danger');   
+
+    create_flash_message($errorMessage, 'danger');
 }
 
 function create_flash_message(string $message, string $type): void {
@@ -158,10 +158,19 @@ function display_flash_message(): void {
     }
 }
 
-function checkPermission(int $userId, string $permission) {
-    
-}
+if (!function_exists('apache_request_headers')) {
 
-function validatePermission(int $userId, string $permission) {
-    
-}
+
+    function apache_request_headers() {
+        foreach ($_SERVER as $key => $value) {
+            if (substr($key, 0, 5) == "HTTP_") {
+                $key = str_replace(" ", "-", ucwords(strtolower(str_replace("_", " ", substr($key, 5)))));
+                $out[$key] = $value;
+            } else {
+                $out[$key] = $value;
+            }
+        }
+        return $out;
+    }
+
+} 

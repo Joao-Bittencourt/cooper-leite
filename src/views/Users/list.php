@@ -1,6 +1,7 @@
 <?php
 
 $trs = '<tr>';
+$users = $users ?? [];
 foreach ($users as $user) {
 
     $dataCadastro = !empty($user->created_at) ? date('d/m/y H:i:s', strtotime($user->created_at)) : '-';

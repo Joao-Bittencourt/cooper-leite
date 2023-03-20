@@ -11,7 +11,7 @@
         <div class="container">
             <?php
             display_flash_message();
-            echo ($content);
+            echo $content ?? '';
             ?>
         </div>
         <?php include 'footer.php'; ?>

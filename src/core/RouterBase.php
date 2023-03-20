@@ -87,7 +87,7 @@ class RouterBase {
         $definedController->_checkAuth();
         
         $definedController->$action($args);
-        $definedController->layout($action, $args);
+        echo $definedController->layout($action, $args);
         
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 $message = $message ?? 'Erro inexperado.';
-
+$code = $code ?? 0;
 switch (substr($code, 0, 1)) {
     case '4':
         $type = 'info';

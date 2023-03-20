@@ -94,6 +94,21 @@ class Auth {
 
         return false;
     }
+    
+    public static function checkAuthorization(string $controller, string $action, ?bool $isAuth = null): bool {
+        
+        if (is_null($isAuth)) {
+            $isAuth = self::checkAuth();
+        }
+        
+        if ($controller == 'Users' && $action = 'login') {
+            return true;
+        }
+        
+        return $isAuth;
+        
+        return false;
+    }
 
     private static function base64UrlEncode($data) {
         $b64 = base64_encode($data);
