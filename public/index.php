@@ -1,6 +1,7 @@
 <?php
 
-require './vendor/autoload.php';
-require './src/routes.php';
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../src/core/basics.php';
+require __DIR__ . '/../src/routes.php';
 
 $router->run($router->routes);

@@ -4,14 +4,11 @@ namespace CooperLeite\controllers;
 
 use \core\Controller;
 
-class HomeController extends Controller {
-
-    public function index() {
-        $this->layout('home');
+class HomeController extends AppController {
+    
+    function __construct() {
+        $this->layout = 'home';       
     }
-
-    public function sobre() {
-        $this->render('sobre');
-    }
-
+    public function home() {}
+    
 }
