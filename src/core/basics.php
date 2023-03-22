@@ -1,6 +1,9 @@
 <?php
 
 define('DEBUG', true);
+define('DS', DIRECTORY_SEPARATOR);
+define('ROOT', dirname(__FILE__));
+define('DIR_IMG', 'public' . DS . 'img' . DS);
 
 error_reporting(E_ALL);
 
