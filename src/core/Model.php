@@ -3,57 +3,43 @@
 namespace core;
 
 use \core\Database;
-use \ClanCats\Hydrahon\Builder;
-use \ClanCats\Hydrahon\Query\Sql\FetchableInterface;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Model {
+class Model extends Eloquent {
 
-    protected static $_h;
+    protected static $capsule;
+    public $validate = [];
+    public $modelData = [];
+    public $erros;
 
     public function __construct() {
-        self::_checkH();
+        new Database();
+        self::$capsule = Database::$capsule;
     }
 
-    public static function _checkH() {
-        if (self::$_h == null) {
-            $connection = Database::getInstance();
-            self::$_h = new Builder('mysql', function($query, $queryString, $queryParameters) use($connection) {
-                $statement = $connection->prepare($queryString);
-                $statement->execute($queryParameters);
+    public function _save($update = false) {
 
-                if ($query instanceof FetchableInterface) {
-                    return $statement->fetchAll(\PDO::FETCH_ASSOC);
-                }
-            });
+        $this->erros = Validate::execute($this->validate, $this->modelData);
+        if (empty($this->erros)) {
+            
+            if ($update !== false) {
+                $this->exists = true;
+            }
+            
+            return $this->save();
         }
-
-        self::$_h = self::$_h->table(self::getTableName());
+    
+        return false;
     }
-
-    public static function getTableName() {
-        $className = explode('\\', get_called_class());
-        $className = end($className);
-        return strtolower($className) . 's';
+    
+    public function _update() {
+  
+        $this->erros = Validate::execute($this->validate, $this->modelData);
+      
+        if (empty($this->erros)) {
+            return $this->update();
+        }
+        
+        return false;
     }
-
-    public static function select($fields = []) {
-        self::_checkH();
-        return self::$_h->select($fields);
-    }
-
-    public static function insert($fields = []) {
-        self::_checkH();
-        return self::$_h->insert($fields);
-    }
-
-    public static function update($fields = []) {
-        self::_checkH();
-        return self::$_h->update($fields);
-    }
-
-    public static function delete() {
-        self::_checkH();
-        return self::$_h->delete();
-    }
-
 }

@@ -2,7 +2,8 @@
 
 namespace core;
 
-use \src\Config;
+use \CooperLeite\Config;
+use core\CoreException;
 
 class RouterBase {
 
@@ -11,11 +12,13 @@ class RouterBase {
         $url = Request::getUrl();
 
         // Define os itens padrão
-        $controller = Config::ERROR_CONTROLLER;
+        $resourceNotFound = true;
+        $controllerName = null;
         $action = Config::DEFAULT_ACTION;
         $args = [];
 
         if (isset($routes[$method])) {
+
             foreach ($routes[$method] as $route => $callback) {
                 // Identifica os argumentos e substitui por regex
                 $pattern = preg_replace('(\{[a-z0-9]{1,}\})', '([a-z0-9-]{1,})', $route);
@@ -39,20 +42,53 @@ class RouterBase {
 
                     // Seta o controller/action
                     $callbackSplit = explode('@', $callback);
-                    $controller = $callbackSplit[0];
+                    $controllerName = $callbackSplit[0];
                     if (isset($callbackSplit[1])) {
                         $action = $callbackSplit[1];
                     }
 
+                    $this->execute($controllerName, $action, $args);
+                    $resourceNotFound = false;
                     break;
                 }
             }
         }
 
-        $controller = "\src\controllers\\$controller";
+        if ($resourceNotFound) {
+            throw new CoreException("{$url} not found.", 404);
+        }
+    }
+
+    public function execute($controllerName, $action, $args) {
+
+        if (empty($controllerName)) {
+            throw new CoreException("Controller not exists.");
+        }
+
+        if (!class_exists("\CooperLeite\controllers\\$controllerName")) {
+            throw new CoreException("{$controllerName} not exists.");
+        }
+
+        $controller = "\CooperLeite\controllers\\$controllerName";
         $definedController = new $controller();
 
+        if (!method_exists($definedController, $action)) {
+            throw new CoreException("{$action} not exists in {$controllerName}");
+        }
+
+        //@ToDo: separar a view para classe expecifica
+        // criar estrutura de helpers para view
+
+        $definedController->data['Request']['args'] = $args;
+        $definedController->data['Request']['data'] = Request::getRequestData();
+        $definedController->controller = str_replace('Controller', '', $controllerName) ;
+        $definedController->action = $action;
+        
+        $definedController->_checkAuth();
+        
         $definedController->$action($args);
+        echo $definedController->layout($action, $args);
+        
     }
 
 }

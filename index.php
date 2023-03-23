@@ -1,6 +1,3 @@
 <?php
 
-require './vendor/autoload.php';
-require './src/routes.php';
-
-$router->run($router->routes);
+require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'index.php';
