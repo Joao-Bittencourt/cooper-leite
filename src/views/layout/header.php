@@ -20,17 +20,24 @@ if (isset($this->layout) && $this->layout == 'home') {
 if (isset($this->layout) &&  $this->layout == 'default') {
     echo "
     <nav class='main-header navbar navbar-expand navbar-white navbar-light'>
-                <ul class='navbar-nav'>
-                    <li class='nav-item'>
-                        <a class='nav-link' data-widget='pushmenu' href='#' role='button'><i class='bi bi-list'></i></i></a>
-                    </li>
-                    <li class='nav-item d-none d-sm-inline-block'>
-                        <a href='". base_url('/') ."'class='nav-link'>Home</a>
-                    </li>
-                    <li class='nav-item d-none d-sm-inline-block'>
-                        <a href='#' class='nav-link'>Contact</a>
-                    </li>
-                </ul>
+        <ul class='navbar-nav'>
+            <li class='nav-item'>
+                <a class='nav-link' data-widget='pushmenu' href='#' role='button'><i class='bi bi-list'></i></a>
+            </li>
+            <li class='nav-item d-none d-sm-inline-block'>
+                <a href='". base_url('/') ."'class='nav-link'>Home</a>
+            </li>
+            <li class='nav-item d-none d-sm-inline-block'>
+                <a href='#' class='nav-link'>Contact</a>
+            </li>
+        </ul>
+        <ul class='navbar-nav ml-auto'>
+            <li class='nav-item'>
+            <a href='". base_url('/auth/user/logout') ."' class='btn btn-sm btn-danger' title='sair'>
+                    <i class='bi bi-box-arrow-left'></i>
+            </a>
+            </li>
+        <ul/>
     </nav>";
     
    include 'menu.php';  

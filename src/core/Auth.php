@@ -53,6 +53,10 @@ class Auth {
         return $token;
     }
 
+    public static function logout() {
+        session_destroy();
+    }
+
     public static function checkAuth() {
         $http_header = apache_request_headers();
 
@@ -101,13 +105,11 @@ class Auth {
             $isAuth = self::checkAuth();
         }
         
-        if ($controller == 'Users' && $action = 'login') {
+        if ($controller == 'Users' && ($action == 'login' || $action == 'auth')) {
             return true;
         }
         
-        return $isAuth;
-        
-        return false;
+        return $isAuth;   
     }
 
     private static function base64UrlEncode($data) {

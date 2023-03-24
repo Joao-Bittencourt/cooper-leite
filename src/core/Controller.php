@@ -15,15 +15,10 @@ class Controller {
         $isAuth = \core\Auth::checkAuth();
         $isAuthorized = \core\Auth::checkAuthorization($this->controller, $this->action, $isAuth);
 
-        if (!$isAuth && $isAuthorized) {
+        if (!$isAuth && !$isAuthorized) {
             create_flash_message('Usuario não autenticado!', 'danger');
             $this->redirect('/auth/user');
         }
-//        
-//        if (!$isAuth && !$isAuthorized) {
-//            create_flash_message('Usuario não autenticado!', 'warning');
-//            $this->redirect('/auth/user');
-//        };
 
         if ($isAuth && !$isAuthorized) {
             create_flash_message('Usuario sem permissao!', 'danger');

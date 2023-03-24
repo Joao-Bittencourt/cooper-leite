@@ -32,6 +32,11 @@ class UsersController extends AppController {
         $this->layout = 'login';
     }
 
+    public function logout() {
+        \core\Auth::logout();
+        $this->redirect('/auth/user');
+    }
+
     public function auth() {
 
         try {

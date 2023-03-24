@@ -11,6 +11,7 @@ $router->get('/sobre', 'HomeController@sobre');
 $router->get('/dashboard', 'ClientesController@list');
 
 $router->get('/auth/user', 'UsersController@login');
+$router->get('/auth/user/logout', 'UsersController@logout');
 $router->post('/auth', 'UsersController@auth');
 
 $router->get('/usuarios', 'UsersController@list');
