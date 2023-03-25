@@ -22,7 +22,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: mysql
+          extensions: mysql, pdo_mysql
+          ini-values: apc.enable_cli = 1
+          coverage: pcov
 
       - name: checkout
         uses: actions/checkout@v2
@@ -33,4 +35,13 @@ jobs:
     
       - name: Rodando PHPUnit
         run: |
-          composer test
+          if [[ ${{ matrix.php-version }} == '8.0' ]]; then
+            export CODECOVERAGE=1
+            vendor/bin/phpunit --stderr --verbose --coverage-clover=coverage.xml
+          else
+            vendor/bin/phpunit -c phpunit.xml.dist --stderr
+          fi
+          
+      - name: Code Coverage Report
+        if: matrix.php-version == '8.0' 
+        uses: codecov/codecov-action@v1
