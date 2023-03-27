@@ -36,14 +36,6 @@ class Controller {
 
     public function renderLayout($viewName, $viewData = []) {
 
-//        $content = '';
-//        ob_start();
-//
-//        $this->render($viewName, $viewData);
-//
-////        $content = ob_get_clean();
-//        $content = ob_get_flush();
-
         return $this->_render('layout/' . $this->layout,
                 ['content' => $this->render($viewName, $viewData)]
         );

@@ -2,7 +2,6 @@
 
 namespace CooperLeite\controllers;
 
-use \core\Controller;
 use CooperLeite\models\User;
 
 class UsersController extends AppController {
@@ -40,7 +39,8 @@ class UsersController extends AppController {
     public function auth() {
 
         try {
-            $jwt = \core\Auth::login($this->data['Request']['data']);
+            $User = new User();
+            $jwt = \core\Auth::login($User, $this->data['Request']['data']);
             
             if (!empty($jwt)) {
                 $_SESSION['Auth']['jwt'] = $jwt;

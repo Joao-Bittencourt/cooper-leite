@@ -8,8 +8,8 @@ class Auth {
 
     private static $key = '1234';
 
-    public static function login($data) {
-        $User = new User();
+    public static function login(User $User, array $data) {
+        
         $user = $User::where([
                     [
                         'login', '=', $data['login']

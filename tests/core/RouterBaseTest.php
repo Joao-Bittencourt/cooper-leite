@@ -4,6 +4,7 @@ namespace CooperLeite\Tests;
 
 use PHPUnit\Framework\TestCase;
 use core\RouterBase;
+use core\CoreException;
 
 class RouterBaseTest extends TestCase {
 
@@ -23,7 +24,7 @@ class RouterBaseTest extends TestCase {
             ]
         ];
 
-        $this->expectException(\Exception::class);
+        $this->expectException(CoreException::class);
         $this->RouterBase->run($routes);
     }
 
@@ -32,16 +33,15 @@ class RouterBaseTest extends TestCase {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $routes['GET'] = ['/rota_inexistente' => 'HomeController@home'];
 
-        $this->expectException(\Exception::class);
+        $this->expectException(CoreException::class);
         $this->RouterBase->run($routes);
-//        $this->expectException(\Exception::class);;
     }
     public function test_run_controller_inexistente() {
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $routes['GET'] = ['/' => 'InexistenteController@home'];
 
-        $this->expectException(\Exception::class);
+        $this->expectException(CoreException::class);
         $this->RouterBase->run($routes);
     }
     
@@ -50,7 +50,7 @@ class RouterBaseTest extends TestCase {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $routes['GET'] = ['/' => 'HomeController@Inexistente'];
 
-        $this->expectException(\Exception::class);
+        $this->expectException(CoreException::class);
         $this->RouterBase->run($routes);
     }
     
@@ -59,17 +59,17 @@ class RouterBaseTest extends TestCase {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $routes['GET'] = ['/' => '@Inexistente'];
 
-        $this->expectException(\Exception::class);
+        $this->expectException(CoreException::class);
         $this->RouterBase->run($routes);
     }
     
     public function test_run_controller_action_inexistente_with_args() {
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI'] = '/cooperleite/Home/inexistente/1';
+        $_SERVER['REQUEST_URI'] = '/Home/inexistente/1';
 
         $routes['GET'] = ['/Home/inexistente/{id}' => 'HomeController@Inexistente'];
-        $this->expectException(\Exception::class);
+        $this->expectException(CoreException::class);
         $this->RouterBase->run($routes);
     }
 
