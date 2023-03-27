@@ -38,6 +38,7 @@ class PessoaFisica extends Model {
                 ) : null;
         $this->cpf = array_get($data, 'PessoaFisica-cpf');
         $this->rg = array_get($data, 'PessoaFisica-rg');
+        $this->status = array_get($data, 'PessoaFisica-status', 1);
        
         return $this->id ? $this->_save(1) : $this->_save();
     }

@@ -1,5 +1,4 @@
-[![Pipeline](https://github.com/Joao-Bittencourt/cooper-leite/actions/workflows/ci.yml/badge.svg)](https://github.com/Joao-Bittencourt/cooper-leite/actions/workflows/ci.yml)
-
+[![Pipeline](https://github.com/Joao-Bittencourt/cooper-leite/actions/workflows/ci.yml/badge.svg)](https://github.com/Joao-Bittencourt/cooper-leite/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/Joao-Bittencourt/cooper-leite/branch/master/graph/badge.svg?token=X9Y14R19JH)](https://codecov.io/gh/Joao-Bittencourt/cooper-leite)
 
 ## Sistema de controle de leite de uma cooperativa. (CooperLeite)
 

@@ -6,14 +6,16 @@ use CooperLeite\Config;
 
 class Request {
 
+    // @ToDo: sanitizar o REQUEST_URI
     public static function getUrl() {
-        $url = filter_input(INPUT_GET, 'request');
-
+        
+        $url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : filter_input(INPUT_GET,  'request');
+        
         if (is_string($url)) {
             $url = str_replace(Config::BASE_DIR, '', $url);
             $url = substr($url, 0, 1) == '/' ? substr($url, 1) : $url;
         }
-
+       
         return '/' . $url;
     }
 

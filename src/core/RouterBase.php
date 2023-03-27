@@ -25,6 +25,7 @@ class RouterBase {
 
                 // Faz o match da URL
                 if (preg_match('#^(' . $pattern . ')*$#i', $url, $matches) === 1) {
+                    
                     array_shift($matches);
                     array_shift($matches);
 

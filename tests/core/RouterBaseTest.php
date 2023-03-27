@@ -53,11 +53,22 @@ class RouterBaseTest extends TestCase {
         $this->expectException(\Exception::class);
         $this->RouterBase->run($routes);
     }
+    
     public function test_run_controller_empty() {
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $routes['GET'] = ['/' => '@Inexistente'];
 
+        $this->expectException(\Exception::class);
+        $this->RouterBase->run($routes);
+    }
+    
+    public function test_run_controller_action_inexistente_with_args() {
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/cooperleite/Home/inexistente/1';
+
+        $routes['GET'] = ['/Home/inexistente/{id}' => 'HomeController@Inexistente'];
         $this->expectException(\Exception::class);
         $this->RouterBase->run($routes);
     }
