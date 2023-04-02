@@ -8,7 +8,7 @@ use core\Auth;
 class AuthTest extends TestCase {
 
     public function setUp(): void {
-        $_SERVER['SERVER_NAME'] = 'cli';
+        $_SERVER['ENVIRONMENT'] = 'TEST';
 
         include_once './src/core/basics.php';
     }
@@ -76,7 +76,34 @@ class AuthTest extends TestCase {
     }
 
 //    public function test_login() {
-//        Revisar as dependencias para poder realizar teste unitario
+//
+//        $data = [
+//            'login' => 'email@email.com',
+//            'password' => 'email@email.com' 
+//        ];
+//        $expected = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJlbWFpbEBlbWFpbC5jb20iLCJncm91cF9pZCI6MX0.DDeT6Vz1Fttnj7HjUV6Q6MsU-e8NoP-qAvZdlX9RG-c';       
+//        
+//        $user = new \CooperLeite\models\User();
+//        $result = Auth::login($user, $data);
+//        
+//        $this->assertNotEmpty($result);
+//        $this->assertEquals($expected, $result);
+//
+//    }
+//    
+//    public function test_login_fail() {
+//
+//        $data = [
+//            'login' => 'email_inexistente@email.com',
+//            'password' => 'email@email.com' 
+//        ];
+//            
+//        $user = new \CooperLeite\models\User();
+//        
+//        $this->expectException(\Exception::class);
+//        $this->expectExceptionMessage('Email ou senha inválidos');
+//        Auth::login($user, $data);
+//
 //    }
 
     public function test_check_authorization() {

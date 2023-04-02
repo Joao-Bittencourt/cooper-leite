@@ -1,6 +1,6 @@
 <?php
 
-namespace CooperLeite\Tests;
+namespace CooperLeite\Tests\core;
 
 use PHPUnit\Framework\TestCase;
 use core\Controller;
@@ -10,10 +10,8 @@ class ControllerTest extends TestCase {
     public $controller;
 
     public function setUp(): void {
-        $_SERVER['SERVER_NAME'] = 'cli';
-        $_SERVER['SERVER_PORT'] = '0';
-        $this->Controller = new Controller();
         include_once './src/core/basics.php';
+        $this->Controller = new Controller();
     }
 
     public function test_render_null() {

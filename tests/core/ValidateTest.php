@@ -1,16 +1,13 @@
 <?php
 
-namespace CooperLeite\Tests;
+namespace CooperLeite\Tests\core;
 
 use PHPUnit\Framework\TestCase;
 use core\Validate;
 
 class ValidateTest extends TestCase {
 
-    public function setUp(): void {
-        $_SERVER['SERVER_NAME'] = 'cli';
-        $_SERVER['SERVER_PORT'] = '0';
-    }
+    public function setUp(): void {}
     
     public function test_execute() {
         

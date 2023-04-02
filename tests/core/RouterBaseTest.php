@@ -1,6 +1,6 @@
 <?php
 
-namespace CooperLeite\Tests;
+namespace CooperLeite\Tests\core;
 
 use PHPUnit\Framework\TestCase;
 use core\RouterBase;

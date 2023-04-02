@@ -13,8 +13,7 @@ class Model extends Eloquent {
     public $erros;
 
     public function __construct() {
-        new Database();
-        self::$capsule = Database::$capsule;
+        self::$capsule = Database::getCapsule();
     }
 
     public function _save($update = false) {

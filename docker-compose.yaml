@@ -26,6 +26,11 @@ services:
     environment:
       - MYSQL_USER=root
       - MYSQL_PASS=123.456
+      - ENVIRONMENT=DOCKER
+      - DEV_DB_DRIVER=mysql
+      - DEV_DB_HOST=mysql
+      - DEV_DB_PORT=3306
+      - DEV_DB_DATABASE=cooper_leite
     networks:
       - "networks-php-general"
   # Data persistence service layer

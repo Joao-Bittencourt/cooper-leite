@@ -9,7 +9,7 @@ class Auth {
     private static $key = '1234';
 
     public static function login(User $User, array $data) {
-        
+                
         $user = $User::where([
                     [
                         'login', '=', $data['login']
@@ -18,7 +18,6 @@ class Auth {
                         'password', '=', $data['password']
                     ]
                 ])->first();
-
 
         if (empty($user)) {
             throw new \Exception('Email ou senha inválidos');

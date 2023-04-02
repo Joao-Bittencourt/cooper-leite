@@ -1,6 +1,6 @@
 <?php
 
-namespace CooperLeite\Tests;
+namespace CooperLeite\Tests\core;
 
 use PHPUnit\Framework\TestCase;
 use core\Router;
@@ -8,8 +8,6 @@ use core\Router;
 class RouterTest extends TestCase {
 
     public function setUp(): void {
-        $_SERVER['SERVER_NAME'] = 'cli';
-        $_SERVER['SERVER_PORT'] = '0';
         $this->Router = new Router();
     }
     
