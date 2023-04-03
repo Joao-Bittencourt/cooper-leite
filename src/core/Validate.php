@@ -6,13 +6,20 @@ class Validate {
 
     public static $erros = [];
 
-    public static function execute($fields = [], $data = []) {
+    public static function execute($fields = [], $data = [], ?Model $Model = null) {
 
         $erros = [];
         foreach ($fields as $field => $validates) {
 
             foreach ($validates as $validate => $propriedades) {
 
+                if (method_exists($Model::class, $validate)) {
+
+                    if (!$Model->$validate(array_get($data, $field), array_get($propriedades, 'args'))) {
+                        static::$erros[$field][] = $propriedades['message'];
+                    }
+                }
+                
                 if (method_exists(Validate::class, $validate)) {
 
                     if (!self::$validate(array_get($data, $field), array_get($propriedades, 'args'))) {

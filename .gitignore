@@ -3,3 +3,4 @@ composer.phar
 .DS_Store
 /nbproject/*
 /src/tmp/*
+/src/Config.php

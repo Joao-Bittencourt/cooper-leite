@@ -16,15 +16,32 @@ class Config {
 
     public function __construct() {
 
-        $this->DB_DRIVER = isset($_ENV['DB_DRIVER']) ? $_ENV['DB_DRIVER'] : 'mysql';
-        $this->DB_HOST = isset($_ENV['DB_HOST']) ? $_ENV['DB_HOST'] : 'mysql';
-//        $this->DB_HOST = isset($_ENV['DB_HOST']) ? $_ENV['DB_HOST'] : '127.0.0.1';
-        // $this->DB_HOST = isset($_ENV['DB_HOST']) ? $_ENV['DB_HOST'] : 'localhost';
-        $this->DB_PORT = isset($_ENV['DB_PORT']) ? $_ENV['DB_PORT'] : '3306';
-        $this->DB_DATABASE = isset($_ENV['DB_DATABASE']) ? $_ENV['DB_DATABASE'] : 'cooper_leite';
-        $this->DB_USER = isset($_ENV['MYSQL_USER']) ? $_ENV['MYSQL_USER'] : 'root';
-        $this->DB_PASS = isset($_ENV['MYSQL_PASS']) ? $_ENV['MYSQL_PASS'] : '123.456';
-
+        if (getenv('ENVIRONMENT') == 'TEST') {  
+            $this->DB_DRIVER = getenv('TEST_DB_DRIVER');
+            $this->DB_HOST = getenv('TEST_DB_HOST');
+            $this->DB_PORT = getenv('TEST_DB_PORT');
+            $this->DB_DATABASE = getenv('TEST_DB_DATABASE');
+            $this->DB_USER = getenv('TEST_MYSQL_USER');
+            $this->DB_PASS = getenv('TEST_MYSQL_PASS');
+        }
+        
+        if (getenv('ENVIRONMENT') == 'PROD') {
+            $this->DB_DRIVER = getenv('DB_DRIVER');
+            $this->DB_HOST = getenv('DB_HOST');
+            $this->DB_PORT = getenv('DB_PORT');
+            $this->DB_DATABASE = getenv('DB_DATABASE');
+            $this->DB_USER = getenv('MYSQL_USER');
+            $this->DB_PASS = getenv('MYSQL_PASS');
+        }
+        
+        if (in_array(getenv('ENVIRONMENT'), ['DESENV', 'DOCKER'])) {
+                        
+            $this->DB_DRIVER = getenv('DEV_DB_DRIVER') ? getenv('DEV_DB_DRIVER') : 'mysql';
+            $this->DB_HOST = getenv('DEV_DB_HOST') ?: '127.0.0.1';
+            $this->DB_PORT = getenv('DEV_DB_PORT') ?: '3308';
+            $this->DB_DATABASE = getenv('DEV_DB_DATABASE') ?: 'cooper_leite';
+            $this->DB_USER = getenv('DEV_MYSQL_USER') ? getenv('DEV_MYSQL_USER') : 'root';
+            $this->DB_PASS = getenv('DEV_MYSQL_PASS') ? getenv('DEV_MYSQL_PASS') : '123.456';
+        }
     }
-
 }
