@@ -211,6 +211,7 @@ CREATE TABLE IF NOT EXISTS `produtos` (
   `descricao` VARCHAR(255) NULL,
   `unidade` VARCHAR(45) NULL,
   `created_at` DATETIME NULL DEFAULT now(),
+  `updated_at` DATETIME NULL DEFAULT now(),
   `status` INT NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;

@@ -23,6 +23,7 @@ services:
       - "9000:9000"
     depends_on:
       - mysql
+      - redis
     environment:
       - MYSQL_USER=root
       - MYSQL_PASS=123.456
@@ -45,6 +46,14 @@ services:
       - "networks-php-general"
     environment:
       - MYSQL_ROOT_PASSWORD=123.456
+  
+  redis:
+    image: redis:7.0-alpine
+    ports:
+      - "6380:6379"
+    restart: always
+    networks:
+      - "networks-php-general"
 networks:
   networks-php-general:
     driver: "bridge"

@@ -20,11 +20,6 @@ if (getenv('ENVIRONMENT') == 'PROD') {
     ini_set('log_errors', 0);
 }
 
-// @ToDo: revisar, verificar um local melhor para inicializar a sessão
-//ini_set('session.save_handler','redis');
-//ini_set('session.save_path','tcp://127.0.0.1:6379?prefix=cooper_leite_dev_');
-
-
 if (!function_exists('base_url')) {
 
     function base_url($url = '', $full = false) {
