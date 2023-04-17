@@ -27,7 +27,7 @@ class GroupsController extends AppController {
             die();
         }
         create_flash_message('Grupo cadastrado com sucesso!', 'success');
-        $this->redirect('/groups');
+        $this->redirect('/grupos');
     }
 
 }

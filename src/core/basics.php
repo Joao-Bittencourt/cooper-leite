@@ -13,7 +13,7 @@ if (getenv('ENVIRONMENT') == 'PROD') {
     
     ini_set('display_errors', 0);
     ini_set('log_errors', 1);
-    ini_set('error_log', dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'log-' . date('Y-m-d') . '.txt');
+    ini_set('error_log', dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'php-log-' . date('Y-m-d') . '.txt');
 
 } else {
     ini_set('display_errors', 1);

@@ -33,19 +33,19 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="bi bi-people"></i>
-                        <p>Grupos</p>
+                        <i class="bi bi-box"></i>
+                        <p>Produtos</p>
                         <i class="right bi bi-caret-left"></i>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?php echo base_url('/grupos'); ?>" class="nav-link">
+                            <a href="<?php echo base_url('/produtos'); ?>" class="nav-link">
                                 <i class="far nav-icon"></i>
                                 <p>Listar</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo base_url('/grupos/cadastrar'); ?>" class="nav-link">
+                            <a href="<?php echo base_url('/produtos/cadastrar'); ?>" class="nav-link">
                                 <i class="far nav-icon"></i>
                                 <p>Cadastrar</p>
                             </a>
@@ -54,22 +54,52 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="bi bi-person"></i>
-                        <p>Usuarios</p>
+                        <i class="bi bi-gear"></i>
+                        <p>Config</p>
                         <i class="right bi bi-caret-left"></i>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?php echo base_url('/usuarios'); ?>" class="nav-link">
-                                <i class="far nav-icon"></i>
-                                <p>Listar</p>
+                            <a href="#" class="nav-link">
+                                <i class="bi bi-people"></i>
+                                <p>Grupos</p>
+                                <i class="right bi bi-caret-left"></i>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?php echo base_url('/grupos'); ?>" class="nav-link">
+                                        <i class="far nav-icon"></i>
+                                        <p>Listar</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo base_url('/grupos/cadastrar'); ?>" class="nav-link">
+                                        <i class="far nav-icon"></i>
+                                        <p>Cadastrar</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo base_url('/usuarios/cadastrar'); ?>" class="nav-link">
-                                <i class="far nav-icon"></i>
-                                <p>Cadastrar</p>
+                            <a href="#" class="nav-link">
+                                <i class="bi bi-person"></i>
+                                <p>Usuarios</p>
+                                <i class="right bi bi-caret-left"></i>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?php echo base_url('/usuarios'); ?>" class="nav-link">
+                                        <i class="far nav-icon"></i>
+                                        <p>Listar</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo base_url('/usuarios/cadastrar'); ?>" class="nav-link">
+                                        <i class="far nav-icon"></i>
+                                        <p>Cadastrar</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </li>
