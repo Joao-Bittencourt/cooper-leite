@@ -9,8 +9,8 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="tipo_pessoa" class="form-label">Tipo Pessoa</label>
-                    <select id="tipo_pessoa" name="tipo_pessoa" onchange='tipoPessoa()' class="form-select">
+                    <label for="pessoa" class="form-label">Tipo Pessoa</label>
+                    <select id="pessoa" name="pessoa" onchange='tipoPessoa()' class="form-select">
                         <option disabled selected value> selecione </option>
                         <option value="F">Fisica</option>
                         <option value="J">Juridica</option>
@@ -71,13 +71,13 @@
     document.getElementById('tipo-pessoa-juridica').style.display = "none";
 
     function tipoPessoa() {
-        var tipo_pessoa = document.getElementById('tipo_pessoa').value;
-        if (tipo_pessoa == "F") {
+        var pessoa = document.getElementById('pessoa').value;
+        if (pessoa == "F") {
             document.getElementById('tipo-pessoa-fisica').style.display = '';
             document.getElementById('tipo-pessoa-juridica').style.display = "none";
         }
 
-        if (tipo_pessoa == "J") {
+        if (pessoa == "J") {
             document.getElementById('tipo-pessoa-juridica').style.display = '';
             document.getElementById('tipo-pessoa-fisica').style.display = "none";
         }

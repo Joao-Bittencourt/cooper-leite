@@ -10,12 +10,12 @@ if (!empty($cliente)) {
     $nomeRazaoSocial = '-';
     $cpfCnpj = '-';
     
-    if ($cliente->tipo_pessoa == 'F' && isset($cliente->pessoaFisica)) {
+    if ($cliente->pessoa == 'F' && isset($cliente->pessoaFisica)) {
         $nomeRazaoSocial = $cliente->pessoaFisica->nome_civil;
         $cpfCnpj = $cliente->pessoaFisica->cpf;
     }
   
-    if ($cliente->tipo_pessoa == 'J'&& isset($cliente->pessoaJuridica) ) {
+    if ($cliente->pessoa == 'J'&& isset($cliente->pessoaJuridica) ) {
         $nomeRazaoSocial = $cliente->pessoaJuridica->razao_social;
         $cpfCnpj = $cliente->pessoaJuridica->cnpj;
     }

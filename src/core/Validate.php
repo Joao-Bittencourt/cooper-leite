@@ -13,7 +13,7 @@ class Validate {
 
             foreach ($validates as $validate => $propriedades) {
 
-                if (method_exists($Model::class, $validate)) {
+                if (!is_null($Model) && method_exists($Model::class, $validate)) {
 
                     if (!$Model->$validate(array_get($data, $field), array_get($propriedades, 'args'))) {
                         static::$erros[$field][] = $propriedades['message'];

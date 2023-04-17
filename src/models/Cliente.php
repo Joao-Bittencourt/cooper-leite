@@ -13,7 +13,7 @@ class Cliente extends Model {
     public $fillable = [
         'id',
         'nome',
-        'tipo_pessoa',
+        'pessoa',
         'papel',
         'created_at',
         'updated_at',
@@ -25,7 +25,7 @@ class Cliente extends Model {
                 'message' => 'Nome deve ser preenchido.'
             ],
         ],
-        'tipo_pessoa' => [
+        'pessoa' => [
             'notEmpty' => [
                 'message' => 'Selecione o tipo de pessoa.'
             ],
@@ -75,7 +75,7 @@ class Cliente extends Model {
 
         $this->modelData = $data;
         $this->nome = array_get($data, 'nome');
-        $this->tipo_pessoa = array_get($data, 'tipo_pessoa');
+        $this->pessoa = array_get($data, 'pessoa');
         $this->papel = array_get($data, 'papel');
         $this->status = array_get($data, 'status', 1);
 
@@ -83,13 +83,13 @@ class Cliente extends Model {
 
         if ($this->id) {
 
-            if ($this->tipo_pessoa == 'F') {
+            if ($this->pessoa == 'F') {
                 $PessoaFisica = new PessoaFisica();
                 $PessoaFisica->cliente_id = $this->id;
                 $PessoaFisica->processarSalvar($data);
             }
 
-            if ($this->tipo_pessoa == 'J') {
+            if ($this->pessoa == 'J') {
                 $PessoaJuridica = new PessoaJuridica();
                 $PessoaJuridica->cliente_id = $this->id;
                 $PessoaJuridica->processarSalvar($data);
@@ -104,13 +104,13 @@ class Cliente extends Model {
         $this->modelData = array_get($data, 'Request.data');
         $this->_update();
 
-        if ($this->tipo_pessoa == 'F') {
+        if ($this->pessoa == 'F') {
             $PessoaFisica = new PessoaFisica();
             $PessoaFisica->cliente_id = $this->id;
             $PessoaFisica->processarSalvar(array_get($data, 'Request.data'));
         }
 
-        if ($this->tipo_pessoa == 'J') {
+        if ($this->pessoa == 'J') {
             $PessoaJuridica = new PessoaJuridica();
             $PessoaJuridica->cliente_id = $this->id;
             $PessoaJuridica->processarSalvar(array_get($data, 'Request.data'));
@@ -147,8 +147,8 @@ class Cliente extends Model {
 
     public function getTipoPessoaFullName() {
 
-        if (isset($this->tipo_pessoa)) {
-            return isset($this->clienteTipoPessoa[$this->tipo_pessoa]) ? $this->clienteTipoPessoa[$this->tipo_pessoa] : '-';
+        if (isset($this->pessoa)) {
+            return isset($this->clienteTipoPessoa[$this->pessoa]) ? $this->clienteTipoPessoa[$this->pessoa] : '-';
         }
 
         return '-';

@@ -41,7 +41,7 @@ ENGINE = MyISAM;
 CREATE TABLE IF NOT EXISTS `clientes` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(255) NOT NULL,
-  `tipo_pessoa` VARCHAR(1) NOT NULL DEFAULT 'F',
+  `pessoa` VARCHAR(1) NOT NULL DEFAULT 'F',
   `papel` VARCHAR(1) NOT NULL DEFAULT 'C',
   `created_at` DATETIME NULL DEFAULT now(),
   `updated_at` DATETIME NULL DEFAULT now(),
