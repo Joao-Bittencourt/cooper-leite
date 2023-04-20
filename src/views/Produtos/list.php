@@ -9,6 +9,7 @@ foreach ($produtos as $produto) {
     $trs .= '<th scope="row">' . $produto->id . '</th>';
     $trs .= '<td>' . $produto->nome . '</td>';
     $trs .= '<td>' . $dataCadastro . '</td>';
+    $trs .= '<td>' . implode(' ', $produto->getActions($produto)) . '</td>';
     $trs .= '</tr>';
 }
 
@@ -18,6 +19,7 @@ echo '<table class="table">
       <th scope="col">#</th>
       <th scope="col">Nome</th>
       <th scope="col">Cadastro</th>
+      <th scope="col">Ações</th>
     </tr>
   </thead>
   <tbody>

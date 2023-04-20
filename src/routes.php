@@ -26,7 +26,10 @@ $router->get('/grupos/cadastrar', 'GroupsController@cadastrar');
 $router->post('/groups/store', 'GroupsController@store');
 
 $router->get('/produtos', 'ProdutosController@list');
-$router->get('/produtos/cadastrar', 'ProdutosController@cadastrar');
+$router->get('/produtos/show/{id}', 'ProdutosController@show');
+$router->get('/produtos/edit/{id}', 'ProdutosController@edit');
+$router->post('/produtos/update/{id}', 'ProdutosController@update');
+$router->get('/produtos/cadastrar', 'ProdutosController@add');
 $router->post('/produtos/store', 'ProdutosController@store');
 
 $router->get('/usuarios', 'UsersController@list');
