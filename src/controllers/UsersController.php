@@ -11,8 +11,10 @@ class UsersController extends AppController {
         $this->data['users'] = $User::all();
     }
 
-    public function cadastrar() {}
-        
+    public function cadastrar() {
+        // method only to autoRender view
+    }
+
     public function store($args = []) {
 
         $User = new User();
@@ -41,12 +43,11 @@ class UsersController extends AppController {
         try {
             $User = new User();
             $jwt = \core\Auth::login($User, $this->data['Request']['data']);
-            
+
             if (!empty($jwt)) {
                 $_SESSION['Auth']['jwt'] = $jwt;
                 $this->redirect('/dashboard');
             }
-            
         } catch (\Exception $ex) {
             process_error_message([[$ex->getMessage()]]);
             $this->redirect('/auth/user');

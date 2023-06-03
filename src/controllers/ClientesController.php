@@ -12,7 +12,9 @@ class ClientesController extends AppController {
         $this->data['clientes'] = $Cliente::all();
     }
 
-    public function add() {}
+    public function add() {
+        // method only to autoRender view
+    }
 
     public function store($args) {
 

@@ -2,7 +2,6 @@
 
 namespace CooperLeite\controllers;
 
-
 use CooperLeite\controllers\AppController;
 use CooperLeite\models\Group;
 
@@ -14,7 +13,7 @@ class GroupsController extends AppController {
     }
 
     public function cadastrar() {
-        
+        // method only to autoRender view
     }
 
     public function store($args) {
