@@ -67,8 +67,8 @@ class ClientesController extends AppController {
         
         $cliente->atualizar($this->data);
         
-        if (!empty($Cliente->erros)) {
-            process_error_message($Cliente->erros);
+        if (!empty($cliente->erros)) {
+            process_error_message($cliente->erros);
             $this->redirect('/clientes/cadastrar');
         }
         

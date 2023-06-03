@@ -6,9 +6,10 @@ use \core\Controller;
 
 class HomeController extends AppController {
     
-    function __construct() {
+    public function __construct() {
         $this->layout = 'home';       
     }
+    
     public function home() {}
     
 }

@@ -73,7 +73,7 @@ class Controller {
             extract($viewData);
             $render = fn($vN, $vD = []) => $this->renderPartial($vN, $vD);
             $base = $this->getBaseUrl();
-            @require './src/views/' . $page . '.php';
+            require_once './src/views/' . $page . '.php';
 
         return ob_get_clean();
     }
