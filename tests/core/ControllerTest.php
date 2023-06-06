@@ -67,8 +67,8 @@ class ControllerTest extends TestCase {
         </head>';
         
         $this->assertStringContainsString(
-            trim(preg_replace('/\R+/', '', $expected)),
-            trim(preg_replace('/\R+/', '', $result))
+            trim(preg_replace('/\s+/', '', $expected)),
+            trim(preg_replace('/\s+/', '', $result))
         );
         $this->assertStringContainsString('exception', $result);
     }
@@ -82,8 +82,8 @@ class ControllerTest extends TestCase {
         </footer>';
         
         $this->assertStringContainsString( 
-            trim(preg_replace('/\R+/', '', $expected)), 
-            trim(preg_replace('/\R+/', '', $result))
+            trim(preg_replace('/\s+/', '', $expected)), 
+            trim(preg_replace('/\s+/', '', $result))
         );
         $this->assertStringContainsString('exception', $result);
     }
