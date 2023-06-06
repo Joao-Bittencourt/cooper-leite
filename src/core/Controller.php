@@ -76,7 +76,7 @@ class Controller {
             extract($viewData);
             $render = fn($vN, $vD = []) => $this->renderPartial($vN, $vD);
             $base = $this->getBaseUrl();
-            require_once $file;
+            require $file;
 
         return ob_get_clean();
     }
