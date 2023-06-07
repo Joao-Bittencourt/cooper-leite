@@ -9,6 +9,8 @@ class Controller {
     public $data = [];
     public $layout = 'default';
     public $action;
+    private $defaultPathToViews = './src/views/';
+    private $defaultExtensionViews = '.php';
 
     public function _checkAuth() {
 
@@ -65,7 +67,8 @@ class Controller {
 
     private function _render($page, $viewData = []) {
 
-        if (!file_exists('./src/views/' . $page . '.php')) {
+        $file = $this->defaultPathToViews . $page . $this->defaultExtensionViews;
+        if (!file_exists($file)) {
             throw new \Exception("Page {$page} not found.");
         }
         
@@ -73,7 +76,7 @@ class Controller {
             extract($viewData);
             $render = fn($vN, $vD = []) => $this->renderPartial($vN, $vD);
             $base = $this->getBaseUrl();
-            @require './src/views/' . $page . '.php';
+            require $file;
 
         return ob_get_clean();
     }
@@ -85,7 +88,7 @@ class Controller {
         }
 
         $controllerName = str_replace('Controller', '', (new \ReflectionClass($this))->getShortName());
-        if (!empty($controllerName) && is_dir('./src/views/' . $controllerName)) {
+        if (!empty($controllerName) && is_dir($this->defaultPathToViews . $controllerName)) {
             return $controllerName;
         }
 

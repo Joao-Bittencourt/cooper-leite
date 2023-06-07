@@ -18,9 +18,9 @@ class Model extends Eloquent {
 
     public function _save($update = false) {
 
-        $this->erros = Validate::execute($this->validate, $this->modelData);
+        $this->erros = Validate::execute($this->validate, $this->modelData, $this);
         if (empty($this->erros)) {
-            
+               
             if ($update !== false) {
                 $this->exists = true;
             }
@@ -33,8 +33,8 @@ class Model extends Eloquent {
     
     public function _update() {
   
-        $this->erros = Validate::execute($this->validate, $this->modelData);
-      
+        $this->erros = Validate::execute($this->validate, $this->modelData, $this);
+
         if (empty($this->erros)) {
             return $this->update();
         }
