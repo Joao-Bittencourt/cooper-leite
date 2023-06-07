@@ -40,5 +40,5 @@ if (isset($this->layout) &&  $this->layout == 'default') {
         <ul/>
     </nav>";
     
-   include 'menu.php';  
+   include_once 'menu.php';  
 }

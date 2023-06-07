@@ -1,38 +1,44 @@
 <?php
 
-define('DEBUG', true);
-define('DS', DIRECTORY_SEPARATOR);
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
+
 define('ROOT', dirname(__FILE__));
 define('DIR_IMG', 'public' . DS . 'img' . DS);
 
 error_reporting(E_ALL);
 
-if (DEBUG == true) {
-
-    ini_set('display_errors', 1);
-    ini_set('log_errors', 0);
-} else {
-
+if (getenv('ENVIRONMENT') == 'PROD') {
+    
     ini_set('display_errors', 0);
     ini_set('log_errors', 1);
-    ini_set('error_log', dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'log-' . date('Y-m-d') . '.txt');
+    ini_set('error_log', dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'php-log-' . date('Y-m-d') . '.txt');
+
+} else {
+    ini_set('display_errors', 1);
+    ini_set('log_errors', 0);
 }
-
-// @ToDo: revisar, verificar um local melhor para inicializar a sessão
-//ini_set('session.save_handler','redis');
-//ini_set('session.save_path','tcp://127.0.0.1:6379?prefix=cooper_leite_dev_');
-
 
 if (!function_exists('base_url')) {
 
-    function base_url($url = '') {
+    function base_url($url = '', $full = false) {
 
         $base_url = '';
-       
+        
         if ((isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') || (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'localhost') !== false)) {
             $base_url .= dirname($_SERVER['SCRIPT_NAME']);
         }
 
+        if (($full || getenv('ENVIRONMENT') == 'DOCKER') && isset($_SERVER['SERVER_NAME'])) {
+
+            $base_url = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') ? 'https://' : 'http://';
+            $base_url .= $_SERVER['SERVER_NAME'];
+            if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != '80') {
+                $base_url .= ':' . $_SERVER['SERVER_PORT'];
+            }
+        }
+        
         return $base_url . $url;
     }
 

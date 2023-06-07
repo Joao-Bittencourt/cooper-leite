@@ -1,6 +1,6 @@
 <?php
 
-namespace CooperLeite\Tests;
+namespace CooperLeite\Tests\core;
 
 use PHPUnit\Framework\TestCase;
 use core\CoreException;
@@ -10,8 +10,6 @@ class CoreExceptionTest extends TestCase {
     public $controller;
 
     public function setUp(): void {
-        $_SERVER['SERVER_NAME'] = 'cli';
-        $_SERVER['SERVER_PORT'] = '0';
         include_once './src/core/basics.php';
     }
 

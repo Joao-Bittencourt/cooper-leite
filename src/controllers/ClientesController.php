@@ -12,7 +12,9 @@ class ClientesController extends AppController {
         $this->data['clientes'] = $Cliente::all();
     }
 
-    public function add() {}
+    public function add() {
+        // method only to autoRender view
+    }
 
     public function store($args) {
 
@@ -67,8 +69,8 @@ class ClientesController extends AppController {
         
         $cliente->atualizar($this->data);
         
-        if (!empty($Cliente->erros)) {
-            process_error_message($Cliente->erros);
+        if (!empty($cliente->erros)) {
+            process_error_message($cliente->erros);
             $this->redirect('/clientes/cadastrar');
         }
         

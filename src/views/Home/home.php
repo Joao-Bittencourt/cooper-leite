@@ -12,7 +12,7 @@
 
     </div>
 
-    <img class="center" src ="<?php echo DIR_IMG . 'cow2.png' ?>">
+    <img class="center" src ="<?php echo DIR_IMG . 'cow2.png' ?>" alt="Vaca">
 
 </div>
 

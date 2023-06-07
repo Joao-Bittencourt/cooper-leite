@@ -1,6 +1,6 @@
 <?php
 
-namespace CooperLeite\Tests;
+namespace CooperLeite\Tests\core;
 
 use PHPUnit\Framework\TestCase;
 
@@ -46,7 +46,7 @@ class BasicsTest extends TestCase {
     }
 
     public function test_debug() {
-        
+    
         ob_start();
         debug(['a' => 'b']);
         $result = ob_get_clean();

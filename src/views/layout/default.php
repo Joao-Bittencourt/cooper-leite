@@ -11,10 +11,11 @@
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
         <link rel="stylesheet" href="<?php echo base_url('/public/css/main.min.css'); ?>">
+         <title> CooperLeite </title>
     </head>
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">
-            <?php include 'header.php'; ?>
+            <?php include_once 'header.php'; ?>
             <div class="content-wrapper">
 
 <!--                <div class="content-header">
