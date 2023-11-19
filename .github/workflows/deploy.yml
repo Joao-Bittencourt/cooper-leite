@@ -1,0 +1,32 @@
+name: 2 Deploy Site on push
+on:
+  push:
+    branches:
+      - master
+      - develop
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+     
+    steps:
+    - name: Get the latest code
+      uses: actions/checkout@v3.5.3
+      with:
+          php-version: '7.4'
+    - name: Install Dependencies
+      run: | 
+          composer update --prefer-lowest --prefer-stable
+                      
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.CPL_SERVER_FTP}}
+        username: ${{ secrets.CPL_USER_FTP}}
+        password: ${{ secrets.CPL_PASS_FTP}}
+        server-dir: ./public_html/
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/tests*
+          **/tests/**
