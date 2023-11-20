@@ -16,7 +16,7 @@ jobs:
           php-version: '7.4'
     - name: Install Dependencies
       run: | 
-          composer update --prefer-lowest --prefer-stable
+          composer update
                       
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
