@@ -20,32 +20,40 @@ class Config {
             include_once __DIR__ . '/env.php';
         }
         
-        if (getenv('ENVIRONMENT') == 'TEST') {  
-            $this->DB_DRIVER = getenv('TEST_DB_DRIVER');
-            $this->DB_HOST = getenv('TEST_DB_HOST');
-            $this->DB_PORT = getenv('TEST_DB_PORT');
-            $this->DB_DATABASE = getenv('TEST_DB_DATABASE');
-            $this->DB_USER = getenv('TEST_MYSQL_USER');
-            $this->DB_PASS = getenv('TEST_MYSQL_PASS');
+        $environment = array_get($_ENV, 'ENVIRONMENT', false);
+         
+        switch ($environment) {
+            case 'PROD':
+                $this->DB_DRIVER = array_get($_ENV, 'DB_DRIVER');
+                $this->DB_HOST = array_get($_ENV, 'DB_HOST');
+                $this->DB_PORT = array_get($_ENV, 'DB_PORT');
+                $this->DB_DATABASE = array_get($_ENV, 'DB_DATABASE');
+                $this->DB_USER = array_get($_ENV, 'MYSQL_USER');
+                $this->DB_PASS = array_get($_ENV, 'MYSQL_PASS');
+                break;
+                
+            case 'TEST':
+                $this->DB_DRIVER = array_get($_ENV, 'TEST_DB_DRIVER');
+                $this->DB_HOST = array_get($_ENV, 'TEST_DB_HOST');
+                $this->DB_PORT = array_get($_ENV, 'TEST_DB_PORT');
+                $this->DB_DATABASE = array_get($_ENV, 'TEST_DB_DATABASE');
+                $this->DB_USER = array_get($_ENV, 'TEST_MYSQL_USER');
+                $this->DB_PASS = array_get($_ENV, 'TEST_MYSQL_PASS');
+                break;
+            
+            case 'DOCKER':
+            case 'DESENV':
+                $this->DB_DRIVER = array_get($_ENV, 'DEV_DB_DRIVER');
+                $this->DB_HOST = array_get($_ENV, 'DEV_DB_HOST');
+                $this->DB_PORT = array_get($_ENV, 'DEV_DB_PORT');
+                $this->DB_DATABASE = array_get($_ENV, 'DEV_DB_DATABASE');
+                $this->DB_USER = array_get($_ENV, 'DEV_MYSQL_USER');
+                $this->DB_PASS = array_get($_ENV, 'DEV_MYSQL_PASS');
+                break;
+            
+            default :
+                throw new exception('Environment config error');
         }
         
-        if (getenv('ENVIRONMENT') == 'PROD') {
-            $this->DB_DRIVER = getenv('DB_DRIVER');
-            $this->DB_HOST = getenv('DB_HOST');
-            $this->DB_PORT = getenv('DB_PORT');
-            $this->DB_DATABASE = getenv('DB_DATABASE');
-            $this->DB_USER = getenv('MYSQL_USER');
-            $this->DB_PASS = getenv('MYSQL_PASS');
-        }
-        
-        if (in_array(getenv('ENVIRONMENT'), ['DESENV', 'DOCKER'])) {
-                        
-            $this->DB_DRIVER = getenv('DEV_DB_DRIVER');
-            $this->DB_HOST = getenv('DEV_DB_HOST');
-            $this->DB_PORT = getenv('DEV_DB_PORT');
-            $this->DB_DATABASE = getenv('DEV_DB_DATABASE');
-            $this->DB_USER = getenv('DEV_MYSQL_USER');
-            $this->DB_PASS = getenv('DEV_MYSQL_PASS');
-        }
     }
 }
