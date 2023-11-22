@@ -16,6 +16,10 @@ class Config {
 
     public function __construct() {
 
+        if (file_exists(__DIR__ . '/env.php')) {
+            include_once __DIR__ . '/env.php';
+        }
+        
         if (getenv('ENVIRONMENT') == 'TEST') {  
             $this->DB_DRIVER = getenv('TEST_DB_DRIVER');
             $this->DB_HOST = getenv('TEST_DB_HOST');
@@ -36,12 +40,12 @@ class Config {
         
         if (in_array(getenv('ENVIRONMENT'), ['DESENV', 'DOCKER'])) {
                         
-            $this->DB_DRIVER = getenv('DEV_DB_DRIVER') ? getenv('DEV_DB_DRIVER') : 'mysql';
-            $this->DB_HOST = getenv('DEV_DB_HOST') ?: '127.0.0.1';
-            $this->DB_PORT = getenv('DEV_DB_PORT') ?: '3306';
-            $this->DB_DATABASE = getenv('DEV_DB_DATABASE') ?: 'cooper_leite';
-            $this->DB_USER = getenv('DEV_MYSQL_USER') ? getenv('DEV_MYSQL_USER') : 'root';
-            $this->DB_PASS = getenv('DEV_MYSQL_PASS') ? getenv('DEV_MYSQL_PASS') : '123.456';
+            $this->DB_DRIVER = getenv('DEV_DB_DRIVER');
+            $this->DB_HOST = getenv('DEV_DB_HOST');
+            $this->DB_PORT = getenv('DEV_DB_PORT');
+            $this->DB_DATABASE = getenv('DEV_DB_DATABASE');
+            $this->DB_USER = getenv('DEV_MYSQL_USER');
+            $this->DB_PASS = getenv('DEV_MYSQL_PASS');
         }
     }
 }
