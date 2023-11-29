@@ -105,7 +105,7 @@ class Auth {
             $isAuth = self::checkAuth();
         }
         
-        if ($controller == 'Users' && ($action == 'login' || $action == 'auth')) {
+        if (in_array($controller, ['Users', 'Home']) && in_array($action, ['login', 'auth', 'home'])) {
             return true;
         }
         
