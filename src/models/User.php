@@ -2,44 +2,45 @@
 
 namespace CooperLeite\models;
 
-use \core\Model;
+use core\Model;
 
-class User extends Model {
-
+class User extends Model
+{
     protected $table = 'users';
     protected $fillable = [
-        'id', 
+        'id',
         'email',
         'login',
         'group_id',
         'created_at',
         'updated_at'
     ];
-    
+
     public $validate = [
         'login' => [
             'notEmpty' => [
                 'message' => 'Login deve ser preenchido.'
-            ],            
+            ],
         ],
         'email' => [
             'notEmpty' => [
                 'message' => 'Email deve ser preenchido.'
-            ],            
+            ],
         ],
         'password' => [
             'notEmpty' => [
                 'message' => 'Senha deve ser preenchida.'
-            ],            
+            ],
         ],
     ];
 
-    public function group() {
+    public function group()
+    {
         return $this->belongsTo('Group');
     }
 
-    public function salvar($userData = []) {
-
+    public function salvar($userData = [])
+    {
         $this->modelData = $userData;
         $this->email = array_get($userData, 'email');
         $this->login = array_get($userData, 'login');

@@ -5,76 +5,75 @@ namespace CooperLeite\Tests\core;
 use PHPUnit\Framework\TestCase;
 use core\Validate;
 
-class ValidateTest extends TestCase {
+class ValidateTest extends TestCase
+{
+    public function setUp(): void
+    {
+    }
 
-    public function setUp(): void {}
-    
-    public function test_execute() {
-        
+    public function test_execute()
+    {
         $fields['campo'] = [
             'notEmpty' => [
                 'message' => 'Nome deve ser preenchido.'
             ],
         ];
         $data['campo'] = 'a';
-        
+
         $result = Validate::execute($fields, $data);
-        
+
         $this->assertEmpty(Validate::$erros);
     }
-    
-    public function test_execute_with_error_message() {
-        
+
+    public function test_execute_with_error_message()
+    {
         $fields['campo'] = [
             'notEmpty' => [
                 'message' => 'Nome deve ser preenchido.'
             ],
         ];
         $data['campo'] = '';
-        
+
         $result = Validate::execute($fields, $data);
-        
-        $this->assertEquals('Nome deve ser preenchido.',  Validate::$erros['campo'][0]);
-        
+
+        $this->assertEquals('Nome deve ser preenchido.', Validate::$erros['campo'][0]);
     }
-    
-    
+
+
     /**
      * @dataProvider ruleCustomProvider
      */
-    public function test_rule_custom($check, $regexExpression, $expected) {
-        
+    public function test_rule_custom($check, $regexExpression, $expected)
+    {
         $result = Validate::custom($check, $regexExpression);
-        
+
         $this->assertEquals($expected, $result);
-        
     }
-    
+
     /**
      * @dataProvider ruleNotEmptyProvider
      */
-    public function test_rule_not_empty($check, $expected) {
-        
+    public function test_rule_not_empty($check, $expected)
+    {
         $result = Validate::notEmpty($check);
-        
+
         $this->assertEquals($expected, $result);
-        
     }
-    
+
     /**
      * @dataProvider ruleEqualToProvider
      */
-    public function test_rule_equals_to($check, $equalsTo, $expected) {
-        
+    public function test_rule_equals_to($check, $equalsTo, $expected)
+    {
         $result = Validate::equalTo($check, $equalsTo);
-        
-        $this->assertEquals($expected, $result);
-        
-    }
-    
-     // Providers
 
-    public function ruleNotEmptyProvider() {
+        $this->assertEquals($expected, $result);
+    }
+
+    // Providers
+
+    public function ruleNotEmptyProvider()
+    {
         return [
             [[], false],
             ['', false],
@@ -85,8 +84,9 @@ class ValidateTest extends TestCase {
 //            [false, true],
         ];
     }
-    
-    public function ruleEqualToProvider() {
+
+    public function ruleEqualToProvider()
+    {
         return [
             [[], [], true],
             [['a'], ['a'], true],
@@ -111,8 +111,9 @@ class ValidateTest extends TestCase {
 //            [false, true],
         ];
     }
-    
-    public function ruleCustomProvider() {
+
+    public function ruleCustomProvider()
+    {
         return [
            ['12345', '/(?<!\\S)\\d++(?!\\S)/', true],
            ['Text', '/(?<!\\S)\\d++(?!\\S)/', false],

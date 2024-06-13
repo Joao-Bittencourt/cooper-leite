@@ -2,13 +2,13 @@
 
 namespace CooperLeite\models;
 
-use \core\Model;
+use core\Model;
 use CooperLeite\models\User;
 use CooperLeite\models\PessoaFisica;
 use CooperLeite\models\PessoaJuridica;
 
-class Cliente extends Model {
-
+class Cliente extends Model
+{
     protected $table = 'clientes';
     public $fillable = [
         'id',
@@ -54,20 +54,23 @@ class Cliente extends Model {
         'J' => 'Juridica'
     ];
 
-    public function user() {
+    public function user()
+    {
         return $this->hasOne(User::class);
     }
 
-    public function pessoaFisica() {
+    public function pessoaFisica()
+    {
         return $this->hasOne(PessoaFisica::class);
     }
 
-    public function pessoaJuridica() {
+    public function pessoaJuridica()
+    {
         return $this->hasOne(PessoaJuridica::class);
     }
 
-    public function salvar($data = []) {
-
+    public function salvar($data = [])
+    {
         if (empty($data)) {
             $this->erros[] = 'Dados inexistentes para salvar.';
             return false;
@@ -82,7 +85,6 @@ class Cliente extends Model {
         $this->_save();
 
         if ($this->id) {
-
             if ($this->tipo_pessoa == 'F') {
                 $PessoaFisica = new PessoaFisica();
                 $PessoaFisica->cliente_id = $this->id;
@@ -99,8 +101,8 @@ class Cliente extends Model {
         return $this->id;
     }
 
-    public function atualizar($data = []) {
-
+    public function atualizar($data = [])
+    {
         $this->modelData = array_get($data, 'Request.data');
         $this->_update();
 
@@ -119,10 +121,9 @@ class Cliente extends Model {
         return $this->id;
     }
 
-    public function getActions(Cliente $cliente): array {
-
+    public function getActions(Cliente $cliente): array
+    {
         if (isset($cliente->id)) {
-
             return [
                 '<a href ="' . base_url("/clientes/show/{$cliente->id}") . '" title="Detalhar" class="btn btn-sm btn-outline-info text-decorator-none">                    
                     <i class="bi bi-card-text"></i>
@@ -136,8 +137,8 @@ class Cliente extends Model {
         return [];
     }
 
-    public function getPapelFullName() {
-
+    public function getPapelFullName()
+    {
         if (isset($this->papel)) {
             return isset($this->clientePapel[$this->papel]) ? $this->clientePapel[$this->papel] : '-';
         }
@@ -145,13 +146,12 @@ class Cliente extends Model {
         return '-';
     }
 
-    public function getTipoPessoaFullName() {
-
+    public function getTipoPessoaFullName()
+    {
         if (isset($this->tipo_pessoa)) {
             return isset($this->clienteTipoPessoa[$this->tipo_pessoa]) ? $this->clienteTipoPessoa[$this->tipo_pessoa] : '-';
         }
 
         return '-';
     }
-
 }

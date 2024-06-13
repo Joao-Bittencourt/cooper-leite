@@ -4,19 +4,21 @@ namespace CooperLeite\controllers;
 
 use CooperLeite\models\User;
 
-class UsersController extends AppController {
-
-    public function list() {
+class UsersController extends AppController
+{
+    public function list()
+    {
         $User = new User();
         $this->data['users'] = $User::all();
     }
 
-    public function cadastrar() {
+    public function cadastrar()
+    {
         // method only to autoRender view
     }
 
-    public function store($args = []) {
-
+    public function store($args = [])
+    {
         $User = new User();
         $User->salvar(array_get($this->data, 'Request.data'));
 
@@ -29,17 +31,19 @@ class UsersController extends AppController {
         $this->redirect('/usuarios');
     }
 
-    public function login() {
+    public function login()
+    {
         $this->layout = 'login';
     }
 
-    public function logout() {
+    public function logout()
+    {
         \core\Auth::logout();
         $this->redirect('/auth/user');
     }
 
-    public function auth() {
-
+    public function auth()
+    {
         try {
             $User = new User();
             $jwt = \core\Auth::login($User, $this->data['Request']['data']);
@@ -53,5 +57,4 @@ class UsersController extends AppController {
             $this->redirect('/auth/user');
         }
     }
-
 }

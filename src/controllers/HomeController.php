@@ -2,16 +2,17 @@
 
 namespace CooperLeite\controllers;
 
-use \core\Controller;
+use core\Controller;
 
-class HomeController extends AppController {
-
-    public function __construct() {
+class HomeController extends AppController
+{
+    public function __construct()
+    {
         $this->layout = 'home';
     }
 
-    public function home() {
+    public function home()
+    {
         // method only to autoRender view
     }
-
 }

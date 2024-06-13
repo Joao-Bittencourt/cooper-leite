@@ -2,12 +2,13 @@
 
 namespace core;
 
-use \CooperLeite\Config;
+use CooperLeite\Config;
 use core\CoreException;
 
-class RouterBase {
-
-    public function run($routes) {
+class RouterBase
+{
+    public function run($routes)
+    {
         $method = Request::getMethod();
         $url = Request::getUrl();
 
@@ -18,14 +19,12 @@ class RouterBase {
         $args = [];
 
         if (isset($routes[$method])) {
-
             foreach ($routes[$method] as $route => $callback) {
                 // Identifica os argumentos e substitui por regex
                 $pattern = preg_replace('(\{[a-z0-9]{1,}\})', '([a-z0-9-]{1,})', $route);
 
                 // Faz o match da URL
                 if (preg_match('#^(' . $pattern . ')*$#i', $url, $matches) === 1) {
-                    
                     array_shift($matches);
                     array_shift($matches);
 
@@ -60,8 +59,8 @@ class RouterBase {
         }
     }
 
-    public function execute($controllerName, $action, $args) {
-
+    public function execute($controllerName, $action, $args)
+    {
         if (empty($controllerName)) {
             throw new CoreException("Controller not exists.");
         }
@@ -84,12 +83,10 @@ class RouterBase {
         $definedController->data['Request']['data'] = Request::getRequestData();
         $definedController->controller = str_replace('Controller', '', $controllerName) ;
         $definedController->action = $action;
-        
+
         $definedController->_checkAuth();
-        
+
         $definedController->$action($args);
         echo $definedController->layout($action, $args);
-        
     }
-
 }
