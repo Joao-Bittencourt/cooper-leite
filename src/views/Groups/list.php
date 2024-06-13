@@ -3,9 +3,8 @@
 $trs = '<tr>';
 $groups = $groups ?? [];
 foreach ($groups as $group) {
-
     $dataCadastro = !empty($group->created_at) ? date('d/m/y H:i:s', strtotime($group->created_at)) : '-';
-    
+
     $trs .= '<th scope="row">' . $group->id . '</th>';
     $trs .= '<td>' . $group->name . '</td>';
     $trs .= '<td>' . $dataCadastro . '</td>';
@@ -24,4 +23,3 @@ echo '<table class="table">
     ' . $trs . '
   </tbody>
 </table>';
-

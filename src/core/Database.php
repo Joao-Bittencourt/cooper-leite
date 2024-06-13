@@ -2,29 +2,30 @@
 
 namespace core;
 
-use \CooperLeite\Config;
+use CooperLeite\Config;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-class Database {
-
+class Database
+{
     public static $capsule = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->inicializeCapsule();
     }
-    
-    public static function getCapsule():Capsule {
+
+    public static function getCapsule(): Capsule
+    {
         self::inicializeCapsule();
-        
+
         return self::$capsule;
     }
-    
-    public static function inicializeCapsule(): void {
-        
-        if (is_null(self::$capsule)) {
 
+    public static function inicializeCapsule(): void
+    {
+        if (is_null(self::$capsule)) {
             $Config = new Config();
-            
+
             self::$capsule = new Capsule();
             self::$capsule->addConnection([
                 "driver" => $Config->DB_DRIVER,
@@ -36,10 +37,9 @@ class Database {
             ]);
 
             self::$capsule->setAsGlobal();
-            self::$capsule->bootEloquent();   
+            self::$capsule->bootEloquent();
 //            self::$capsule->connection()->enableQueryLog();
 //            debug(\Illuminate\Database\Capsule\Manager::getQueryLog());
         }
     }
-
 }

@@ -2,12 +2,12 @@
 
 namespace CooperLeite\controllers;
 
-use \core\Controller;
+use core\Controller;
 
-class ErrorController extends AppController {
-
-    public function index() {
+class ErrorController extends AppController
+{
+    public function index()
+    {
         $this->render('404');
     }
-
 }

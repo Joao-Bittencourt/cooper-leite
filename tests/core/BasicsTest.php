@@ -4,9 +4,10 @@ namespace CooperLeite\Tests\core;
 
 use PHPUnit\Framework\TestCase;
 
-class BasicsTest extends TestCase {
-
-    public function setUp(): void {
+class BasicsTest extends TestCase
+{
+    public function setUp(): void
+    {
         $_SERVER['SERVER_NAME'] = 'cli';
         $_SERVER['SERVER_PORT'] = '0';
 
@@ -16,8 +17,8 @@ class BasicsTest extends TestCase {
     /**
      * @dataProvider baseUrlNotInLocalhostProvider
      */
-    public function test_base_url_not_in_localhost($url, $expectedUrl) {
-
+    public function test_base_url_not_in_localhost($url, $expectedUrl)
+    {
         $result = base_url($url);
 
         $this->assertEquals($expectedUrl, $result);
@@ -26,8 +27,8 @@ class BasicsTest extends TestCase {
     /**
      * @dataProvider baseUrlInLocalhostProvider
      */
-    public function test_base_url_server_name_localhost($url, $expectedUrl) {
-
+    public function test_base_url_server_name_localhost($url, $expectedUrl)
+    {
         $_SERVER['SERVER_NAME'] = 'localhost';
         $result = base_url($url);
 
@@ -37,16 +38,16 @@ class BasicsTest extends TestCase {
     /**
      * @dataProvider baseUrlInLocalhostProvider
      */
-    public function test_base_url_http_host_localhost($url, $expectedUrl) {
-
+    public function test_base_url_http_host_localhost($url, $expectedUrl)
+    {
         $_SERVER['HTTP_HOST'] = 'localhost';
         $result = base_url($url);
 
         $this->assertEquals($expectedUrl, $result);
     }
 
-    public function test_debug() {
-    
+    public function test_debug()
+    {
         ob_start();
         debug(['a' => 'b']);
         $result = ob_get_clean();
@@ -61,9 +62,9 @@ Array
 EXPECTED;
         $this->assertEquals($expected, $result);
     }
-    
-    public function test_write_log() {
 
+    public function test_write_log()
+    {
         $message = 'mensagem de teste :' . random_int(0, 99);
         write_log($message);
 
@@ -76,15 +77,15 @@ EXPECTED;
     /**
      * @dataProvider arrayGetProvider
      */
-    public function test_array_get($data, $path, $expected, $defaultResult) {
-
+    public function test_array_get($data, $path, $expected, $defaultResult)
+    {
         $result = is_null($defaultResult) ? array_get($data, $path) : array_get($data, $path, $defaultResult);
 
         $this->assertEquals($expected, $result);
     }
 
-    public function test_process_error_message() {
-
+    public function test_process_error_message()
+    {
         $errors = [
             'campo' => [
                 'error no campo'
@@ -102,8 +103,8 @@ EXPECTED;
         unset($_SESSION['FLASH_MESSAGES']);
     }
 
-    public function test_process_error_message_multiple() {
-
+    public function test_process_error_message_multiple()
+    {
         $errors = [
             'campo' => [
                 'error no campo'
@@ -128,8 +129,8 @@ EXPECTED;
     /**
      * @dataProvider createFlashMessageProvider
      */
-    public function test_create_flash_message($message, $type, $expectedResult) {
-
+    public function test_create_flash_message($message, $type, $expectedResult)
+    {
         create_flash_message($message, $type);
         $this->assertEquals($expectedResult, $_SESSION['FLASH_MESSAGES'][0]);
         unset($_SESSION['FLASH_MESSAGES']);
@@ -138,14 +139,14 @@ EXPECTED;
     /**
      * @dataProvider formatFlashMessageProvider
      */
-    public function test_format_flash_message($arrMessage, $expectedResult) {
-
+    public function test_format_flash_message($arrMessage, $expectedResult)
+    {
         $result = format_flash_message($arrMessage);
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function test_display_flash_message() {
-
+    public function test_display_flash_message()
+    {
         create_flash_message('display_flash_message', 'danger');
         ob_start();
         display_flash_message();
@@ -155,8 +156,8 @@ EXPECTED;
         unset($_SESSION['FLASH_MESSAGES']);
     }
 
-    public function test_display_flash_message_empty() {
-
+    public function test_display_flash_message_empty()
+    {
         ob_start();
         display_flash_message();
         $result = ob_get_clean();
@@ -166,7 +167,8 @@ EXPECTED;
 
     // Providers
 
-    public function baseUrlInLocalhostProvider() {
+    public function baseUrlInLocalhostProvider()
+    {
         return [
             ['/', 'vendor/bin/'],
             ['/sobre', 'vendor/bin/sobre'],
@@ -177,7 +179,8 @@ EXPECTED;
         ];
     }
 
-    public function baseUrlNotInLocalhostProvider() {
+    public function baseUrlNotInLocalhostProvider()
+    {
         return [
             ['/', '/'],
             ['/sobre', '/sobre'],
@@ -188,7 +191,8 @@ EXPECTED;
         ];
     }
 
-    public function arrayGetProvider() {
+    public function arrayGetProvider()
+    {
         return [
             [
                 ['data' => 'valor'],
@@ -240,14 +244,15 @@ EXPECTED;
             ],
             [
                 ['data' => ['chave' => 'valor']],
-                (new \stdClass),
+                (new \stdClass()),
                 'error',
                 'error'
             ],
         ];
     }
 
-    public function createFlashMessageProvider() {
+    public function createFlashMessageProvider()
+    {
         return [
             [
                 'mensagem 01',
@@ -284,7 +289,8 @@ EXPECTED;
         ];
     }
 
-    public function formatFlashMessageProvider() {
+    public function formatFlashMessageProvider()
+    {
         return [
             [
                 ['message' => 'mensagem 01', 'type' => 'danger'],
@@ -300,5 +306,4 @@ EXPECTED;
             ],
         ];
     }
-
 }
