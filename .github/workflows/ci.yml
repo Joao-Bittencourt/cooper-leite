@@ -45,3 +45,9 @@ jobs:
       - name: Code Coverage Report
         if: matrix.php-version == '8.0' 
         uses: codecov/codecov-action@v1
+
+      - name: SonarCloud Scan
+        if: matrix.php-version == '8.0'
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
