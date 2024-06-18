@@ -2,8 +2,7 @@ name: 2 Deploy Site on push
 on:
   push:
     branches:
-      - master
-  
+      - master  
 jobs:
   web-deploy:
     name: Deploy
@@ -11,7 +10,7 @@ jobs:
      
     steps:
     - name: Get the latest code
-      uses: actions/checkout@v3.5.3
+      uses: actions/checkout@v3
       with:
           php-version: '7.4'
     - name: Install Dependencies
