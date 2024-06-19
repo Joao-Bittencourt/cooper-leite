@@ -4,12 +4,12 @@ namespace core;
 
 use CooperLeite\models\User;
 
-class Auth {
-
+class Auth
+{
     private static $key = '1234';
 
-    public static function login(User $User, array $data) {
-                
+    public static function login(User $User, array $data)
+    {
         $user = $User::where([
                     [
                         'login', '=', $data['login']
@@ -52,12 +52,14 @@ class Auth {
         return $token;
     }
 
-    public static function logout() {
+    public static function logout()
+    {
         session_unset();
         session_destroy();
     }
 
-    public static function checkAuth() {
+    public static function checkAuth()
+    {
         $http_header = apache_request_headers();
 
         if (isset($http_header['Authorization']) && $http_header['Authorization'] != null) {
@@ -74,13 +76,13 @@ class Auth {
         }
 
         if (empty($bearer[1])) {
-             return false;
+            return false;
         }
 
         $token = explode('.', $bearer[1]);
 
         if (count($token) < 3) {
-             return false;
+            return false;
 //            throw new Exception('Erro ao ler o token.');
         }
 
@@ -98,21 +100,22 @@ class Auth {
 
         return false;
     }
-    
-    public static function checkAuthorization(string $controller, string $action, ?bool $isAuth = null): bool {
-        
+
+    public static function checkAuthorization(string $controller, string $action, ?bool $isAuth = null): bool
+    {
         if (is_null($isAuth)) {
             $isAuth = self::checkAuth();
         }
-        
-        if ($controller == 'Users' && ($action == 'login' || $action == 'auth')) {
+
+        if (in_array($controller, ['Users', 'Home']) && in_array($action, ['login', 'auth', 'home'])) {
             return true;
         }
-        
-        return $isAuth;   
+
+        return $isAuth;
     }
 
-    private static function base64UrlEncode($data) {
+    private static function base64UrlEncode($data)
+    {
         $b64 = base64_encode($data);
 
         if ($b64 === false) {
@@ -123,5 +126,4 @@ class Auth {
 
         return rtrim($url, '=');
     }
-
 }

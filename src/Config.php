@@ -2,46 +2,57 @@
 
 namespace CooperLeite;
 
-class Config {
+class Config
+{
+    public const BASE_DIR = '';
+    public const DB_DRIVER = '';
+    public const DB_HOST = '';
+    public const DB_PORT = '';
+    public const DB_DATABASE = '';
+    public const DB_USER = '';
+    public const DB_PASS = '';
+    public const ERROR_CONTROLLER = 'ErrorController';
+    public const DEFAULT_ACTION = 'index';
 
-    const BASE_DIR = '';
-    const DB_DRIVER = '';
-    const DB_HOST = '';
-    const DB_PORT = '';
-    const DB_DATABASE = '';
-    const DB_USER = '';
-    const DB_PASS = '';
-    const ERROR_CONTROLLER = 'ErrorController';
-    const DEFAULT_ACTION = 'index';
-
-    public function __construct() {
-
-        if (getenv('ENVIRONMENT') == 'TEST') {  
-            $this->DB_DRIVER = getenv('TEST_DB_DRIVER');
-            $this->DB_HOST = getenv('TEST_DB_HOST');
-            $this->DB_PORT = getenv('TEST_DB_PORT');
-            $this->DB_DATABASE = getenv('TEST_DB_DATABASE');
-            $this->DB_USER = getenv('TEST_MYSQL_USER');
-            $this->DB_PASS = getenv('TEST_MYSQL_PASS');
+    public function __construct()
+    {
+        if (file_exists(__DIR__ . '/env.php')) {
+            include_once __DIR__ . '/env.php';
         }
-        
-        if (getenv('ENVIRONMENT') == 'PROD') {
-            $this->DB_DRIVER = getenv('DB_DRIVER');
-            $this->DB_HOST = getenv('DB_HOST');
-            $this->DB_PORT = getenv('DB_PORT');
-            $this->DB_DATABASE = getenv('DB_DATABASE');
-            $this->DB_USER = getenv('MYSQL_USER');
-            $this->DB_PASS = getenv('MYSQL_PASS');
-        }
-        
-        if (in_array(getenv('ENVIRONMENT'), ['DESENV', 'DOCKER'])) {
-                        
-            $this->DB_DRIVER = getenv('DEV_DB_DRIVER') ? getenv('DEV_DB_DRIVER') : 'mysql';
-            $this->DB_HOST = getenv('DEV_DB_HOST') ?: '127.0.0.1';
-            $this->DB_PORT = getenv('DEV_DB_PORT') ?: '3306';
-            $this->DB_DATABASE = getenv('DEV_DB_DATABASE') ?: 'cooper_leite';
-            $this->DB_USER = getenv('DEV_MYSQL_USER') ? getenv('DEV_MYSQL_USER') : 'root';
-            $this->DB_PASS = getenv('DEV_MYSQL_PASS') ? getenv('DEV_MYSQL_PASS') : '123.456';
+
+        $environment = array_get($_ENV, 'ENVIRONMENT', false);
+
+        switch ($environment) {
+            case 'PROD':
+                $this->DB_DRIVER = array_get($_ENV, 'DB_DRIVER');
+                $this->DB_HOST = array_get($_ENV, 'DB_HOST');
+                $this->DB_PORT = array_get($_ENV, 'DB_PORT');
+                $this->DB_DATABASE = array_get($_ENV, 'DB_DATABASE');
+                $this->DB_USER = array_get($_ENV, 'MYSQL_USER');
+                $this->DB_PASS = array_get($_ENV, 'MYSQL_PASS');
+                break;
+
+            case 'TEST':
+                $this->DB_DRIVER = array_get($_ENV, 'TEST_DB_DRIVER');
+                $this->DB_HOST = array_get($_ENV, 'TEST_DB_HOST');
+                $this->DB_PORT = array_get($_ENV, 'TEST_DB_PORT');
+                $this->DB_DATABASE = array_get($_ENV, 'TEST_DB_DATABASE');
+                $this->DB_USER = array_get($_ENV, 'TEST_MYSQL_USER');
+                $this->DB_PASS = array_get($_ENV, 'TEST_MYSQL_PASS');
+                break;
+
+            case 'DOCKER':
+            case 'DESENV':
+                $this->DB_DRIVER = array_get($_ENV, 'DEV_DB_DRIVER');
+                $this->DB_HOST = array_get($_ENV, 'DEV_DB_HOST');
+                $this->DB_PORT = array_get($_ENV, 'DEV_DB_PORT');
+                $this->DB_DATABASE = array_get($_ENV, 'DEV_DB_DATABASE');
+                $this->DB_USER = array_get($_ENV, 'DEV_MYSQL_USER');
+                $this->DB_PASS = array_get($_ENV, 'DEV_MYSQL_PASS');
+                break;
+
+            default:
+                throw new exception('Environment config error');
         }
     }
 }

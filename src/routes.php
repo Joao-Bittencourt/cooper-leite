@@ -35,6 +35,3 @@ $router->post('/produtos/store', 'ProdutosController@store');
 $router->get('/usuarios', 'UsersController@list');
 $router->get('/usuarios/cadastrar', 'UsersController@cadastrar');
 $router->post('/users/store', 'UsersController@store');
-
-
-

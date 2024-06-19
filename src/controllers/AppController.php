@@ -2,6 +2,8 @@
 
 namespace CooperLeite\controllers;
 
-use \core\Controller;
+use core\Controller;
 
-class AppController extends Controller {}
+class AppController extends Controller
+{
+}

@@ -3,9 +3,8 @@
 $trs = '<tr>';
 $produtos = $produtos ?? [];
 foreach ($produtos as $produto) {
-
     $dataCadastro = !empty($produto->created_at) ? date('d/m/y H:i:s', strtotime($produto->created_at)) : '-';
-    
+
     $trs .= '<th scope="row">' . $produto->id . '</th>';
     $trs .= '<td>' . $produto->nome . '</td>';
     $trs .= '<td>' . $dataCadastro . '</td>';
@@ -26,4 +25,3 @@ echo '<table class="table">
     ' . $trs . '
   </tbody>
 </table>';
-

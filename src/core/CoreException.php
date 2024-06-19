@@ -2,12 +2,12 @@
 
 namespace core;
 
-use \CooperLeite\Config;
+use CooperLeite\Config;
 
-class CoreException extends \Exception {
-
-    public function __construct($message, $code = 500) {
-        
+class CoreException extends \Exception
+{
+    public function __construct($message, $code = 500)
+    {
         http_response_code($code);
         $controllerErrorName = Config::ERROR_CONTROLLER;
         $controllerError = "\CooperLeite\controllers\\$controllerErrorName";
@@ -17,10 +17,9 @@ class CoreException extends \Exception {
             'message' => $message,
             'code' => $code
         ]);
-        
+
         write_log(
             "{$message} code: {$code} url:" . Request::getUrl()
         );
     }
-
 }

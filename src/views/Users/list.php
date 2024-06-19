@@ -3,9 +3,8 @@
 $trs = '<tr>';
 $users = $users ?? [];
 foreach ($users as $user) {
-
     $dataCadastro = !empty($user->created_at) ? date('d/m/y H:i:s', strtotime($user->created_at)) : '-';
-    
+
     $trs .= '<th scope="row">' . $user->id . '</th>';
     $trs .= '<td>' . $user->login . '</td>';
     $trs .= '<td>' . $user->email . '</td>';

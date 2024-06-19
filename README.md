@@ -1,4 +1,7 @@
-[![Pipeline](https://github.com/Joao-Bittencourt/cooper-leite/actions/workflows/ci.yml/badge.svg)](https://github.com/Joao-Bittencourt/cooper-leite/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/Joao-Bittencourt/cooper-leite/branch/master/graph/badge.svg?token=X9Y14R19JH)](https://codecov.io/gh/Joao-Bittencourt/cooper-leite)
+[![Pipeline](https://github.com/Joao-Bittencourt/cooper-leite/actions/workflows/ci.yml/badge.svg)](https://github.com/Joao-Bittencourt/cooper-leite/actions/workflows/ci.yml)
+ [![codecov](https://codecov.io/gh/Joao-Bittencourt/cooper-leite/branch/master/graph/badge.svg?token=X9Y14R19JH)](https://codecov.io/gh/Joao-Bittencourt/cooper-leite)
+ [![StyleCI](https://github.styleci.io/repos/583167334/shield?branch=master)](https://github.styleci.io/repos/583167334?branch=master)
+ [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Joao-Bittencourt_cooper-leite&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Joao-Bittencourt_cooper-leite)
 
 ## Sistema de controle de leite de uma cooperativa. (CooperLeite)
 
