@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - master
-      - develop
 jobs:
   web-deploy:
     name: Deploy
@@ -12,8 +11,7 @@ jobs:
     steps:
     - name: Get the latest code
       uses: actions/checkout@v3.5.3
-      with:
-          php-version: '7.4'
+
     - name: Install Dependencies
       run: | 
           composer update
