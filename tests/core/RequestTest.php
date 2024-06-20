@@ -13,9 +13,9 @@ class RequestTest extends TestCase
 
     public function test_create_request()
     {
-        $this->Request = new Request();
-        $this->assertNotEmpty($this->Request);
-        $this->assertTrue(($this->Request instanceof Request), 'Request deve ser uma instancia de core\Request');
+        $request = new Request();
+        $this->assertNotEmpty($request);
+        $this->assertTrue(($request instanceof Request), 'Request deve ser uma instancia de core\Request');
     }
 
     public function test_request_get_url_empty()

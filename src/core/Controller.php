@@ -9,6 +9,7 @@ class Controller
     public $data = [];
     public $layout = 'default';
     public $action;
+    public $controller;
     private $defaultPathToViews = './src/views/';
     private $defaultExtensionViews = '.php';
 

@@ -51,3 +51,11 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      
+      - name: PHP Mess Detector
+        if: matrix.php-version == '8.0'
+        uses: php-actions/phpmd@v1
+        with:
+          php_version: 8.0
+          path: src/
+          output: text
