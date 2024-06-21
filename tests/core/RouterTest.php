@@ -8,7 +8,7 @@ use core\Router;
 class RouterTest extends TestCase
 {
     private $router;
-
+    
     public function setUp(): void
     {
         $this->router = new Router();

@@ -17,12 +17,13 @@ class DatabaseTest extends TestCase
         $this->database = new Database();
         $this->database::$capsule->addConnection([
             'driver' => 'sqlite',
-            'database' => __DIR__.'/../database_test.sqlite',
+            'database' => __DIR__ . '/../database_test.sqlite',
             'prefix' => ''
         ]);
     }
 
-    public function test_config_set_correctly() {
+    public function test_config_set_correctly()
+    {
 
         $configuration = new Config();
         $configuration->DB_HOST = 'host';

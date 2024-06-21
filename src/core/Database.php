@@ -25,7 +25,6 @@ class Database
     public static function inicializeCapsule(): void
     {
         if (is_null(self::$capsule)) {
-          
             self::inicializeConfig();
             
             self::$capsule = new Capsule();
@@ -47,8 +46,6 @@ class Database
 
     public static function inicializeConfig(?Config $configuration = null): void
     {
-
         self::$config = $configuration ?? new Config();
-    
     }
 }
