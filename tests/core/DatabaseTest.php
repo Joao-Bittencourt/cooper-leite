@@ -24,17 +24,15 @@ class DatabaseTest extends TestCase
 
     public function test_config_set_correctly()
     {
-
         $configuration = new Config();
         $configuration->DB_HOST = 'host';
         $configuration->DB_PORT = '1234';
-
         $configuration->DB_DATABASE = 'database_test';
         $configuration->DB_USER = 'user_test';
         $configuration->DB_PASS = 'pass_test';
 
         $this->database::inicializeConfig($configuration);
-      
+
         $this->assertEquals($this->database::$config, $configuration);
     }
 }

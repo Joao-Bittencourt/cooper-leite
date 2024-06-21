@@ -9,7 +9,7 @@ use core\CoreException;
 class RouterBaseTest extends TestCase
 {
     private $routerBase;
-    
+
     public function setUp(): void
     {
         $_SERVER['SERVER_NAME'] = 'cli';

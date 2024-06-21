@@ -26,7 +26,7 @@ class Database
     {
         if (is_null(self::$capsule)) {
             self::inicializeConfig();
-            
+
             self::$capsule = new Capsule();
             self::$capsule->addConnection([
                 "driver" => self::$config->DB_DRIVER,
