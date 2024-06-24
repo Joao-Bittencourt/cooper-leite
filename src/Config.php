@@ -5,12 +5,12 @@ namespace CooperLeite;
 class Config
 {
     public const BASE_DIR = '';
-    public const DB_DRIVER = '';
-    public const DB_HOST = '';
-    public const DB_PORT = '';
-    public const DB_DATABASE = '';
-    public const DB_USER = '';
-    public const DB_PASS = '';
+    public $DB_DRIVER = '';
+    public $DB_HOST = '';
+    public $DB_PORT = '';
+    public $DB_DATABASE = '';
+    public $DB_USER = '';
+    public $DB_PASS = '';
     public const ERROR_CONTROLLER = 'ErrorController';
     public const DEFAULT_ACTION = 'index';
 
@@ -52,7 +52,7 @@ class Config
                 break;
 
             default:
-                throw new exception('Environment config error');
+                throw new \exception('Environment config error');
         }
     }
 }

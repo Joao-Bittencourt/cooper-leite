@@ -8,6 +8,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 class Database
 {
     public static $capsule = null;
+    public static $config;
 
     public function __construct()
     {
@@ -24,16 +25,16 @@ class Database
     public static function inicializeCapsule(): void
     {
         if (is_null(self::$capsule)) {
-            $Config = new Config();
+            self::inicializeConfig();
 
             self::$capsule = new Capsule();
             self::$capsule->addConnection([
-                "driver" => $Config->DB_DRIVER,
-                "host" => $Config->DB_HOST,
-                "port" => $Config->DB_PORT,
-                "database" => $Config->DB_DATABASE,
-                "username" => $Config->DB_USER,
-                "password" => $Config->DB_PASS
+                "driver" => self::$config->DB_DRIVER,
+                "host" => self::$config->DB_HOST,
+                "port" => self::$config->DB_PORT,
+                "database" => self::$config->DB_DATABASE,
+                "username" => self::$config->DB_USER,
+                "password" => self::$config->DB_PASS
             ]);
 
             self::$capsule->setAsGlobal();
@@ -41,5 +42,10 @@ class Database
 //            self::$capsule->connection()->enableQueryLog();
 //            debug(\Illuminate\Database\Capsule\Manager::getQueryLog());
         }
+    }
+
+    public static function inicializeConfig(?Config $configuration = null): void
+    {
+        self::$config = $configuration ?? new Config();
     }
 }
