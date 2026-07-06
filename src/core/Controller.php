@@ -71,7 +71,7 @@ class Controller
 
     private function _render($page, $viewData = [])
     {
-        $file = $this->defaultPathToViews . $page . $this->defaultExtensionViews;
+        $file = $this->getDefaultPathToViews() . $page . $this->defaultExtensionViews;
         if (!file_exists($file)) {
             throw new \Exception("Page {$page} not found.");
         }
@@ -92,7 +92,9 @@ class Controller
         }
 
         $controllerName = str_replace('Controller', '', (new \ReflectionClass($this))->getShortName());
-        if (!empty($controllerName) && is_dir($this->defaultPathToViews . $controllerName)) {
+        
+        $defaultPathToViews =  dirname(__DIR__, 2) .  '/src/views/';
+        if (!empty($controllerName) && is_dir($defaultPathToViews. $controllerName)) {
             return $controllerName;
         }
 
@@ -102,5 +104,11 @@ class Controller
     private function renderPartial($viewName, $viewData = [])
     {
         return $this->_render('partials', $viewName, $viewData);
+    }
+
+    private function getDefaultPathToViews()
+    {
+        return dirname(__DIR__, 2) .  '/src/views/';
+        return $this->getDefaultPathToViews();
     }
 }

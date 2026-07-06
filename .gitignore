@@ -6,3 +6,4 @@ composer.phar
 /src/tmp/*
 /src/Config.php
 .phpunit.result.cache
+env.php
