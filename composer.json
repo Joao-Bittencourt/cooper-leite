@@ -1,7 +1,6 @@
 {
     "name": "joao_bittencourt/cooper_leite",
     "type": "library",
-
     "require": {
         "php": ">=7.4",
         "illuminate/database": "^8.83"
@@ -21,6 +20,7 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit -c phpunit.xml.dist --stderr"
+        "test": "vendor/bin/phpunit -c phpunit.xml.dist --stderr",
+        "test-coverage": "vendor/bin/phpunit -c phpunit.xml.dist --stderr --coverage-html coverage-report"
     }
 }

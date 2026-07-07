@@ -75,4 +75,30 @@ class RouterBaseTest extends TestCase
         $this->expectException(CoreException::class);
         $this->routerBase->run($routes);
     }
+
+    public function test_run_success()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/fake/home';
+
+        $routes['GET'] = ['/fake/home' => 'FakeHomeController@home'];
+
+        ob_start();
+        $this->routerBase->run($routes);
+        $output = ob_get_clean();
+
+        $this->assertEquals("Fake Layout Content", $output);
+    }
+}
+
+namespace CooperLeite\controllers;
+
+class FakeHomeController
+{
+    public $data = [];
+    public $controller;
+    public $action;
+    public function _checkAuth() { return true; }
+    public function home($args) {}
+    public function layout($action, $args) { return "Fake Layout Content"; }
 }

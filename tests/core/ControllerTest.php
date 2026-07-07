@@ -11,8 +11,14 @@ class ControllerTest extends TestCase
 
     public function setUp(): void
     {
+        $_SERVER['SERVER_NAME'] = 'localhost';
+        $_SERVER['SERVER_PORT'] = '80';
         include_once './src/core/basics.php';
         $this->controller = new Controller();
+        $_SESSION = [];
+        if (!headers_sent()) {
+            http_response_code(200);
+        }
     }
 
     public function test_render_null()
@@ -109,6 +115,8 @@ class ControllerTest extends TestCase
         $this->controller->controller = 'controller';
         $this->controller->action = 'action';
         $this->assertFalse($this->controller->_checkAuth());
+        $this->assertStringContainsString('Usuario não autenticado!', $_SESSION['FLASH_MESSAGES'][0]['message']);
+        $this->assertEquals(302, http_response_code());
     }
 
     public function test_check_auth_not_authenticated_authorized()
@@ -117,7 +125,7 @@ class ControllerTest extends TestCase
         $this->controller->action = 'login';
 
         $this->assertFalse($this->controller->_checkAuth());
-        $this->assertStringContainsString('Usuario não autenticado!', $_SESSION['FLASH_MESSAGES'][0]['message']);
-        $this->assertEquals(302, http_response_code());
+        $this->assertEmpty($_SESSION['FLASH_MESSAGES'] ?? []);
+        $this->assertNotEquals(302, http_response_code());
     }
 }

@@ -70,6 +70,23 @@ class ValidateTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function test_execute_resets_errors()
+    {
+        $fields['campo'] = [
+            'notEmpty' => [
+                'message' => 'Erro'
+            ],
+        ];
+        $data['campo'] = '';
+
+        Validate::execute($fields, $data);
+        $this->assertNotEmpty(Validate::$erros);
+
+        $data['campo'] = 'valid';
+        Validate::execute($fields, $data);
+        $this->assertEmpty(Validate::$erros);
+    }
+
     // Providers
 
     public function ruleNotEmptyProvider()

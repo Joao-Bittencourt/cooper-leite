@@ -76,7 +76,9 @@ class AuthTest extends TestCase
 
     public function test_logout()
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            @session_start();
+        }
         $_SESSION['Auth']['jwt'] = 'teste';
         Auth::logout();
         $this->assertEmpty($_SESSION);

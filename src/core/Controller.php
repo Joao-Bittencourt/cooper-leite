@@ -54,15 +54,20 @@ class Controller
 
     protected function redirect($url)
     {
-        header("Location: " . base_url($url), true, 302);
+        if (!headers_sent()) {
+            http_response_code(302);
+            header("Location: " . base_url($url), true, 302);
+        }
     }
 
     private function getBaseUrl()
     {
+        $serverName = $_SERVER['SERVER_NAME'] ?? 'localhost';
+        $serverPort = $_SERVER['SERVER_PORT'] ?? '80';
         $base = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') ? 'https://' : 'http://';
-        $base .= $_SERVER['SERVER_NAME'];
-        if ($_SERVER['SERVER_PORT'] != '80') {
-            $base .= ':' . $_SERVER['SERVER_PORT'];
+        $base .= $serverName;
+        if ($serverPort != '80') {
+            $base .= ':' . $serverPort;
         }
         $base .= Config::BASE_DIR;
 

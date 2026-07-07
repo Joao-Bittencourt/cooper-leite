@@ -7,7 +7,7 @@ if (!defined('DS')) {
 define('ROOT', dirname(__FILE__));
 define('DIR_IMG', 'public' . DS . 'img' . DS);
 
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
 if (getenv('ENVIRONMENT') == 'PROD') {
     ini_set('display_errors', 0);
