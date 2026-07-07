@@ -68,6 +68,7 @@ class ProdutosController extends AppController
         if (empty($produto)) {
             create_flash_message("Produto #{$produtoId} não encontrado!", 'info');
             $this->redirect('/produtos');
+            return;
         }
 
         $produto->atualizar($this->data);

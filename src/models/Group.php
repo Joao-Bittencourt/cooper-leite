@@ -3,6 +3,7 @@
 namespace CooperLeite\models;
 
 use core\Model;
+use CooperLeite\models\User;
 
 class Group extends Model
 {
@@ -17,7 +18,7 @@ class Group extends Model
 
     public function group()
     {
-        return $this->hasMany('User');
+        return $this->hasMany(User::class);
     }
 
     public function salvar($groupData = [])
