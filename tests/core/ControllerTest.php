@@ -16,6 +16,7 @@ class ControllerTest extends TestCase
         include_once './src/core/basics.php';
         $this->controller = new Controller();
         $_SESSION = [];
+        $GLOBALS['mock_headers_sent'] = false;
         if (!headers_sent()) {
             http_response_code(200);
         }
@@ -128,4 +129,73 @@ class ControllerTest extends TestCase
         $this->assertEmpty($_SESSION['FLASH_MESSAGES'] ?? []);
         $this->assertNotEquals(302, http_response_code());
     }
+
+    public function test_check_auth_authenticated_but_unauthorized()
+    {
+        $_SESSION['Auth']['jwt'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTgsImVtYWlsIjoiam9hb2dzYml0dGVuY291cnRAZ21haWwuY29tIiwiZ3JvdXBfaWQiOjB9.NljCZ85MBvTw87p92EmGG7UFLW1VLRHY2yobYmaOTS8';
+        $_SESSION['Auth']['role'] = 'unauthorized';
+
+        $this->controller->controller = 'SomeRestrictedController';
+        $this->controller->action = 'index';
+
+        $this->assertTrue($this->controller->_checkAuth());
+        $this->assertStringContainsString('Usuario sem permissao!', $_SESSION['FLASH_MESSAGES'][0]['message']);
+        $this->assertEquals(302, http_response_code());
+    }
+
+    public function test_render_partial()
+    {
+        $method = new \ReflectionMethod(Controller::class, 'renderPartial');
+        $method->setAccessible(true);
+
+        $this->expectException(\Exception::class);
+        $method->invoke($this->controller, 'inexistente');
+    }
+
+    public function test_render_partial_success()
+    {
+        $method = new \ReflectionMethod(Controller::class, 'renderPartial');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($this->controller, 'someView', []);
+        $this->assertEmpty($result);
+    }
+
+    public function test_folder_name_with_argument()
+    {
+        $method = new \ReflectionMethod(Controller::class, 'folderName');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($this->controller, 'custom_folder');
+        $this->assertEquals('custom_folder', $result);
+    }
+
+    public function test_folder_name_with_existing_folder()
+    {
+        $controller = new ClientesController();
+        $method = new \ReflectionMethod(Controller::class, 'folderName');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($controller);
+        $this->assertEquals('Clientes', $result);
+    }
+
+    public function test_redirect_headers_sent()
+    {
+        $GLOBALS['mock_headers_sent'] = true;
+
+        $method = new \ReflectionMethod(Controller::class, 'redirect');
+        $method->setAccessible(true);
+        
+        $method->invoke($this->controller, '/dashboard');
+        
+        $this->assertTrue(\core\headers_sent());
+    }
+
+    protected function tearDown(): void
+    {
+        $GLOBALS['mock_headers_sent'] = false;
+    }
 }
+
+class ClientesController extends Controller {}

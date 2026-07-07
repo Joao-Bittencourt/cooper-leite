@@ -12,6 +12,12 @@ class CoreExceptionTest extends TestCase
     public function setUp(): void
     {
         include_once './src/core/basics.php';
+        $GLOBALS['mock_headers_sent'] = false;
+    }
+
+    protected function tearDown(): void
+    {
+        $GLOBALS['mock_headers_sent'] = false;
     }
 
     public function test_core_exception()
@@ -22,5 +28,16 @@ class CoreExceptionTest extends TestCase
 
         $this->assertTrue($result instanceof \exception);
         $this->assertEquals(500, http_response_code());
+    }
+
+    public function test_core_exception_headers_sent()
+    {
+        $GLOBALS['mock_headers_sent'] = true;
+
+        $message = 'mensagem';
+        $code = 500;
+        $result = new CoreException($message, $code);
+
+        $this->assertTrue($result instanceof \exception);
     }
 }

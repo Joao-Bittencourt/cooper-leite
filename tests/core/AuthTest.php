@@ -10,8 +10,40 @@ class AuthTest extends TestCase
     public function setUp(): void
     {
         $_SERVER['ENVIRONMENT'] = 'TEST';
+        $_ENV['ENVIRONMENT'] = 'TEST';
 
         include_once './src/core/basics.php';
+
+        $database = new \core\Database();
+        $capsule = $database::getCapsule();
+        $capsule->getDatabaseManager()->purge();
+
+        $capsule->addConnection([
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => ''
+        ]);
+
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
+
+        $capsule->getConnection()->getSchemaBuilder()->create('users', function ($table) {
+            $table->increments('id');
+            $table->string('email')->nullable();
+            $table->string('login')->nullable();
+            $table->string('password')->nullable();
+            $table->integer('group_id')->nullable();
+        });
+
+        $capsule->getConnection()->table('users')->insert([
+            'id' => 1,
+            'email' => 'email@email.com',
+            'login' => 'email@email.com',
+            'password' => 'email@email.com',
+            'group_id' => 1
+        ]);
+
+        $_SESSION = [];
     }
 
     public function test_check_auth_bearer()
@@ -84,36 +116,42 @@ class AuthTest extends TestCase
         $this->assertEmpty($_SESSION);
     }
 
-//    public function test_login() {
-//
-//        $data = [
-//            'login' => 'email@email.com',
-//            'password' => 'email@email.com'
-//        ];
-//        $expected = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJlbWFpbEBlbWFpbC5jb20iLCJncm91cF9pZCI6MX0.DDeT6Vz1Fttnj7HjUV6Q6MsU-e8NoP-qAvZdlX9RG-c';
-//
-//        $user = new \CooperLeite\models\User();
-//        $result = Auth::login($user, $data);
-//
-//        $this->assertNotEmpty($result);
-//        $this->assertEquals($expected, $result);
-//
-//    }
-//
-//    public function test_login_fail() {
-//
-//        $data = [
-//            'login' => 'email_inexistente@email.com',
-//            'password' => 'email@email.com'
-//        ];
-//
-//        $user = new \CooperLeite\models\User();
-//
-//        $this->expectException(\Exception::class);
-//        $this->expectExceptionMessage('Email ou senha inválidos');
-//        Auth::login($user, $data);
-//
-//    }
+    public function test_login() {
+
+        $data = [
+            'login' => 'email@email.com',
+            'password' => 'email@email.com'
+        ];
+        $expected = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJlbWFpbEBlbWFpbC5jb20iLCJncm91cF9pZCI6MX0.DDeT6Vz1Fttnj7HjUV6Q6MsU-e8NoP-qAvZdlX9RG-c';
+
+        $user = new \CooperLeite\models\User();
+        $result = Auth::login($user, $data);
+
+        $this->assertNotEmpty($result);
+        $this->assertEquals($expected, $result);
+
+    }
+
+    public function test_login_fail() {
+
+        $data = [
+            'login' => 'email_inexistente@email.com',
+            'password' => 'email@email.com'
+        ];
+
+        $user = new \CooperLeite\models\User();
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Email ou senha inválidos');
+        Auth::login($user, $data);
+
+    }
+
+    public function test_check_auth_none()
+    {
+        $result = Auth::checkAuth();
+        $this->assertFalse($result);
+    }
 
     public function test_check_authorization()
     {

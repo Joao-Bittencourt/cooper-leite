@@ -108,12 +108,11 @@ class Controller
 
     private function renderPartial($viewName, $viewData = [])
     {
-        return $this->_render('partials', $viewName, $viewData);
+        return $this->_render('partials/' . $viewName, $viewData);
     }
 
     private function getDefaultPathToViews()
     {
         return dirname(__DIR__, 2) .  '/src/views/';
-        return $this->getDefaultPathToViews();
     }
 }

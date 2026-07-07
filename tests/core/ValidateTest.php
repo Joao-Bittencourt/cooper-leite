@@ -87,6 +87,24 @@ class ValidateTest extends TestCase
         $this->assertEmpty(Validate::$erros);
     }
 
+    public function test_execute_with_model_method()
+    {
+        $fields['campo'] = [
+            'customModelRule' => [
+                'message' => 'Erro customizado.'
+            ],
+        ];
+        $data['campo'] = 'not-expected';
+        $model = new class extends \core\Model {
+            public function customModelRule($value, $args) {
+                return $value === 'expected';
+            }
+        };
+
+        $result = Validate::execute($fields, $data, $model);
+        $this->assertEquals('Erro customizado.', Validate::$erros['campo'][0]);
+    }
+
     // Providers
 
     public function ruleNotEmptyProvider()
@@ -135,6 +153,7 @@ class ValidateTest extends TestCase
            ['12345', '/(?<!\\S)\\d++(?!\\S)/', true],
            ['Text', '/(?<!\\S)\\d++(?!\\S)/', false],
            ['123.45', '/(?<!\\S)\\d++(?!\\S)/', false],
+           ['text', null, false],
            ['missing regex', null, false],
            [null, null, false]
         ];
