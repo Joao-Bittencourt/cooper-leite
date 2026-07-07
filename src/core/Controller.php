@@ -54,9 +54,9 @@ class Controller
 
     protected function redirect($url)
     {
-        if (!headers_sent_wrapper()) {
-            http_response_code_wrapper(302);
-            @header("Location: " . base_url($url), true, 302);
+        if (!headers_sent()) {
+            http_response_code(302);
+            header("Location: " . base_url($url), true, 302);
         }
     }
 
@@ -83,7 +83,7 @@ class Controller
 
         ob_start();
         extract($viewData);
-        $render = fn ($vN, $vD = []) => $this->renderPartial($vN, $vD);
+        $render = fn($vN, $vD = []) => $this->renderPartial($vN, $vD);
         $base = $this->getBaseUrl();
         require $file;
 
@@ -97,9 +97,9 @@ class Controller
         }
 
         $controllerName = str_replace('Controller', '', (new \ReflectionClass($this))->getShortName());
-        
-        $defaultPathToViews =  dirname(__DIR__, 2) .  '/src/views/';
-        if (!empty($controllerName) && is_dir($defaultPathToViews. $controllerName)) {
+
+        $defaultPathToViews = dirname(__DIR__, 2) . '/src/views/';
+        if (!empty($controllerName) && is_dir($defaultPathToViews . $controllerName)) {
             return $controllerName;
         }
 
@@ -113,6 +113,6 @@ class Controller
 
     private function getDefaultPathToViews()
     {
-        return dirname(__DIR__, 2) .  '/src/views/';
+        return dirname(__DIR__, 2) . '/src/views/';
     }
 }
