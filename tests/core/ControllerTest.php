@@ -17,9 +17,8 @@ class ControllerTest extends TestCase
         $this->controller = new Controller();
         $_SESSION = [];
         $GLOBALS['mock_headers_sent'] = false;
-        if (!headers_sent()) {
-            http_response_code(200);
-        }
+        unset($GLOBALS['mock_response_code']);
+        http_response_code_wrapper(200);
     }
 
     public function test_render_null()
@@ -117,7 +116,7 @@ class ControllerTest extends TestCase
         $this->controller->action = 'action';
         $this->assertFalse($this->controller->_checkAuth());
         $this->assertStringContainsString('Usuario não autenticado!', $_SESSION['FLASH_MESSAGES'][0]['message']);
-        $this->assertEquals(302, http_response_code());
+        $this->assertEquals(302, http_response_code_wrapper());
     }
 
     public function test_check_auth_not_authenticated_authorized()
@@ -127,7 +126,7 @@ class ControllerTest extends TestCase
 
         $this->assertFalse($this->controller->_checkAuth());
         $this->assertEmpty($_SESSION['FLASH_MESSAGES'] ?? []);
-        $this->assertNotEquals(302, http_response_code());
+        $this->assertNotEquals(302, http_response_code_wrapper());
     }
 
     public function test_check_auth_authenticated_but_unauthorized()
@@ -140,7 +139,7 @@ class ControllerTest extends TestCase
 
         $this->assertTrue($this->controller->_checkAuth());
         $this->assertStringContainsString('Usuario sem permissao!', $_SESSION['FLASH_MESSAGES'][0]['message']);
-        $this->assertEquals(302, http_response_code());
+        $this->assertEquals(302, http_response_code_wrapper());
     }
 
     public function test_render_partial()
@@ -195,6 +194,7 @@ class ControllerTest extends TestCase
     protected function tearDown(): void
     {
         $GLOBALS['mock_headers_sent'] = false;
+        unset($GLOBALS['mock_response_code']);
     }
 }
 

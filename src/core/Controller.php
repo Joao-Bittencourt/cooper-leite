@@ -54,9 +54,9 @@ class Controller
 
     protected function redirect($url)
     {
-        if (!headers_sent()) {
-            http_response_code(302);
-            header("Location: " . base_url($url), true, 302);
+        if (!headers_sent_wrapper()) {
+            http_response_code_wrapper(302);
+            @header("Location: " . base_url($url), true, 302);
         }
     }
 

@@ -55,7 +55,9 @@ class Auth
     public static function logout()
     {
         session_unset();
-        session_destroy();
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
     }
 
     public static function checkAuth()

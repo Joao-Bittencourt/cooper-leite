@@ -10,6 +10,8 @@ class BasicsTest extends TestCase
     {
         $_SERVER['SERVER_NAME'] = 'cli';
         $_SERVER['SERVER_PORT'] = '0';
+        $_SERVER['SCRIPT_NAME'] = 'vendor/bin/phpunit';
+        unset($_SERVER['HTTP_HOST'], $_SERVER['HTTPS']);
 
         include_once './src/core/basics.php';
     }

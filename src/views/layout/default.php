@@ -15,7 +15,7 @@
     </head>
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">
-            <?php include_once 'header.php'; ?>
+            <?php include 'header.php'; ?>
             <div class="content-wrapper">
 
 <!--                <div class="content-header">
