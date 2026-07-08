@@ -78,4 +78,14 @@ class ConfigTest extends TestCase
         
         new Config();
     }
+
+    public function test_config_empty_env_throws()
+    {
+        unset($_ENV['ENVIRONMENT']);
+        
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Environment config error');
+        
+        new Config();
+    }
 }

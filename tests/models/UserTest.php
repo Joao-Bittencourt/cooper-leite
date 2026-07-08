@@ -28,15 +28,15 @@ class UserTest extends ModelTestCase
         $result = $user->salvar([
             'email' => 'joao@example.com',
             'login' => 'joao',
-            'password' => 'secret',
-            'group_id' => 1,
-            'cliente_id' => 2,
-            'status' => 1
+            'password' => 'secret'
         ]);
         
         $this->assertTrue($result);
         $this->assertEquals('joao@example.com', $user->email);
         $this->assertEquals('joao', $user->login);
+        $this->assertEquals(0, $user->group_id);
+        $this->assertEquals(0, $user->cliente_id);
+        $this->assertEquals(1, $user->status);
         
         $dbRecord = User::first();
         $this->assertEquals('joao@example.com', $dbRecord->email);

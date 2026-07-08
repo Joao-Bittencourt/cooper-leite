@@ -26,13 +26,13 @@ class ProdutoTest extends ModelTestCase
         $result = $produto->salvar([
             'nome' => 'Leite Integrador',
             'descricao' => 'Leite integral tipo A',
-            'unidade' => 'LITROS',
-            'status' => 1
+            'unidade' => 'LITROS'
         ]);
         
         $this->assertTrue($result);
         $this->assertEquals('Leite Integrador', $produto->nome);
         $this->assertEquals('LITROS', $produto->unidade);
+        $this->assertEquals(1, $produto->status);
         
         $dbRecord = Produto::first();
         $this->assertEquals('Leite Integrador', $dbRecord->nome);
@@ -90,7 +90,11 @@ class ProdutoTest extends ModelTestCase
 
         $actions = $produto->getActions($produto);
         $this->assertCount(2, $actions);
-        $this->assertStringContainsString('/produtos/show/', $actions[0]);
-        $this->assertStringContainsString('/produtos/edit/', $actions[1]);
+        $this->assertStringStartsWith('<a href ="', $actions[0]);
+        $this->assertStringStartsWith('<a href ="', $actions[1]);
+        $this->assertStringContainsString('href ="' . base_url("/produtos/show/{$produto->id}") . '"', $actions[0]);
+        $this->assertStringContainsString('href ="' . base_url("/produtos/edit/{$produto->id}") . '"', $actions[1]);
+        $this->assertStringContainsString('class="btn btn-sm btn-outline-info text-decorator-none"', $actions[0]);
+        $this->assertStringContainsString('class="btn btn-sm btn-outline-warning text-decorator-none"', $actions[1]);
     }
 }

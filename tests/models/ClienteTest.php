@@ -40,8 +40,7 @@ class ClienteTest extends ModelTestCase
             'PessoaFisica-nome_civil' => 'Joao Social',
             'PessoaFisica-dt_nascimento' => '12/10/1990',
             'PessoaFisica-cpf' => '12345678909',
-            'PessoaFisica-rg' => 'MG123456',
-            'status' => 1
+            'PessoaFisica-rg' => 'MG123456'
         ];
 
         $clientId = $cliente->salvar($data);
@@ -51,6 +50,7 @@ class ClienteTest extends ModelTestCase
         $dbCliente = Cliente::find($clientId);
         $this->assertEquals('Joao Silva', $dbCliente->nome);
         $this->assertEquals('F', $dbCliente->tipo_pessoa);
+        $this->assertEquals(1, $dbCliente->status);
 
         $dbPessoaFisica = PessoaFisica::where('cliente_id', $clientId)->first();
         $this->assertNotEmpty($dbPessoaFisica);
@@ -159,6 +159,12 @@ class ClienteTest extends ModelTestCase
 
         $actions = $cliente->getActions($cliente);
         $this->assertCount(2, $actions);
+        $this->assertStringStartsWith('<a href ="', $actions[0]);
+        $this->assertStringStartsWith('<a href ="', $actions[1]);
+        $this->assertStringContainsString('href ="' . base_url("/clientes/show/{$cliente->id}") . '"', $actions[0]);
+        $this->assertStringContainsString('href ="' . base_url("/clientes/edit/{$cliente->id}") . '"', $actions[1]);
+        $this->assertStringContainsString('class="btn btn-sm btn-outline-info text-decorator-none"', $actions[0]);
+        $this->assertStringContainsString('class="btn btn-sm btn-outline-warning text-decorator-none"', $actions[1]);
     }
 
     public function test_get_papel_full_name()

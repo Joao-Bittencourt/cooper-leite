@@ -14,7 +14,8 @@
          beStrictAboutTestsThatDoNotTestAnything="false"
          failOnRisky="true"
          failOnWarning="true"
-         stderr="true">
+         stderr="true"
+         executionOrder="default">
 
     <php>
         <ini name="display_errors" value="1" />

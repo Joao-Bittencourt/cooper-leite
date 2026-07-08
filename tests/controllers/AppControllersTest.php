@@ -23,6 +23,12 @@ class AppControllersTest extends ModelTestCase
             @session_start();
         }
         $_SESSION = [];
+        // Set a valid authenticated JWT so controller constructors do not trigger auth redirects
+        $_SESSION['Auth']['jwt'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTgsImVtYWlsIjoiam9hb2dzYml0dGVuY291cnRAZ21haWwuY29tIiwiZ3JvdXBfaWQiOjB9.NljCZ85MBvTw87p92EmGG7UFLW1VLRHY2yobYmaOTS8';
+        $GLOBALS['mock_headers_sent'] = false;
+        $GLOBALS['mock_headers'] = [];
+        unset($GLOBALS['mock_response_code']);
+        http_response_code_wrapper(200);
     }
 
     // -------------------------------------------------------------
@@ -77,7 +83,8 @@ class AppControllersTest extends ModelTestCase
 
         $dbGroup = Group::where('name', 'Managers')->first();
         $this->assertNotEmpty($dbGroup);
-        $this->assertEquals('Grupo cadastrado com sucesso!', $_SESSION['FLASH_MESSAGES'][0]['message']);
+        $this->assertHasFlashMessage('Grupo cadastrado com sucesso!', 'success');
+        $this->assertRedirectsTo('/grupos');
     }
 
     // -------------------------------------------------------------
@@ -115,6 +122,8 @@ class AppControllersTest extends ModelTestCase
 
         $dbUser = User::where('login', 'testuser')->first();
         $this->assertNotEmpty($dbUser);
+        $this->assertHasFlashMessage('Usuario cadastrado com sucesso!', 'success');
+        $this->assertRedirectsTo('/usuarios');
     }
 
     public function test_users_controller_store_error()
@@ -127,21 +136,22 @@ class AppControllersTest extends ModelTestCase
         ];
 
         $controller->store();
-        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES']);
+        $this->assertHasFlashMessage('preenchido', 'danger');
+        $this->assertRedirectsTo('/usuarios/cadastrar');
     }
 
     public function test_users_controller_logout()
     {
+        $_SESSION['Auth']['jwt'] = 'dummy';
         $controller = new UsersController();
         $controller->logout();
         $this->assertEmpty($_SESSION['Auth'] ?? []);
+        $this->assertRedirectsTo('/auth/user');
     }
 
     public function test_users_controller_auth_success()
     {
         $user = new User();
-        // Auth::login queries password = '...' directly from database, so we save it as md5('secret')
-        // since $data['password'] in the controller will be compared against the DB value.
         $user->salvar([
             'email' => 'u@e.com',
             'login' => 'userlogin',
@@ -157,6 +167,7 @@ class AppControllersTest extends ModelTestCase
 
         $controller->auth();
         $this->assertNotEmpty($_SESSION['Auth']['jwt']);
+        $this->assertRedirectsTo('/dashboard');
     }
 
     public function test_users_controller_auth_failure()
@@ -168,7 +179,8 @@ class AppControllersTest extends ModelTestCase
         ];
 
         $controller->auth();
-        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES']);
+        $this->assertHasFlashMessage('Email ou senha inválidos', 'danger');
+        $this->assertRedirectsTo('/auth/user');
     }
 
     // -------------------------------------------------------------
@@ -194,6 +206,8 @@ class AppControllersTest extends ModelTestCase
 
         $dbProduct = Produto::where('nome', 'Leite Especial')->first();
         $this->assertNotEmpty($dbProduct);
+        $this->assertHasFlashMessage('Produto cadastrado com sucesso!', 'success');
+        $this->assertRedirectsTo('/produtos');
     }
 
     public function test_produtos_controller_store_error()
@@ -205,7 +219,8 @@ class AppControllersTest extends ModelTestCase
         ];
 
         $controller->store();
-        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES']);
+        $this->assertHasFlashMessage('preenchido', 'danger');
+        $this->assertRedirectsTo('/produtos/cadastrar');
     }
 
     public function test_produtos_controller_show_success()
@@ -223,7 +238,8 @@ class AppControllersTest extends ModelTestCase
     {
         $controller = new ProdutosController();
         $controller->show(['id' => 999]);
-        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES']);
+        $this->assertHasFlashMessage('Produto #999 não encontrado!', 'info');
+        $this->assertRedirectsTo('/produtos');
     }
 
     public function test_produtos_controller_edit_success()
@@ -241,7 +257,8 @@ class AppControllersTest extends ModelTestCase
     {
         $controller = new ProdutosController();
         $controller->edit(['id' => 999]);
-        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES']);
+        $this->assertHasFlashMessage('Produto #999 não encontrado!', 'info');
+        $this->assertRedirectsTo('/produtos');
     }
 
     public function test_produtos_controller_update_success()
@@ -259,13 +276,16 @@ class AppControllersTest extends ModelTestCase
 
         $dbRecord = Produto::find($produto->id);
         $this->assertEquals('L2', $dbRecord->nome);
+        $this->assertHasFlashMessage('Produto editado com sucesso!', 'success');
+        $this->assertRedirectsTo('/produtos');
     }
 
     public function test_produtos_controller_update_not_found()
     {
         $controller = new ProdutosController();
         $controller->update(['id' => 999]);
-        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES']);
+        $this->assertHasFlashMessage('Produto #999 não encontrado!', 'info');
+        $this->assertRedirectsTo('/produtos');
     }
 
     public function test_produtos_controller_update_validation_error()
@@ -280,7 +300,8 @@ class AppControllersTest extends ModelTestCase
         ];
 
         $controller->update(['id' => $produto->id]);
-        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES']);
+        $this->assertHasFlashMessage('Nome deve ser preenchido.', 'danger');
+        $this->assertRedirectsTo('/produtos/edit/' . $produto->id);
     }
 
     // -------------------------------------------------------------
@@ -309,6 +330,8 @@ class AppControllersTest extends ModelTestCase
 
         $dbRecord = Cliente::where('nome', 'Cliente Teste')->first();
         $this->assertNotEmpty($dbRecord);
+        $this->assertHasFlashMessage('Cliente cadastrado com sucesso!', 'success');
+        $this->assertRedirectsTo('/clientes');
     }
 
     public function test_clientes_controller_store_error()
@@ -321,7 +344,8 @@ class AppControllersTest extends ModelTestCase
         ];
 
         $controller->store([]);
-        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES']);
+        $this->assertHasFlashMessage('preenchido', 'danger');
+        $this->assertRedirectsTo('/clientes/cadastrar');
     }
 
     public function test_clientes_controller_show_success()
@@ -339,7 +363,8 @@ class AppControllersTest extends ModelTestCase
     {
         $controller = new ClientesController();
         $controller->show(['id' => 999]);
-        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES']);
+        $this->assertHasFlashMessage('Cliente #999 não encontrado!', 'info');
+        $this->assertRedirectsTo('/clientes');
     }
 
     public function test_clientes_controller_edit_success()
@@ -357,7 +382,8 @@ class AppControllersTest extends ModelTestCase
     {
         $controller = new ClientesController();
         $controller->edit(['id' => 999]);
-        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES']);
+        $this->assertHasFlashMessage('Cliente #999 não encontrado!', 'info');
+        $this->assertRedirectsTo('/clientes');
     }
 
     public function test_clientes_controller_update_success()
@@ -369,6 +395,9 @@ class AppControllersTest extends ModelTestCase
         $controller->data = [
             'Request' => [
                 'data' => [
+                    'nome' => 'New Name',
+                    'tipo_pessoa' => 'F',
+                    'papel' => 'C',
                     'PessoaFisica-id' => $cliente->pessoaFisica->id,
                     'PessoaFisica-nome_civil' => 'Updated Civil'
                 ]
@@ -379,13 +408,17 @@ class AppControllersTest extends ModelTestCase
 
         $dbRecord = Cliente::find($cliente->id);
         $this->assertEquals('Updated Civil', $dbRecord->pessoaFisica->nome_civil);
+        $this->assertEquals('New Name', $dbRecord->nome);
+        $this->assertHasFlashMessage('Cliente editado com sucesso!', 'success');
+        $this->assertRedirectsTo('/clientes');
     }
 
     public function test_clientes_controller_update_not_found()
     {
         $controller = new ClientesController();
         $controller->update(['id' => 999]);
-        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES']);
+        $this->assertHasFlashMessage('Cliente #999 não encontrado!', 'info');
+        $this->assertRedirectsTo('/clientes');
     }
 
     public function test_clientes_controller_update_error()
@@ -405,6 +438,134 @@ class AppControllersTest extends ModelTestCase
         ];
 
         $controller->update(['id' => $cliente->id]);
-        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES']);
+        $this->assertHasFlashMessage('Nome deve ser preenchido.', 'danger');
+        $this->assertRedirectsTo('/clientes/cadastrar');
+    }
+
+    public function test_clientes_controller_edge_cases()
+    {
+        // show no id
+        $controller = new ClientesController();
+        $controller->show([]);
+        $this->assertHasFlashMessage('Cliente #0 não encontrado!', 'info');
+        $this->assertRedirectsTo('/clientes');
+
+        // show non numeric id
+        $_SESSION = [];
+        $GLOBALS['mock_headers'] = [];
+        $controller->show(['id' => 'abc']);
+        $this->assertHasFlashMessage('Cliente #0 não encontrado!', 'info');
+        $this->assertRedirectsTo('/clientes');
+
+        // edit no id
+        $_SESSION = [];
+        $GLOBALS['mock_headers'] = [];
+        $controller->edit([]);
+        $this->assertHasFlashMessage('Cliente #0 não encontrado!', 'info');
+        $this->assertRedirectsTo('/clientes');
+
+        // edit non numeric id
+        $_SESSION = [];
+        $GLOBALS['mock_headers'] = [];
+        $controller->edit(['id' => 'abc']);
+        $this->assertHasFlashMessage('Cliente #0 não encontrado!', 'info');
+        $this->assertRedirectsTo('/clientes');
+
+        // update no id
+        $_SESSION = [];
+        $GLOBALS['mock_headers'] = [];
+        $controller->update([]);
+        $this->assertHasFlashMessage('Cliente #0 não encontrado!', 'info');
+        $this->assertRedirectsTo('/clientes');
+
+        // update non numeric id
+        $_SESSION = [];
+        $GLOBALS['mock_headers'] = [];
+        $controller->update(['id' => 'abc']);
+        $this->assertHasFlashMessage('Cliente #0 não encontrado!', 'info');
+        $this->assertRedirectsTo('/clientes');
+    }
+
+    public function test_produtos_controller_edge_cases()
+    {
+        // show no id
+        $controller = new ProdutosController();
+        $controller->show([]);
+        $this->assertHasFlashMessage('Produto #0 não encontrado!', 'info');
+        $this->assertRedirectsTo('/produtos');
+
+        // show non numeric id
+        $_SESSION = [];
+        $GLOBALS['mock_headers'] = [];
+        $controller->show(['id' => 'abc']);
+        $this->assertHasFlashMessage('Produto #0 não encontrado!', 'info');
+        $this->assertRedirectsTo('/produtos');
+
+        // edit no id
+        $_SESSION = [];
+        $GLOBALS['mock_headers'] = [];
+        $controller->edit([]);
+        $this->assertHasFlashMessage('Produto #0 não encontrado!', 'info');
+        $this->assertRedirectsTo('/produtos');
+
+        // edit non numeric id
+        $_SESSION = [];
+        $GLOBALS['mock_headers'] = [];
+        $controller->edit(['id' => 'abc']);
+        $this->assertHasFlashMessage('Produto #0 não encontrado!', 'info');
+        $this->assertRedirectsTo('/produtos');
+
+        // update no id
+        $_SESSION = [];
+        $GLOBALS['mock_headers'] = [];
+        $controller->update([]);
+        $this->assertHasFlashMessage('Produto #0 não encontrado!', 'info');
+        $this->assertRedirectsTo('/produtos');
+
+        // update non numeric id
+        $_SESSION = [];
+        $GLOBALS['mock_headers'] = [];
+        $controller->update(['id' => 'abc']);
+        $this->assertHasFlashMessage('Produto #0 não encontrado!', 'info');
+        $this->assertRedirectsTo('/produtos');
+    }
+
+    private function assertRedirectsTo($url)
+    {
+        $this->assertEquals(302, http_response_code_wrapper());
+        $found = false;
+        $unexpectedRedirect = null;
+        if (isset($GLOBALS['mock_headers'])) {
+            foreach ($GLOBALS['mock_headers'] as $headerInfo) {
+                if (strpos($headerInfo[0], 'Location:') === 0) {
+                    $redirectUrl = trim(substr($headerInfo[0], 9));
+                    if ($redirectUrl === base_url($url)) {
+                        $found = true;
+                    } else {
+                        if (($redirectUrl === base_url('/dashboard') && $url !== '/dashboard') ||
+                            ($redirectUrl === base_url('/auth/user') && $url !== '/auth/user')) {
+                            $unexpectedRedirect = $redirectUrl;
+                        }
+                    }
+                }
+            }
+        }
+        $this->assertNull($unexpectedRedirect, "Unexpected authorization/authentication redirect to: " . $unexpectedRedirect);
+        $this->assertTrue($found, "Failed asserting redirection to: " . $url . " (actual headers: " . json_encode($GLOBALS['mock_headers'] ?? []) . ")");
+    }
+
+    private function assertHasFlashMessage($containsMessage, $type = null)
+    {
+        $this->assertNotEmpty($_SESSION['FLASH_MESSAGES'] ?? [], "No flash messages set in session");
+        $found = false;
+        foreach ($_SESSION['FLASH_MESSAGES'] as $msg) {
+            if (strpos($msg['message'], $containsMessage) !== false) {
+                if ($type === null || $msg['type'] === $type) {
+                    $found = true;
+                    break;
+                }
+            }
+        }
+        $this->assertTrue($found, "Flash message containing '{$containsMessage}' (type: " . ($type ?? 'any') . ") not found.");
     }
 }

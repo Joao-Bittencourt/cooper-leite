@@ -18,7 +18,7 @@ class GroupTest extends ModelTestCase
     public function test_salvar_success()
     {
         $group = new Group();
-        $result = $group->salvar(['name' => 'Admin Group', 'status' => 1]);
+        $result = $group->salvar(['name' => 'Admin Group']);
         
         $this->assertTrue($result);
         $this->assertEquals('Admin Group', $group->name);
