@@ -31,6 +31,10 @@
     "scripts": {
         "test": "vendor/bin/phpunit -c phpunit.xml.dist --stderr",
         "test-coverage": "vendor/bin/phpunit -c phpunit.xml.dist --stderr --coverage-html coverage-report",
-        "infection": "vendor/bin/infection"
+        "infection": "vendor/bin/infection",
+        "test-all": [
+            "@test",
+            "@infection"
+        ]
     }
 }

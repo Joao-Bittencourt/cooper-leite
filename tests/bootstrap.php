@@ -9,6 +9,12 @@ namespace core {
             return \headers_sent();
         }
     }
+
+    if (!function_exists('core\header')) {
+        function header($string, $replace = true, $http_response_code = null) {
+            $GLOBALS['mock_headers'][] = [$string, $replace, $http_response_code];
+        }
+    }
 }
 
 namespace {

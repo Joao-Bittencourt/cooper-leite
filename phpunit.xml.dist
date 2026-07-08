@@ -13,7 +13,8 @@
          stopOnFailure="false"
          beStrictAboutTestsThatDoNotTestAnything="false"
          failOnRisky="true"
-         failOnWarning="true">
+         failOnWarning="true"
+         stderr="true">
 
     <php>
         <ini name="display_errors" value="1" />
