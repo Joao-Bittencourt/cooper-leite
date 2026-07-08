@@ -75,7 +75,7 @@ class RequestTest extends TestCase
 
         $_SERVER['REQUEST_URI'] = 'auth/user';
         $this->assertEquals('/auth/user', Request::getUrl());
-        
+
         $_SERVER['REQUEST_URI'] = '/';
         $this->assertEquals('/', Request::getUrl());
     }
@@ -84,7 +84,7 @@ class RequestTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
         $_POST['deleted_id'] = 42;
-        
+
         $result = Request::getRequestData();
         $this->assertEquals(['deleted_id' => 42], $result);
         unset($_POST['deleted_id']);

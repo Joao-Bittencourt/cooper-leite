@@ -13,7 +13,7 @@ class ProdutoTest extends ModelTestCase
             'nome' => '',
             'unidade' => ''
         ]);
-        
+
         $this->assertFalse($result);
         $this->assertNotEmpty($produto->erros);
         $this->assertEquals('Nome deve ser preenchido.', $produto->erros['nome'][0]);
@@ -28,12 +28,12 @@ class ProdutoTest extends ModelTestCase
             'descricao' => 'Leite integral tipo A',
             'unidade' => 'LITROS'
         ]);
-        
+
         $this->assertTrue($result);
         $this->assertEquals('Leite Integrador', $produto->nome);
         $this->assertEquals('LITROS', $produto->unidade);
         $this->assertEquals(1, $produto->status);
-        
+
         $dbRecord = Produto::first();
         $this->assertEquals('Leite Integrador', $dbRecord->nome);
     }
@@ -79,7 +79,7 @@ class ProdutoTest extends ModelTestCase
     public function test_get_actions()
     {
         $produto = new Produto();
-        
+
         $actionsEmpty = $produto->getActions($produto);
         $this->assertEmpty($actionsEmpty);
 

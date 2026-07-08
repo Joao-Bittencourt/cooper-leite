@@ -10,7 +10,7 @@ class GroupTest extends ModelTestCase
     {
         $group = new Group();
         $result = $group->salvar([]);
-        
+
         $this->assertFalse($result);
         $this->assertContains('Dados inexistentes para salvar.', $group->erros);
     }
@@ -19,11 +19,11 @@ class GroupTest extends ModelTestCase
     {
         $group = new Group();
         $result = $group->salvar(['name' => 'Admin Group']);
-        
+
         $this->assertTrue($result);
         $this->assertEquals('Admin Group', $group->name);
         $this->assertEquals(1, $group->status);
-        
+
         $dbRecord = Group::first();
         $this->assertEquals('Admin Group', $dbRecord->name);
     }
@@ -32,7 +32,7 @@ class GroupTest extends ModelTestCase
     {
         $group = new Group();
         $relation = $group->group();
-        
+
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $relation);
     }
 }

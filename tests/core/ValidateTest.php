@@ -95,8 +95,9 @@ class ValidateTest extends TestCase
             ],
         ];
         $data['campo'] = 'not-expected';
-        $model = new class extends \core\Model {
-            public function customModelRule($value, $args) {
+        $model = new class () extends \core\Model {
+            public function customModelRule($value, $args)
+            {
                 return $value === 'expected';
             }
         };

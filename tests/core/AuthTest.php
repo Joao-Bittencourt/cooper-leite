@@ -128,8 +128,8 @@ class AuthTest extends TestCase
         }
     }
 
-    public function test_login() {
-
+    public function test_login()
+    {
         $data = [
             'login' => 'email@email.com',
             'password' => 'email@email.com'
@@ -148,7 +148,7 @@ class AuthTest extends TestCase
         // Assert exact header and payload values
         $parts = explode('.', $result);
         $this->assertCount(3, $parts);
-        
+
         $header = json_decode(base64_decode($parts[0]), true);
         $this->assertEquals('JWT', $header['typ'] ?? null);
         $this->assertEquals('HS256', $header['alg'] ?? null);
@@ -189,7 +189,6 @@ class AuthTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Email ou senha inválidos');
         Auth::login($user, $data);
-
     }
 
     public function test_check_auth_none()

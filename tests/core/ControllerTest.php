@@ -231,9 +231,9 @@ class ControllerTest extends TestCase
 
         $method = new \ReflectionMethod(Controller::class, 'redirect');
         $method->setAccessible(true);
-        
+
         $method->invoke($this->controller, '/dashboard');
-        
+
         $this->assertTrue(\core\headers_sent());
     }
 
@@ -244,4 +244,6 @@ class ControllerTest extends TestCase
     }
 }
 
-class ClientesController extends Controller {}
+class ClientesController extends Controller
+{
+}

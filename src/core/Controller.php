@@ -83,7 +83,7 @@ class Controller
 
         ob_start();
         extract($viewData);
-        $render = fn($vN, $vD = []) => $this->renderPartial($vN, $vD);
+        $render = fn ($vN, $vD = []) => $this->renderPartial($vN, $vD);
         $base = $this->getBaseUrl();
         require $file;
 

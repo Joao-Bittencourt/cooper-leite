@@ -15,7 +15,7 @@ class PessoaJuridicaTest extends ModelTestCase
     public function test_processar_salvar()
     {
         $pj = new PessoaJuridica();
-        
+
         $data = [
             'PessoaJuridica-id' => 'abc',
             'PessoaJuridica-cnpj' => '12345678000100',
@@ -24,7 +24,7 @@ class PessoaJuridicaTest extends ModelTestCase
 
         $result = $pj->processarSalvar($data);
         $this->assertTrue($result);
-        
+
         $this->assertEquals('Empresa Social', $pj->razao_social);
         $this->assertEquals('12345678000100', $pj->cnpj);
     }
