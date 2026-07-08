@@ -29,7 +29,7 @@ class ModelTest extends TestCase
 
         $database = new Database();
         $capsule = $database::getCapsule();
-        
+
         $capsule->getDatabaseManager()->purge();
 
         $capsule->addConnection([
@@ -69,7 +69,7 @@ class ModelTest extends TestCase
 
         $this->assertTrue($result);
         $this->assertEmpty($model->erros);
-        
+
         $dbRecord = TestModel::first();
         $this->assertNotEmpty($dbRecord);
         $this->assertEquals('Valid Name', $dbRecord->name);
@@ -83,12 +83,12 @@ class ModelTest extends TestCase
 
         $model->modelData = ['name' => 'New Name'];
         $model->name = 'New Name';
-        
+
         $result = $model->_save(true);
 
         $this->assertTrue($result);
         $this->assertEmpty($model->erros);
-        
+
         $dbRecord = TestModel::find($model->id);
         $this->assertEquals('New Name', $dbRecord->name);
     }
@@ -114,11 +114,11 @@ class ModelTest extends TestCase
 
         $model->modelData = ['name' => 'Updated Name'];
         $model->name = 'Updated Name';
-        
+
         $result = $model->_update();
 
         $this->assertTrue($result);
-        
+
         $dbRecord = TestModel::find($model->id);
         $this->assertEquals('Updated Name', $dbRecord->name);
     }

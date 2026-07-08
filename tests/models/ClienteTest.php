@@ -12,7 +12,7 @@ class ClienteTest extends ModelTestCase
     {
         $cliente = new Cliente();
         $result = $cliente->salvar([]);
-        
+
         $this->assertFalse($result);
         $this->assertContains('Dados inexistentes para salvar.', $cliente->erros);
     }
@@ -25,7 +25,7 @@ class ClienteTest extends ModelTestCase
             'tipo_pessoa' => 'X',
             'papel' => 'Y'
         ]);
-        
+
         $this->assertNull($result);
         $this->assertNotEmpty($cliente->erros);
     }
@@ -44,9 +44,9 @@ class ClienteTest extends ModelTestCase
         ];
 
         $clientId = $cliente->salvar($data);
-        
+
         $this->assertNotEmpty($clientId);
-        
+
         $dbCliente = Cliente::find($clientId);
         $this->assertEquals('Joao Silva', $dbCliente->nome);
         $this->assertEquals('F', $dbCliente->tipo_pessoa);
@@ -71,9 +71,9 @@ class ClienteTest extends ModelTestCase
         ];
 
         $clientId = $cliente->salvar($data);
-        
+
         $this->assertNotEmpty($clientId);
-        
+
         $dbCliente = Cliente::find($clientId);
         $this->assertEquals('Empresa Exemplo', $dbCliente->nome);
         $this->assertEquals('J', $dbCliente->tipo_pessoa);

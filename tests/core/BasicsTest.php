@@ -171,12 +171,12 @@ EXPECTED;
     {
         $_SERVER['HTTP_CUSTOM_HEADER'] = 'value1';
         $_SERVER['OTHER_SERVER_VAR'] = 'value2';
-        
+
         $headers = apache_request_headers();
-        
+
         $this->assertEquals('value1', $headers['Custom-Header'] ?? null);
         $this->assertEquals('value2', $headers['OTHER_SERVER_VAR'] ?? null);
-        
+
         unset($_SERVER['HTTP_CUSTOM_HEADER'], $_SERVER['OTHER_SERVER_VAR']);
     }
 
@@ -185,10 +185,10 @@ EXPECTED;
         $_SERVER['SERVER_NAME'] = 'docker-host';
         $_SERVER['SERVER_PORT'] = '80';
         putenv('ENVIRONMENT=DOCKER');
-        
+
         $result = base_url('/docker-route');
         $this->assertEquals('http://docker-host/docker-route', $result);
-        
+
         putenv('ENVIRONMENT');
         unset($_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT']);
     }
@@ -198,10 +198,10 @@ EXPECTED;
         $_SERVER['SERVER_NAME'] = 'secure-host';
         $_SERVER['HTTPS'] = 'on';
         $_SERVER['SERVER_PORT'] = '8443';
-        
+
         $result = base_url('/secure-route', true);
         $this->assertEquals('https://secure-host:8443/secure-route', $result);
-        
+
         unset($_SERVER['SERVER_NAME'], $_SERVER['HTTPS'], $_SERVER['SERVER_PORT']);
     }
 

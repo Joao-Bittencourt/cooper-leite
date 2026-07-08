@@ -2,7 +2,8 @@
 
 namespace core {
     if (!function_exists('core\headers_sent')) {
-        function headers_sent() {
+        function headers_sent()
+        {
             if (isset($GLOBALS['mock_headers_sent'])) {
                 return (bool) $GLOBALS['mock_headers_sent'];
             }
@@ -11,7 +12,8 @@ namespace core {
     }
 
     if (!function_exists('core\header')) {
-        function header($string, $replace = true, $http_response_code = null) {
+        function header($string, $replace = true, $http_response_code = null)
+        {
             $GLOBALS['mock_headers'][] = [$string, $replace, $http_response_code];
         }
     }
