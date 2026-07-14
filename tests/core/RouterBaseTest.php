@@ -149,13 +149,27 @@ class FakeHomeController
     public $data = [];
     public $controller;
     public $action;
-    public function _checkAuth() { return true; }
-    public function home($args) {}
-    public function homeWithArgs($args) {}
-    public function first($args) {}
-    public function second($args) {}
-    public function index($args) {}
-    public function layout($action, $args) {
+    public function _checkAuth()
+    {
+        return true;
+    }
+    public function home($args)
+    {
+    }
+    public function homeWithArgs($args)
+    {
+    }
+    public function first($args)
+    {
+    }
+    public function second($args)
+    {
+    }
+    public function index($args)
+    {
+    }
+    public function layout($action, $args)
+    {
         if ($action === 'homeWithArgs') {
             return "Args: " . $args['id'] . " - " . $args['slug'];
         }

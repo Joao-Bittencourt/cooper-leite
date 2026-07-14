@@ -14,7 +14,7 @@ class ModelTestCase extends TestCase
 
         $database = new Database();
         $capsule = $database::getCapsule();
-        
+
         $capsule->getDatabaseManager()->purge();
 
         $capsule->addConnection([

@@ -72,20 +72,20 @@ class ConfigTest extends TestCase
     public function test_config_invalid_env_throws()
     {
         $_ENV['ENVIRONMENT'] = 'INVALID';
-        
+
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Environment config error');
-        
+
         new Config();
     }
 
     public function test_config_empty_env_throws()
     {
         unset($_ENV['ENVIRONMENT']);
-        
+
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Environment config error');
-        
+
         new Config();
     }
 }
