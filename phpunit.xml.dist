@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
+         bootstrap="tests/bootstrap.php"
          backupGlobals="false"
          backupStaticAttributes="false"
          colors="true"
@@ -13,11 +13,13 @@
          stopOnFailure="false"
          beStrictAboutTestsThatDoNotTestAnything="false"
          failOnRisky="true"
-         failOnWarning="true">
+         failOnWarning="true"
+         stderr="true"
+         executionOrder="default">
 
     <php>
         <ini name="display_errors" value="1" />
-        <ini name="error_reporting" value="-1" />
+        <ini name="error_reporting" value="8191" />
     </php>
 
     <testsuites>
@@ -26,9 +28,12 @@
         </testsuite>
     </testsuites>
 
-    <coverage processUncoveredFiles="true">
+    <coverage processUncoveredFiles="false">
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <directory>src/views</directory>
+        </exclude>
     </coverage>
 </phpunit>

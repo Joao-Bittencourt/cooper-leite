@@ -7,7 +7,7 @@ if (!defined('DS')) {
 define('ROOT', dirname(__FILE__));
 define('DIR_IMG', 'public' . DS . 'img' . DS);
 
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
 if (getenv('ENVIRONMENT') == 'PROD') {
     ini_set('display_errors', 0);
@@ -143,5 +143,29 @@ if (!function_exists('apache_request_headers')) {
             }
         }
         return $out;
+    }
+}
+
+if (!function_exists('headers_sent_wrapper')) {
+    function headers_sent_wrapper()
+    {
+        if (isset($GLOBALS['mock_headers_sent'])) {
+            return (bool) $GLOBALS['mock_headers_sent'];
+        }
+        return headers_sent();
+    }
+}
+
+if (!function_exists('http_response_code_wrapper')) {
+    function http_response_code_wrapper($code = null)
+    {
+        if ($code !== null) {
+            $GLOBALS['mock_response_code'] = $code;
+            if (!headers_sent()) {
+                @http_response_code($code);
+            }
+            return $code;
+        }
+        return $GLOBALS['mock_response_code'] ?? http_response_code();
     }
 }

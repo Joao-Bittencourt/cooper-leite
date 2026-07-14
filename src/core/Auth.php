@@ -54,8 +54,11 @@ class Auth
 
     public static function logout()
     {
+        $_SESSION = [];
         session_unset();
-        session_destroy();
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
     }
 
     public static function checkAuth()
@@ -111,17 +114,16 @@ class Auth
             return true;
         }
 
+        if (isset($_SESSION['Auth']['role']) && $_SESSION['Auth']['role'] === 'unauthorized') {
+            return false;
+        }
+
         return $isAuth;
     }
 
     private static function base64UrlEncode($data)
     {
         $b64 = base64_encode($data);
-
-        if ($b64 === false) {
-            return false;
-        }
-
         $url = strtr($b64, '+/', '-_');
 
         return rtrim($url, '=');

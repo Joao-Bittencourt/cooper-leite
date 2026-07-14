@@ -104,6 +104,10 @@ class Cliente extends Model
     public function atualizar($data = [])
     {
         $this->modelData = array_get($data, 'Request.data');
+        $this->nome = array_get($this->modelData, 'nome', $this->nome);
+        $this->tipo_pessoa = array_get($this->modelData, 'tipo_pessoa', $this->tipo_pessoa);
+        $this->papel = array_get($this->modelData, 'papel', $this->papel);
+        $this->status = array_get($this->modelData, 'status', $this->status);
         $this->_update();
 
         if ($this->tipo_pessoa == 'F') {

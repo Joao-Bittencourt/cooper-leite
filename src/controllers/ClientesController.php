@@ -67,6 +67,7 @@ class ClientesController extends AppController
         if (empty($cliente)) {
             create_flash_message("Cliente #{$clienteId} não encontrado!", 'info');
             $this->redirect('/clientes');
+            return;
         }
 
         $cliente->atualizar($this->data);

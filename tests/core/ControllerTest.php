@@ -11,8 +11,14 @@ class ControllerTest extends TestCase
 
     public function setUp(): void
     {
+        $_SERVER['SERVER_NAME'] = 'localhost';
+        $_SERVER['SERVER_PORT'] = '80';
         include_once './src/core/basics.php';
         $this->controller = new Controller();
+        $_SESSION = [];
+        $GLOBALS['mock_headers_sent'] = false;
+        unset($GLOBALS['mock_response_code']);
+        http_response_code_wrapper(200);
     }
 
     public function test_render_null()
@@ -98,10 +104,56 @@ class ControllerTest extends TestCase
 
     public function test_render_layout()
     {
-        $result = $this->controller->layout('exception', ['code' => '400', 'message' => 'teste']);
+        $this->controller->data['message'] = 'MyMergedData_456';
+        $result = $this->controller->layout('exception', ['code' => '400']);
+        $this->assertStringContainsString('MyMergedData_456', $result);
+    }
 
-//        $this->assertStringContainsString("<nav class='main-header navbar navbar-expand navbar-white navbar-light'>", $result);
-        $this->assertStringContainsString('teste', $result);
+    public function test_check_auth_authenticated_and_authorized()
+    {
+        $_SESSION['Auth']['jwt'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTgsImVtYWlsIjoiam9hb2dzYml0dGVuY291cnRAZ21haWwuY29tIiwiZ3JvdXBfaWQiOjB9.NljCZ85MBvTw87p92EmGG7UFLW1VLRHY2yobYmaOTS8';
+        unset($_SESSION['Auth']['role']);
+
+        $this->controller->controller = 'SomeController';
+        $this->controller->action = 'index';
+
+        $this->assertTrue($this->controller->_checkAuth());
+        $this->assertEmpty($_SESSION['FLASH_MESSAGES'] ?? []);
+        $this->assertNotEquals(302, http_response_code_wrapper());
+    }
+
+    public function test_get_base_url_various_ports()
+    {
+        $method = new \ReflectionMethod(Controller::class, 'getBaseUrl');
+        $method->setAccessible(true);
+
+        // Test custom SERVER_NAME
+        $_SERVER['SERVER_NAME'] = 'myhost.com';
+        $_SERVER['SERVER_PORT'] = '80';
+        unset($_SERVER['HTTPS']);
+        $this->assertEquals('http://myhost.com', $method->invoke($this->controller));
+
+        // Test default localhost:80
+        $_SERVER['SERVER_NAME'] = 'localhost';
+        $_SERVER['SERVER_PORT'] = '80';
+        $this->assertEquals('http://localhost', $method->invoke($this->controller));
+
+        // Test non-default port
+        $_SERVER['SERVER_PORT'] = '8080';
+        $this->assertEquals('http://localhost:8080', $method->invoke($this->controller));
+
+        // Test HTTPS on
+        $_SERVER['SERVER_PORT'] = '80';
+        $_SERVER['HTTPS'] = 'on';
+        $this->assertEquals('https://localhost', $method->invoke($this->controller));
+
+        // Test HTTPS case insensitivity
+        $_SERVER['HTTPS'] = 'ON';
+        $this->assertEquals('https://localhost', $method->invoke($this->controller));
+
+        // Clean up
+        $_SERVER['SERVER_PORT'] = '80';
+        unset($_SERVER['HTTPS']);
     }
 
     public function test_check_auth_not_authenticated()
@@ -109,6 +161,8 @@ class ControllerTest extends TestCase
         $this->controller->controller = 'controller';
         $this->controller->action = 'action';
         $this->assertFalse($this->controller->_checkAuth());
+        $this->assertStringContainsString('Usuario não autenticado!', $_SESSION['FLASH_MESSAGES'][0]['message']);
+        $this->assertEquals(302, http_response_code_wrapper());
     }
 
     public function test_check_auth_not_authenticated_authorized()
@@ -117,7 +171,79 @@ class ControllerTest extends TestCase
         $this->controller->action = 'login';
 
         $this->assertFalse($this->controller->_checkAuth());
-        $this->assertStringContainsString('Usuario não autenticado!', $_SESSION['FLASH_MESSAGES'][0]['message']);
-        $this->assertEquals(302, http_response_code());
+        $this->assertEmpty($_SESSION['FLASH_MESSAGES'] ?? []);
+        $this->assertNotEquals(302, http_response_code_wrapper());
     }
+
+    public function test_check_auth_authenticated_but_unauthorized()
+    {
+        $_SESSION['Auth']['jwt'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTgsImVtYWlsIjoiam9hb2dzYml0dGVuY291cnRAZ21haWwuY29tIiwiZ3JvdXBfaWQiOjB9.NljCZ85MBvTw87p92EmGG7UFLW1VLRHY2yobYmaOTS8';
+        $_SESSION['Auth']['role'] = 'unauthorized';
+
+        $this->controller->controller = 'SomeRestrictedController';
+        $this->controller->action = 'index';
+
+        $this->assertTrue($this->controller->_checkAuth());
+        $this->assertStringContainsString('Usuario sem permissao!', $_SESSION['FLASH_MESSAGES'][0]['message']);
+        $this->assertEquals(302, http_response_code_wrapper());
+    }
+
+    public function test_render_partial()
+    {
+        $method = new \ReflectionMethod(Controller::class, 'renderPartial');
+        $method->setAccessible(true);
+
+        $this->expectException(\Exception::class);
+        $method->invoke($this->controller, 'inexistente');
+    }
+
+    public function test_render_partial_success()
+    {
+        $method = new \ReflectionMethod(Controller::class, 'renderPartial');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($this->controller, 'someView', []);
+        $this->assertEmpty($result);
+    }
+
+    public function test_folder_name_with_argument()
+    {
+        $method = new \ReflectionMethod(Controller::class, 'folderName');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($this->controller, 'custom_folder');
+        $this->assertEquals('custom_folder', $result);
+    }
+
+    public function test_folder_name_with_existing_folder()
+    {
+        $controller = new ClientesController();
+        $method = new \ReflectionMethod(Controller::class, 'folderName');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($controller);
+        $this->assertEquals('Clientes', $result);
+    }
+
+    public function test_redirect_headers_sent()
+    {
+        $GLOBALS['mock_headers_sent'] = true;
+
+        $method = new \ReflectionMethod(Controller::class, 'redirect');
+        $method->setAccessible(true);
+
+        $method->invoke($this->controller, '/dashboard');
+
+        $this->assertTrue(\core\headers_sent());
+    }
+
+    protected function tearDown(): void
+    {
+        $GLOBALS['mock_headers_sent'] = false;
+        unset($GLOBALS['mock_response_code']);
+    }
+}
+
+class ClientesController extends Controller
+{
 }

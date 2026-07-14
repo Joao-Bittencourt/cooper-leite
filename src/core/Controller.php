@@ -54,15 +54,20 @@ class Controller
 
     protected function redirect($url)
     {
-        header("Location: " . base_url($url), true, 302);
+        if (!headers_sent_wrapper()) {
+            http_response_code_wrapper(302);
+            header("Location: " . base_url($url), true, 302);
+        }
     }
 
     private function getBaseUrl()
     {
+        $serverName = $_SERVER['SERVER_NAME'] ?? 'localhost';
+        $serverPort = $_SERVER['SERVER_PORT'] ?? '80';
         $base = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') ? 'https://' : 'http://';
-        $base .= $_SERVER['SERVER_NAME'];
-        if ($_SERVER['SERVER_PORT'] != '80') {
-            $base .= ':' . $_SERVER['SERVER_PORT'];
+        $base .= $serverName;
+        if ($serverPort != '80') {
+            $base .= ':' . $serverPort;
         }
         $base .= Config::BASE_DIR;
 
@@ -71,7 +76,7 @@ class Controller
 
     private function _render($page, $viewData = [])
     {
-        $file = $this->defaultPathToViews . $page . $this->defaultExtensionViews;
+        $file = $this->getDefaultPathToViews() . $page . $this->defaultExtensionViews;
         if (!file_exists($file)) {
             throw new \Exception("Page {$page} not found.");
         }
@@ -92,7 +97,9 @@ class Controller
         }
 
         $controllerName = str_replace('Controller', '', (new \ReflectionClass($this))->getShortName());
-        if (!empty($controllerName) && is_dir($this->defaultPathToViews . $controllerName)) {
+
+        $defaultPathToViews = dirname(__DIR__, 2) . '/src/views/';
+        if (!empty($controllerName) && is_dir($defaultPathToViews . $controllerName)) {
             return $controllerName;
         }
 
@@ -101,6 +108,11 @@ class Controller
 
     private function renderPartial($viewName, $viewData = [])
     {
-        return $this->_render('partials', $viewName, $viewData);
+        return $this->_render('partials/' . $viewName, $viewData);
+    }
+
+    private function getDefaultPathToViews()
+    {
+        return dirname(__DIR__, 2) . '/src/views/';
     }
 }

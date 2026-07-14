@@ -8,6 +8,7 @@ class Validate
 
     public static function execute($fields = [], $data = [], ?Model $Model = null)
     {
+        static::$erros = [];
         $erros = [];
         foreach ($fields as $field => $validates) {
             foreach ($validates as $validate => $propriedades) {

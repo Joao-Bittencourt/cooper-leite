@@ -8,7 +8,10 @@ class CoreException extends \Exception
 {
     public function __construct($message, $code = 500)
     {
-        http_response_code($code);
+        parent::__construct($message, $code);
+        if (!headers_sent_wrapper()) {
+            http_response_code_wrapper($code);
+        }
         $controllerErrorName = Config::ERROR_CONTROLLER;
         $controllerError = "\CooperLeite\controllers\\$controllerErrorName";
         $controller = new $controllerError();

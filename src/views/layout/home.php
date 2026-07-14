@@ -8,13 +8,13 @@
          <title> CooperLeite </title>
     </head>
     <body>
-        <?php include_once 'header.php'; ?>
+        <?php include 'header.php'; ?>
         <div class="container">
             <?php
             display_flash_message();
             echo $content ?? '';
             ?>
         </div>
-        <?php include_once 'footer.php'; ?>
+        <?php include 'footer.php'; ?>
     </body>
 </html>

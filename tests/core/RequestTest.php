@@ -9,6 +9,8 @@ class RequestTest extends TestCase
 {
     public function setUp(): void
     {
+        $_GET = [];
+        $_POST = [];
     }
 
     public function test_create_request()
@@ -64,5 +66,27 @@ class RequestTest extends TestCase
         $expected = ['a' => 'b'];
 
         $this->assertEquals($expected, $result);
+    }
+
+    public function test_get_url_various()
+    {
+        $_SERVER['REQUEST_URI'] = '/auth/user';
+        $this->assertEquals('/auth/user', Request::getUrl());
+
+        $_SERVER['REQUEST_URI'] = 'auth/user';
+        $this->assertEquals('/auth/user', Request::getUrl());
+
+        $_SERVER['REQUEST_URI'] = '/';
+        $this->assertEquals('/', Request::getUrl());
+    }
+
+    public function test_get_request_data_delete_fallback()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'DELETE';
+        $_POST['deleted_id'] = 42;
+
+        $result = Request::getRequestData();
+        $this->assertEquals(['deleted_id' => 42], $result);
+        unset($_POST['deleted_id']);
     }
 }
