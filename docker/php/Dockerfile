@@ -1,4 +1,4 @@
-FROM php:8.0.5-fpm-alpine
+FROM php:8.1-fpm-alpine
 
 # Install required packages
 RUN apk add --no-cache \
@@ -14,5 +14,6 @@ RUN apk add --no-cache \
 # Install required PHP extensions
 RUN docker-php-ext-install mysqli pdo_mysql zip
 
-# Install Redis extension
-RUN pecl install redis && docker-php-ext-enable redis
+# Install Redis and OpenTelemetry extensions
+RUN pecl install redis && docker-php-ext-enable redis \
+    && pecl install opentelemetry && docker-php-ext-enable opentelemetry

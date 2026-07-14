@@ -2,36 +2,71 @@ version: "3"
 services:
   # Web service layer
   nginx:
-    image: nginx:1.13
+    image: nginx:1.26-alpine-otel
     volumes:
       - ./:/var/www/html
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - "85:85"
     depends_on:
-      - php
+      - php1
+      - php2
+      - otel-collector
     networks:
       - "networks-php-general"
 
   # Application service layer
-  php:
+  php1:
     build:
       context: ./docker/php
     volumes:
       - .:/var/www/html
-    ports:
-      - "9000:9000"
     depends_on:
       - mysql
       - redis
+      - otel-collector
     environment:
       - MYSQL_USER=root
       - MYSQL_PASS=123.456
+      - DEV_MYSQL_USER=root
+      - DEV_MYSQL_PASS=123.456
       - ENVIRONMENT=DOCKER
       - DEV_DB_DRIVER=mysql
       - DEV_DB_HOST=mysql
       - DEV_DB_PORT=3306
       - DEV_DB_DATABASE=cooper_leite
+      - OTEL_PHP_AUTOLOAD_ENABLED=true
+      - OTEL_SERVICE_NAME=cooper-leite-php1
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+    networks:
+      - "networks-php-general"
+
+  php2:
+    build:
+      context: ./docker/php
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+      - redis
+      - otel-collector
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASS=123.456
+      - DEV_MYSQL_USER=root
+      - DEV_MYSQL_PASS=123.456
+      - ENVIRONMENT=DOCKER
+      - DEV_DB_DRIVER=mysql
+      - DEV_DB_HOST=mysql
+      - DEV_DB_PORT=3306
+      - DEV_DB_DATABASE=cooper_leite
+      - OTEL_PHP_AUTOLOAD_ENABLED=true
+      - OTEL_SERVICE_NAME=cooper-leite-php2
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
     networks:
       - "networks-php-general"
   # Data persistence service layer
@@ -55,6 +90,43 @@ services:
     command: redis-server --save 20 1 --loglevel warning
     volumes: 
       - redis_data:/data
+    networks:
+      - "networks-php-general"
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.55
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+      - METRICS_STORAGE_TYPE=prometheus
+      - PROMETHEUS_SERVER_URL=http://prometheus:9090
+      - PROMETHEUS_QUERY_SUPPORT_SPANMETRICS_CONNECTOR=true
+      - PROMETHEUS_QUERY_NAMESPACE=spanmetrics
+      - PROMETHEUS_QUERY_NORMALIZE_CALLS=true
+      - PROMETHEUS_QUERY_NORMALIZE_DURATION=true
+      - MONITOR_MENU_ENABLED=true
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
+    networks:
+      - "networks-php-general"
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.95.0
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+    command: ["--config=/etc/otelcol-contrib/config.yaml"]
+    depends_on:
+      - jaeger
+    networks:
+      - "networks-php-general"
+
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
     networks:
       - "networks-php-general"
 networks:
